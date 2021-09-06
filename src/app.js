@@ -1,25 +1,31 @@
 const { Client } = require('whatsapp-web.js');
+const qrcode = require('qrcode-terminal');
 
-const client = new Client({
-    puppeteer: {
-        executablePath: `C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe`,
-        headless: false
-    }
-});
+createClient()
+function createClient() {
+    const client = new Client({
+        puppeteer: {
+            executablePath: `C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe`,
+            headless: false
+        }
+    });
 
-client.on('qr', (qr) => {
-    // Generate and scan this code with your phone
-    console.log('QR RECEIVED', qr);
-});
+    client.initialize();
 
-client.on('ready', () => {
-    console.log('Client is ready!');
-});
+    client.on('qr', (qr) => {
+        // Generate and scan this code with your phone
+        console.log('QR RECEIVED', qr);
+        qrcode.generate(qr)
+    });
 
-client.on('message', msg => {
-    if (msg.body == '!ping') {
-        msg.reply('pong');
-    }
-});
+    client.on('ready', () => {
+        console.log('Client is ready!');
+    });
 
-client.initialize();
+    client.on('message', msg => {
+        if (msg.body == '!ping') {
+            msg.reply('pong');
+        }
+    });
+
+}
