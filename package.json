@@ -1,0 +1,19 @@
+{
+  "name": "whatsapp-api",
+  "version": "1.0.0",
+  "description": "whatsapp api",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ./src/app.js"
+  },
+  "keywords": [
+    "whatsapp-api"
+  ],
+  "author": "velezer",
+  "license": "ISC",
+  "dependencies": {
+    "sharp": "^0.29.0",
+    "whatsapp-web.js": "^1.14.1"
+  }
+}
