@@ -7,7 +7,6 @@ class ClientWaweb {
     constructor() {
         this.client = this.createClient()
         this.client.initialize();
-        console.log(`this.client.initialize();`)
     }
 
     setSocket(socket){
@@ -39,7 +38,7 @@ class ClientWaweb {
             console.log('QR RECEIVED', qr);
             qrcode.toDataURL(qr, (err, url) => {
                 this.socket.emit('qr', url);
-                this.socket.emit('message', 'QR Code received, scan please!');
+                this.socket.emit('qr', 'QR Code received, scan please!');
             });
         });
     }
@@ -47,14 +46,12 @@ class ClientWaweb {
     isReady() {
         this.client.on('ready', () => {
             this.socket.emit('ready', 'Whatsapp is ready!');
-            this.socket.emit('message', 'Whatsapp is ready!');
         });
     }
 
     authSuccess() {
         this.client.on('authenticated', (session) => {
             this.socket.emit('authenticated', 'Whatsapp is authenticated!');
-            this.socket.emit('message', 'Whatsapp is authenticated!');
             console.log('AUTHENTICATED', session);
             // sessionCfg = session;
             // fs.writeFile(SESSION_FILE_PATH, JSON.stringify(session), function(err) {
@@ -67,19 +64,18 @@ class ClientWaweb {
 
     authFail() {
         this.client.on('auth_failure', function (session) {
-            this.socket.emit('message', 'Auth failure, restarting...');
+            this.socket.emit('auth_failure', 'Auth failure, restarting...');
         });
     }
 
     disconnected() {
         this.client.on('disconnected', (reason) => {
-            this.socket.emit('message', 'Whatsapp is disconnected!');
+            this.socket.emit('disconnected', 'Whatsapp is disconnected!');
             fs.unlinkSync(SESSION_FILE_PATH, function (err) {
                 if (err) return console.log(err);
                 console.log('Session file deleted!');
             });
             this.client.destroy();
-            // this.client.initialize();
         });
     }
 
