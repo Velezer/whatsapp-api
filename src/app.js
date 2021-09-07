@@ -6,24 +6,28 @@ const socketIO = require('socket.io');
 
 app = express()
 const server = http.createServer(app);
-const io = socketIO(server);
+const io = socketIO(server,{
+  cors: {
+    origin: "http://localhost",
+    methods: ["GET", "POST"],
+    allowedHeaders: ["my-custom-header"],
+    credentials: true
+  },
+  allowEIO3: true // false by default
+});
 
 clientWaweb= new ClientWaweb()
 
-app.get('/', (req, res) => {
-    res.status(200).json({
-        opo: `oppo?`
-    })
-})
 
 app.post('/api/send-message', (req, res) => {
-    clientWaweb.sendMessage(`628384245525@c.us`,`world`)
+    clientWaweb.sendMessage(`6283842455250@c.us`,`world`)
     .then(response=>{
         res.status(200).json({
             response: response
           });
     })
     .catch(err=>{
+        console.log(err)
         res.status(500).json({
             response: err
           });
@@ -60,7 +64,7 @@ io.on('connection', function(socket) {
 
 
 
-port = 8181
+port = 5555
 server.listen(port, function () {
     console.log('App running on *: ' + port);
 });

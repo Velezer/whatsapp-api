@@ -1,15 +1,16 @@
 const { Client } = require('whatsapp-web.js')
 const qrcode = require('qrcode')
-const { generate }  = require('qrcode-terminal')
 
 
 
 class ClientWaweb {
     constructor() {
         this.client = this.createClient()
+        this.client.initialize();
+        console.log(`this.client.initialize();`)
     }
 
-    setSocket(){
+    setSocket(socket){
         this.socket = socket
 
         this.isReady()
@@ -30,14 +31,12 @@ class ClientWaweb {
             }
         });
 
-        client.initialize();
         return client
     }
 
     sendQR() {
         this.client.on('qr', (qr) => {
             console.log('QR RECEIVED', qr);
-            generate(qr)
             qrcode.toDataURL(qr, (err, url) => {
                 this.socket.emit('qr', url);
                 this.socket.emit('message', 'QR Code received, scan please!');
