@@ -6,7 +6,7 @@ function createClient() {
     const client = new Client({
         puppeteer: {
             executablePath: `C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe`,
-            headless: false
+            headless: true
         }
     });
 
@@ -21,10 +21,11 @@ function createClient() {
     client.on('ready', () => {
         console.log('Client is ready!');
     });
-
+    
     client.on('message', msg => {
         if (msg.body == '!ping') {
             msg.reply('pong');
+            console.log('pong');
         }
     });
 
