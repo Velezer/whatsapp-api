@@ -1,35 +1,66 @@
-const { Client } = require('whatsapp-web.js');
-const qrcode = require('qrcode-terminal');
+const express = require('express')
+const { ClientWaweb } = require('./client-waweb')
+const http = require('http');
+const socketIO = require('socket.io');
 
-createClient()
-function createClient() {
-    const client = new Client({
-        puppeteer: {
-            // executablePath: `C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe`,
-            headless: true,
-            args: [
-                '--no-sandbox',
-            ],
-        }
-    });
 
-    client.initialize();
+app = express()
+const server = http.createServer(app);
+const io = socketIO(server);
 
-    client.on('qr', (qr) => {
-        // Generate and scan this code with your phone
-        console.log('QR RECEIVED', qr);
-        qrcode.generate(qr)
-    });
+clientWaweb= new ClientWaweb()
 
-    client.on('ready', () => {
-        console.log('Client is ready!');
-    });
+app.get('/', (req, res) => {
+    res.status(200).json({
+        opo: `oppo?`
+    })
+})
+
+app.post('/api/send-message', (req, res) => {
+    clientWaweb.sendMessage(`628384245525@c.us`,`world`)
+    .then(response=>{
+        res.status(200).json({
+            response: response
+          });
+    })
+    .catch(err=>{
+        res.status(500).json({
+            response: err
+          });
+    })
+})
+
+
+io.on('connection', function(socket) {
+    socket.emit('message', 'Connecting...');
+ 
+    clientWaweb.setSocket(socket)
     
-    client.on('message', msg => {
-        if (msg.body == '!ping') {
-            msg.reply('pong');
-            console.log('pong');
-        }
-    });
+  });
 
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+port = 8181
+server.listen(port, function () {
+    console.log('App running on *: ' + port);
+});
