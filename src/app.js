@@ -3,7 +3,7 @@ const { ClientWaweb } = require('./client-waweb')
 const http = require('http');
 const socketIO = require('socket.io');
 const cors = require('cors');    
-
+const process =require('process')
 
 
 
@@ -13,15 +13,6 @@ const io = socketIO(server, {
   cors: {
     origin: "*",
     methods: ["GET", "POST"],
-    handlePreflightRequest: (req, res) => {
-      res.writeHead(200, {
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "GET,POST",
-        "Access-Control-Allow-Headers": "my-custom-header",
-        "Access-Control-Allow-Credentials": true
-      });
-      res.end();
-    },
     // allowedHeaders: ["my-custom-header"],
     credentials: true
   },
@@ -31,6 +22,12 @@ const io = socketIO(server, {
 let clientWaweb = new ClientWaweb(`1`)
 app.use(cors({credentials: true, origin: '*'}));
 
+
+app.get('/', (req, res) => {
+  res.status(200).json({
+    message: `see?`
+  });
+})
 app.post('/api/send-message', (req, res) => {
   let number = `6283842455250@c.us`
   clientWaweb.sendMessage(number, `world`)
@@ -92,8 +89,7 @@ io.on('connection', function (socket) {
 
 
 
-
-let port = 5555
+let port =  process.env.PORT || 5555
 server.listen(port, function () {
   console.log('App running on *: ' + port);
 });
