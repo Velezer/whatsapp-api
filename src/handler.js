@@ -27,7 +27,7 @@ class Handler {
             message: `called`
         });
     }
-    
+
     sendMessages(req, res) {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
@@ -35,7 +35,7 @@ class Handler {
         }
 
         let message = req.body.message
-        let numbers = req.body.number
+        let numbers = req.body.numbers
         for (let i = 0; i < numbers.length; i++) {
             const num = `${numbers[i]}@c.us`;
             this.clientWaweb.sendMessage(num, message)
