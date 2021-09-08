@@ -16,12 +16,15 @@ class Handler {
         let number = req.body.number
         number = `${number}@c.us`
 
+        console.log(message)
+        console.log(number)
         let numberRegisteredWA = await this.clientWaweb.client.isRegistered(number)
         if (!numberRegisteredWA) {
             return res.status(422).json({
                 message: `number is not registered in whatsapp`
             });
         }
+        console.log(`numberRegisteredWA`)
 
         this.clientWaweb.sendMessage(number, message)
             .then(response => {
