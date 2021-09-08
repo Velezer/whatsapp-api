@@ -13,8 +13,16 @@ const io = socketIO(server, {
   cors: {
     origin: "*",
     methods: ["GET", "POST"],
+    // handlePreflightRequest: (req, res) => {
+    //   res.writeHead(200, {
+    //     "Access-Control-Allow-Origin": "https://example.com",
+    //     "Access-Control-Allow-Methods": "GET,POST",
+    //     "Access-Control-Allow-Headers": "my-custom-header",
+    //     "Access-Control-Allow-Credentials": true
+    //   });
+    //   res.end();
     // allowedHeaders: ["my-custom-header"],
-    // credentials: true
+    credentials: true
   },
   allowEIO3: true // false by default
 });
