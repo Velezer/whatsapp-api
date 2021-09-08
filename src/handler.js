@@ -18,7 +18,7 @@ class Handler {
 
         console.log(message)
         console.log(number)
-        let numberRegisteredWA = await this.clientWaweb.client.isRegistered(number)
+        let numberRegisteredWA = await this.clientWaweb.client.isRegisteredUser(number)
         if (!numberRegisteredWA) {
             return res.status(422).json({
                 message: `number is not registered in whatsapp`
@@ -49,7 +49,7 @@ class Handler {
         for (let i = 0; i < numbers.length; i++) {
             const num = `${numbers[i]}@c.us`;
 
-            let numberRegisteredWA = await this.clientWaweb.client.isRegistered(num)
+            let numberRegisteredWA = await this.clientWaweb.client.isRegisteredUser(num)
             if (!numberRegisteredWA) {
                 continue
             }
