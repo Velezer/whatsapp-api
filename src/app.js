@@ -1,9 +1,10 @@
 const express = require('express')
 const { ClientWaweb } = require('./client-waweb')
+const Handler = require('./handler')
 const http = require('http');
 const socketIO = require('socket.io');
-const cors = require('cors');    
-const process =require('process')
+const cors = require('cors');
+const process = require('process')
 
 
 
@@ -19,8 +20,8 @@ const io = socketIO(server, {
   allowEIO3: true // false by default
 });
 
-let clientWaweb = new ClientWaweb(`1`)
-app.use(cors({credentials: true, origin: '*'}));
+const clientWaweb = new ClientWaweb(`1`)
+app.use(cors({ credentials: true, origin: '*' }));
 
 
 app.get('/', (req, res) => {
@@ -28,36 +29,13 @@ app.get('/', (req, res) => {
     message: `see?`
   });
 })
-app.post('/api/send-message', (req, res) => {
-  let number = `6283842455250@c.us`
-  clientWaweb.sendMessage(number, `world`)
-    .then(response => {
-      console.log(response)
-    })
-    .catch(err => {
-      console.log(err)
-    })
-  res.status(200).json({
-    message: `called`
-  });
-})
 
-app.post('/api/send-messages', (req, res) => {
-  let numbers = [`6283842455250@c.us`, `6283842455250@c.us`, `6283842455250@c.us`]
-  for (let i = 0; i < numbers.length; i++) {
-    const num = numbers[i];
-    clientWaweb.sendMessage(num, `world${i}`)
-      .then(response => {
-        console.log(response)
-      })
-      .catch(err => {
-        console.log(err)
-      })
-  }
-  res.status(200).json({
-    message: `called`
-  });
+
+const handler = new Handler(clientWaweb)
+app.post('/api/send-message', (req, res) => {
+  handler.sendMessage(req, res)
 })
+app.post('/api/send-messages', (req, res) => handler.sendMessages(req, res))
 
 
 
@@ -89,7 +67,7 @@ io.on('connection', function (socket) {
 
 
 
-let port =  process.env.PORT || 5555
+let port = process.env.PORT || 5555
 server.listen(port, function () {
   console.log('App running on *: ' + port);
 });
