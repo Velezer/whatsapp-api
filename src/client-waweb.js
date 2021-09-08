@@ -4,19 +4,24 @@ const qrcode = require('qrcode')
 
 
 class ClientWaweb {
-    constructor() {
+/**
+ * 
+ * @param {string} id 
+ */
+    constructor(id) {
+        this.id = id
         this.client = this.createClient()
         this.client.initialize();
     }
 
-    setSocket(socket){
+    setSocket(socket) {
         this.socket = socket
 
-        this.isReady()
-        this.sendQR()
-        this.authSuccess()
-        this.authFail()
-        this.disconnected()
+        this._ready()
+        this._sendQR()
+        this._authSuccess()
+        this._authFail()
+        this._disconnected()
     }
 
     createClient() {
@@ -29,27 +34,25 @@ class ClientWaweb {
                 ],
             }
         });
-
         return client
     }
 
-    sendQR() {
+    _sendQR() {
         this.client.on('qr', (qr) => {
             console.log('QR RECEIVED', qr);
             qrcode.toDataURL(qr, (err, url) => {
                 this.socket.emit('qr', url);
-                this.socket.emit('qr', 'QR Code received, scan please!');
             });
         });
     }
 
-    isReady() {
+    _ready() {
         this.client.on('ready', () => {
             this.socket.emit('ready', 'Whatsapp is ready!');
         });
     }
 
-    authSuccess() {
+    _authSuccess() {
         this.client.on('authenticated', (session) => {
             this.socket.emit('authenticated', 'Whatsapp is authenticated!');
             console.log('AUTHENTICATED', session);
@@ -62,27 +65,27 @@ class ClientWaweb {
         });
     }
 
-    authFail() {
-        this.client.on('auth_failure', function (session) {
+    _authFail() {
+        this.client.on('auth_failure', function () {
             this.socket.emit('auth_failure', 'Auth failure, restarting...');
         });
     }
 
-    disconnected() {
-        this.client.on('disconnected', (reason) => {
+    _disconnected() {
+        this.client.on('disconnected', () => {
             this.socket.emit('disconnected', 'Whatsapp is disconnected!');
-            fs.unlinkSync(SESSION_FILE_PATH, function (err) {
-                if (err) return console.log(err);
-                console.log('Session file deleted!');
-            });
+            // fs.unlinkSync(SESSION_FILE_PATH, function (err) {
+            //     if (err) return console.log(err);
+            //     console.log('Session file deleted!');
+            // });
             this.client.destroy();
         });
     }
 
-    sendMessage(number,message){
-        return this.client.sendMessage(number,message)
+    sendMessage(number, message) {
+        return this.client.sendMessage(number, message)
     }
 
 }
 
-module.exports= { ClientWaweb }
+module.exports = { ClientWaweb }
