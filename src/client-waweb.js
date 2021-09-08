@@ -42,6 +42,7 @@ class ClientWaweb {
             console.log('QR RECEIVED', qr);
             qrcode.toDataURL(qr, (err, url) => {
                 this.socket.emit('qr', url);
+                this.socket.emit('log', 'QR received');
             });
         });
     }
@@ -49,12 +50,16 @@ class ClientWaweb {
     _ready() {
         this.client.on('ready', () => {
             this.socket.emit('ready', 'Whatsapp is ready!');
+            this.socket.emit('log', 'Whatsapp is ready!');
+
         });
     }
 
     _authSuccess() {
         this.client.on('authenticated', (session) => {
             this.socket.emit('authenticated', 'Whatsapp is authenticated!');
+            this.socket.emit('log', 'Whatsapp is authenticated!');
+
             console.log('AUTHENTICATED', session);
             // sessionCfg = session;
             // fs.writeFile(SESSION_FILE_PATH, JSON.stringify(session), function(err) {
@@ -68,12 +73,14 @@ class ClientWaweb {
     _authFail() {
         this.client.on('auth_failure', function () {
             this.socket.emit('auth_failure', 'Auth failure, restarting...');
+            this.socket.emit('log', 'Auth failure, restarting...');
         });
     }
 
     _disconnected() {
         this.client.on('disconnected', () => {
             this.socket.emit('disconnected', 'Whatsapp is disconnected!');
+            this.socket.emit('log', 'Whatsapp is disconnected!');
             // fs.unlinkSync(SESSION_FILE_PATH, function (err) {
             //     if (err) return console.log(err);
             //     console.log('Session file deleted!');
