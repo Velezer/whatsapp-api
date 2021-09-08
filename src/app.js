@@ -5,10 +5,10 @@ const http = require('http');
 const socketIO = require('socket.io');
 const cors = require('cors');
 const process = require('process')
+const { validateReqSendMessage, validateReqSendMessages } = require('./validator')
 
-
-
-let app = express()
+const app = express()
+app.use(cors({ credentials: true, origin: '*' }));
 const server = http.createServer(app);
 const io = socketIO(server, {
   cors: {
@@ -21,23 +21,6 @@ const io = socketIO(server, {
 });
 
 const clientWaweb = new ClientWaweb(`1`)
-app.use(cors({ credentials: true, origin: '*' }));
-
-
-app.get('/', (req, res) => {
-  res.status(200).json({
-    message: `see?`
-  });
-})
-
-
-const handler = new Handler(clientWaweb)
-app.post('/api/send-message', (req, res) => {
-  handler.sendMessage(req, res)
-})
-app.post('/api/send-messages', (req, res) => handler.sendMessages(req, res))
-
-
 
 io.on('connection', function (socket) {
   socket.emit('message', 'Connecting...');
@@ -48,22 +31,17 @@ io.on('connection', function (socket) {
 
 
 
+app.get('/', (req, res) => {
+  res.status(200).json({
+    message: `see?`
+  });
+})
 
 
+const handler = new Handler(clientWaweb)
+app.post('/api/send-message', validateReqSendMessage, (req, res) => handler.sendMessage(req, res))
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+app.post('/api/send-messages', validateReqSendMessages, (req, res) => handler.sendMessages(req, res))
 
 
 

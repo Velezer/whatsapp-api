@@ -1,11 +1,22 @@
+const { validationResult } = require('express-validator');
+
 
 class Handler {
     constructor(clientWaweb) {
         this.clientWaweb = clientWaweb
     }
+
     sendMessage(req, res) {
-        let number = `6283842455250@c.us`
-        this.clientWaweb.sendMessage(number, `world`)
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
+
+        let message = req.body.message
+        let number = req.body.number
+        number = `${number}@c.us`
+
+        this.clientWaweb.sendMessage(number, message)
             .then(response => {
                 console.log(response)
             })
@@ -16,11 +27,18 @@ class Handler {
             message: `called`
         });
     }
+    
     sendMessages(req, res) {
-        let numbers = [`6283842455250@c.us`, `6283842455250@c.us`, `6283842455250@c.us`]
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
+
+        let message = req.body.message
+        let numbers = req.body.number
         for (let i = 0; i < numbers.length; i++) {
-            const num = numbers[i];
-            this.clientWaweb.sendMessage(num, `world${i}`)
+            const num = `${numbers[i]}@c.us`;
+            this.clientWaweb.sendMessage(num, message)
                 .then(response => {
                     console.log(response)
                 })
