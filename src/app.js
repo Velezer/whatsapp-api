@@ -9,6 +9,7 @@ const { validateReqSendMessage, validateReqSendMessages } = require('./validator
 
 const app = express()
 app.use(cors({ credentials: true, origin: '*' }));
+app.use(express.urlencoded({ extended: true }));
 const server = http.createServer(app);
 const io = socketIO(server, {
   cors: {
