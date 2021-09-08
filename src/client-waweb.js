@@ -27,7 +27,7 @@ class ClientWaweb {
     createClient() {
         const client = new Client({
             puppeteer: {
-                executablePath: `C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe`,
+                // executablePath: `C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe`,
                 headless: true,
                 args: [
                     '--no-sandbox',
