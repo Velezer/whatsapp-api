@@ -2,6 +2,10 @@ const express = require('express')
 const { ClientWaweb } = require('./client-waweb')
 const http = require('http');
 const socketIO = require('socket.io');
+const cors = require('cors');    
+
+
+
 
 let app = express()
 const server = http.createServer(app);
@@ -16,6 +20,7 @@ const io = socketIO(server, {
 });
 
 let clientWaweb = new ClientWaweb(`1`)
+app.use(cors({credentials: true, origin: '*'}));
 
 app.post('/api/send-message', (req, res) => {
   let number = `6283842455250@c.us`
