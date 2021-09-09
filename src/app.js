@@ -23,12 +23,12 @@ app.use(express.urlencoded({ extended: true }));
 app.use(fileUpload())
 app.use(cors({ credentials: true, origin: '*' }));
 
-const clientWaweb = new ClientWaweb(`1`)
+const clientWaweb = new ClientWaweb(`kreblast`)
 
 io.on('connection', function (socket) {
   socket.emit('message', 'Connecting...');
-
-  clientWaweb.setSocket(socket)
+  
+  clientWaweb.setEmitter(socket)
 
 });
 

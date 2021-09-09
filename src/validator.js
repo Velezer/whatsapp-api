@@ -26,29 +26,6 @@ class ImageFileuploadValidationResult extends ExpressFileuploadValidator {
     }
 
 }
-// class fileValidationResult {
-//     constructor(req) {
-//         const expressFileuploadValidator = new ExpressFileuploadValidator({
-//             minCount: 0,
-//             maxCount: 1,
-//             allowedExtensions: ['jpg', 'png', 'gif'],
-//             allowedMimetypes: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif'],
-//             maxSize: '20MB',
-//         });
-//         try {
-//             expressFileuploadValidator.validate(req.files.file);
-//         } catch (e) {
-//             this.errors = e.errors
-//         }
-//     }
-//     isEmpty() {
-//         return (this.errors === {} || this.errors === [] || this.errors === `` || this.errors === undefined || this.errors === null)
-//     }
-//     array() {
-//         return this.errors
-//     }
-
-// }
 
 
 
