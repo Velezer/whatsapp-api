@@ -16,8 +16,7 @@ const validateReqSendMedia = [
     body(`numbers.*`, `not a mobile phone`).isMobilePhone(),
 
     body(`caption`, `caption is empty`).isString(),
-    // body(`file`, `file is empty`).notEmpty(),
-    body(`file`,`file is not an image`).isMimeType(`image/jpg`)
+    body(`file.mimetype`,`file is not an image`).isMimeType('image/*')
 ]
 
 
