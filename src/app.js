@@ -8,7 +8,6 @@ const process = require('process')
 const { validateReqSendMessage, validateReqSendMessages } = require('./validator')
 
 const app = express()
-app.use(cors({ credentials: true, origin: '*' }));
 app.use(express.urlencoded({ extended: true }));
 const server = http.createServer(app);
 const io = socketIO(server, {
@@ -20,6 +19,7 @@ const io = socketIO(server, {
   },
   allowEIO3: true // false by default
 });
+app.use(cors({ credentials: true, origin: '*' }));
 
 const clientWaweb = new ClientWaweb(`1`)
 
