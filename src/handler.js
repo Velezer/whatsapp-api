@@ -1,5 +1,5 @@
 const { validationResult } = require('express-validator');
-const { fileValidationResult } = require('./validator')
+const { ImageFileuploadValidationResult } = require('./validator')
 
 class Handler {
     constructor(clientWaweb) {
@@ -41,7 +41,7 @@ class Handler {
             return res.status(400).json({ errors: errors.array() });
         }
 
-        const fileErrors = new fileValidationResult(req)
+        const fileErrors = new ImageFileuploadValidationResult(req)
         if (!fileErrors.isEmpty()) {
             return res.status(400).json({ errors: fileErrors.array() });
         }
