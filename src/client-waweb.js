@@ -1,4 +1,4 @@
-const { Client } = require('whatsapp-web.js')
+const { Client, MessageMedia } = require('whatsapp-web.js')
 const qrcode = require('qrcode')
 
 
@@ -95,9 +95,26 @@ class ClientWaweb {
             this.client.destroy();
         });
     }
-
+    /**
+     * 
+     * @param {string} number 
+     * @param {string} message 
+     * @returns 
+     */
     sendMessage(number, message) {
         return this.client.sendMessage(number, message)
+    }
+    /**
+     * 
+     * @param {string} number 
+     * @param {*} file 
+     * @param {string} caption 
+     * @returns 
+     */
+    sendMedia(number, file, caption) {
+        const base64Data = file.data.toString('base64')
+        const media = new MessageMedia(file.mimetype, base64Data, file.name)
+        return this.client.sendMessage(number, media, { caption: caption })
     }
 
 }

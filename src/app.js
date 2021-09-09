@@ -5,10 +5,10 @@ const http = require('http');
 const socketIO = require('socket.io');
 const cors = require('cors');
 const process = require('process')
-const { validateReqSendMessages } = require('./validator')
+const { validateReqSendMessages,validateReqSendMedia } = require('./validator')
+const fileUpload = require('express-fileupload')
 
 const app = express()
-app.use(express.urlencoded({ extended: true }));
 const server = http.createServer(app);
 const io = socketIO(server, {
   cors: {
@@ -19,6 +19,8 @@ const io = socketIO(server, {
   },
   allowEIO3: true // false by default
 });
+app.use(express.urlencoded({ extended: true }));
+app.use(fileUpload())
 app.use(cors({ credentials: true, origin: '*' }));
 
 const clientWaweb = new ClientWaweb(`1`)
@@ -42,6 +44,7 @@ app.get('/', (req, res) => {
 const handler = new Handler(clientWaweb)
 
 app.post('/api/send-messages', validateReqSendMessages, (req, res) => handler.sendMessages(req, res))
+app.post('/api/send-media', validateReqSendMedia, (req, res) => handler.sendMedia(req, res))
 
 
 
