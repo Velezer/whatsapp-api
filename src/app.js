@@ -5,7 +5,7 @@ const http = require('http');
 const socketIO = require('socket.io');
 const cors = require('cors');
 const process = require('process')
-const { validateReqSendMessages,validateReqSendMedia } = require('./validator')
+const { validateReqSendMessages, validateReqSendMedia } = require('./validator')
 const fileUpload = require('express-fileupload')
 
 const app = express()
