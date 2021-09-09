@@ -41,7 +41,7 @@ class Handler {
             return res.status(400).json({ errors: errors.array() });
         }
 
-        const fileErrors =new fileValidationResult(req)
+        const fileErrors = new fileValidationResult(req)
         if (!fileErrors.isEmpty()) {
             return res.status(400).json({ errors: fileErrors.array() });
         }

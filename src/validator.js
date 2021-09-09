@@ -1,6 +1,5 @@
 const { body } = require('express-validator');
 const { ExpressFileuploadValidator } = require('express-fileupload-validator');
-const { bool } = require('sharp');
 
 
 
@@ -20,7 +19,7 @@ class fileValidationResult {
         }
     }
     isEmpty() {
-        return bool(this.errors === {} || this.errors === [] || this.errors === `` || this.errors === undefined || this.errors === null)
+        return (this.errors === {} || this.errors === [] || this.errors === `` || this.errors === undefined || this.errors === null)
     }
     array() {
         return this.errors
