@@ -1,9 +1,6 @@
 const { body } = require('express-validator');
 
-const validateReqSendMessage = [
-    body(`number`).isMobilePhone(),
-    body(`message`).notEmpty()
-]
+
 const validateReqSendMessages = [
     body(`numbers`,`can't convert to array`).toArray(),
     body(`numbers`, `array min length is 1`).notEmpty().isArray({min:1}),
@@ -12,4 +9,4 @@ const validateReqSendMessages = [
 ]
 
 
-module.exports = { validateReqSendMessage , validateReqSendMessages }
+module.exports = { validateReqSendMessages }

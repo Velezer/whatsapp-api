@@ -5,7 +5,7 @@ const http = require('http');
 const socketIO = require('socket.io');
 const cors = require('cors');
 const process = require('process')
-const { validateReqSendMessage, validateReqSendMessages } = require('./validator')
+const { validateReqSendMessages } = require('./validator')
 
 const app = express()
 app.use(express.urlencoded({ extended: true }));
@@ -40,7 +40,6 @@ app.get('/', (req, res) => {
 
 
 const handler = new Handler(clientWaweb)
-app.post('/api/send-message', validateReqSendMessage, (req, res) => handler.sendMessage(req, res))
 
 app.post('/api/send-messages', validateReqSendMessages, (req, res) => handler.sendMessages(req, res))
 
