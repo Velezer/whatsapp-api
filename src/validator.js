@@ -5,9 +5,9 @@ const validateReqSendMessage = [
     body(`message`).notEmpty()
 ]
 const validateReqSendMessages = [
-    body(`numbers`).notEmpty().isString().toArray(),
-    body(`numbers`).notEmpty().isArray({min:1}),
-    body(`numbers.*`).isMobilePhone(),
+    body(`numbers`,`can't convert string to array`).notEmpty().isString().toArray(),
+    body(`numbers`, `array min length is 1`).notEmpty().isArray({min:1}),
+    body(`numbers.*`,`not a mobile phone`).isMobilePhone(),
     body(`message`).notEmpty()
 ]
 
