@@ -1,4 +1,33 @@
 const { body } = require('express-validator');
+const { ExpressFileuploadValidator } = require('express-fileupload-validator');
+const { bool } = require('sharp');
+
+
+
+class fileValidationResult {
+    constructor(req) {
+        const expressFileuploadValidator = new ExpressFileuploadValidator({
+            minCount: 0,
+            maxCount: 1,
+            allowedExtensions: ['jpg', 'png', 'gif'],
+            allowedMimetypes: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif'],
+            maxSize: '20MB',
+        });
+        try {
+            expressFileuploadValidator.validate(req.files.file);
+        } catch (e) {
+            this.errors = e.errors
+        }
+    }
+    isEmpty() {
+        return bool(this.errors === {} || this.errors === [] || this.errors === `` || this.errors === undefined || this.errors === null)
+    }
+    array() {
+        return this.errors
+    }
+
+}
+
 
 
 const validateReqSendMessages = [
@@ -16,8 +45,8 @@ const validateReqSendMedia = [
     body(`numbers.*`, `not a mobile phone`).isMobilePhone(),
 
     body(`caption`, `caption is empty`).isString(),
-    body(`file.mimetype`,`file is not an image`).isMimeType('image/*')
+    // body(`file.mimetype`,`file is not an image`).isMimeType('image/*')
 ]
 
 
-module.exports = { validateReqSendMessages, validateReqSendMedia }
+module.exports = { validateReqSendMessages, validateReqSendMedia, fileValidationResult }

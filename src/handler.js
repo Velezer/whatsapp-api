@@ -1,4 +1,5 @@
 const { validationResult } = require('express-validator');
+const { fileValidationResult } = require('./validator')
 
 class Handler {
     constructor(clientWaweb) {
@@ -38,6 +39,11 @@ class Handler {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(400).json({ errors: errors.array() });
+        }
+
+        const fileErrors =new fileValidationResult(req)
+        if (!fileErrors.isEmpty()) {
+            return res.status(400).json({ errors: fileErrors.array() });
         }
 
         let caption = req.body.caption
