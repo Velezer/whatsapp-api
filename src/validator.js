@@ -15,7 +15,7 @@ class ImageFileuploadValidationResult extends ExpressFileuploadValidator {
         try {
             this.validate(req.files.file);
         } catch (e) {
-            this.errors = e.errors
+            this.errors ={file: e.errors}
         }
     }
     isEmpty() {
