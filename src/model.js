@@ -33,6 +33,7 @@ class DatabaseMongo {
     async getConnection() {
         if (this.pool.length == 0) {
             await this.createConnection(1)
+                .catch((err) => console.error(err))
         }
         return this.pool.pop()
     }
