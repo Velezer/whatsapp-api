@@ -44,11 +44,8 @@ class ManagerWaweb {
 }
 
 class ClientWaweb extends Client {
-    /**
-     * 
-     * @param {string} id 
-     */
-    constructor(id, session) {
+
+    constructor(session) {
         super({
             puppeteer: {
                 // executablePath: `C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe`,
@@ -67,7 +64,8 @@ class ClientWaweb extends Client {
             session: session
         })
 
-        this.id = id
+        this.session=session
+
     }
 
     setEmitter(socket) {
