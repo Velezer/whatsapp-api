@@ -2,8 +2,8 @@ const { validationResult } = require('express-validator');
 const { ImageFileuploadValidationResult } = require('./validator')
 
 class Handler {
-    constructor(clientWaweb) {
-        this.clientWaweb = clientWaweb
+    constructor(manager) {
+        this.manager = manager
     }
 
     async sendMessages(req, res) {
@@ -12,12 +12,13 @@ class Handler {
             return res.status(400).json({ errors: errors.array() });
         }
 
-        let message = req.body.message
-        let numbers = req.body.numbers
+        let { sender_id, message, numbers } = req.body
+
+        const client = this.manager.getClient(sender_id)
         for (let i = 0; i < numbers.length; i++) {
             const num = `${numbers[i]}@c.us`;
 
-            let numberRegisteredWA = await this.clientWaweb.client.isRegisteredUser(num)
+            let numberRegisteredWA = await client.isRegisteredUser(num)
             if (!numberRegisteredWA) {
                 continue
             }
@@ -46,14 +47,16 @@ class Handler {
             return res.status(400).json({ errors: fileErrors.array() });
         }
 
-        let caption = req.body.caption
-        let numbers = req.body.numbers
-        let file = req.files.file
+        const { sender_id, caption, numbers } = req.body
+        const file = req.files.file
+
+
+        const client = this.manager.getClient(sender_id)
 
         for (let i = 0; i < numbers.length; i++) {
             const num = `${numbers[i]}@c.us`;
 
-            let numberRegisteredWA = await this.clientWaweb.client.isRegisteredUser(num)
+            let numberRegisteredWA = await client.isRegisteredUser(num)
             if (!numberRegisteredWA) {
                 continue
             }

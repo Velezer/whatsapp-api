@@ -1,11 +1,14 @@
 const { Client, MessageMedia, Events } = require('whatsapp-web.js')
 const qrcode = require('qrcode')
+const { SessionModel } = require('./session');
 
 class WaWebEmitter {
     /**
      * 
      * @param {*} socket 
      * @param {string} clientID 
+     * @todo emit event to frontend client
+     * 
      */
     constructor(socket, clientID) {
         this.socket = socket
@@ -21,14 +24,31 @@ class WaWebEmitter {
     }
 }
 
+class ManagerWaweb {
+    /**
+     * @todo choose client when send-message
+     */
+    constructor() {
+        this.clients = []
+    }
 
+    pushClient(clientWaweb) {
+        this.clients.push(clientWaweb)
+    }
+
+    getClient(id) {
+        return this.clients.find((client) => client.id === id)
+    }
+
+
+}
 
 class ClientWaweb extends Client {
     /**
      * 
      * @param {string} id 
      */
-    constructor(id) {
+    constructor(id, session) {
         super({
             puppeteer: {
                 // executablePath: `C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe`,
@@ -43,7 +63,8 @@ class ClientWaweb extends Client {
                     //   '--single-process', // <- this one doesn't works in Windows
                     '--disable-gpu'
                 ],
-            }
+            },
+            session: session
         })
 
         this.id = id
@@ -76,12 +97,15 @@ class ClientWaweb extends Client {
             this.emitter.emit('log', 'Whatsapp is authenticated!');
 
             console.log('AUTHENTICATED', session);
-            // sessionCfg = session;
+            const sessionCfg = session;
+            const sessionModel = new SessionModel()
+            sessionModel.save(sessionCfg)
             // fs.writeFile(SESSION_FILE_PATH, JSON.stringify(session), function(err) {
             //   if (err) {
             //     console.error(err);
             //   }
             // });
+
         });
 
         this.on(Events.AUTHENTICATION_FAILURE, function () {
@@ -123,4 +147,4 @@ class ClientWaweb extends Client {
 
 }
 
-module.exports = { ClientWaweb }
+module.exports = { ClientWaweb, ManagerWaweb }

@@ -1,12 +1,13 @@
 const express = require('express')
-const { ClientWaweb } = require('./client-waweb')
+const { ClientWaweb, ManagerWaweb } = require('./client-waweb')
 const Handler = require('./handler')
 const http = require('http');
 const socketIO = require('socket.io');
 const cors = require('cors');
 const process = require('process')
 const { validateReqSendMessages, validateReqSendMedia } = require('./validator')
-const fileUpload = require('express-fileupload')
+const fileUpload = require('express-fileupload');
+const { SessionModel } = require('./session');
 
 const app = express()
 const server = http.createServer(app);
@@ -23,12 +24,17 @@ app.use(express.urlencoded({ extended: true }));
 app.use(fileUpload())
 app.use(cors({ credentials: true, origin: '*' }));
 
-const clientWaweb = new ClientWaweb(`kreblast`)
+const manager = new ManagerWaweb()
 
 io.on('connection', function (socket) {
   socket.emit('message', 'Connecting...');
-  
-  clientWaweb.setEmitter(socket)
+
+  socket.on('create-session', (data) => {
+    const sessionModel = new SessionModel()
+    const clientWaweb = new ClientWaweb(data.id, sessionModel.getSessionCfg(data.id))
+    clientWaweb.setEmitter(socket)
+    manager.pushCLient(clientWaweb)
+  })
 
 });
 
@@ -42,10 +48,11 @@ app.get('/', (req, res) => {
 })
 
 
-const handler = new Handler(clientWaweb)
+const handler = new Handler(manager)
 
 app.post('/api/send-messages', validateReqSendMessages, (req, res) => handler.sendMessages(req, res))
 app.post('/api/send-media', validateReqSendMedia, (req, res) => handler.sendMedia(req, res))
+app.post('/api/client', validateReqSendMedia, (req, res) => handler.sendMedia(req, res))
 
 
 
