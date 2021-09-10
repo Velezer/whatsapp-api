@@ -27,6 +27,7 @@ class DatabaseMongo {
             await client.connect()
                 .then(() => this.pool.push(client))
                 .catch(() => this.createConnection(1))
+            // client.db().collection().findOne()
         }
     }
 
@@ -35,18 +36,11 @@ class DatabaseMongo {
             await this.createConnection(1)
                 .catch((err) => console.error(err))
         }
-        return this.pool.pop()
+        let connection = this.pool.pop()
+        console.log(`conection_______---___` + connection)
+        return connection
     }
-    /**
-     * 
-     * @param {*} connection 
-     * @param {sting} dbName 
-     * @param {sting} collName 
-     * @returns 
-     */
-    getCollection(connection, dbName, collName) {
-        return connection.db(dbName).collection(collName);
-    }
+
 
     done(connection) {
         if (this.pool.length == this.max_connections_amount) {
@@ -65,9 +59,13 @@ class SessionModel {
         this.collname = 'session'
     }
 
+    collection(connection) {
+        return connection.db(this.dbName).collection(this.collname);
+    }
+
     async save(sessionCfg) {
         const connection = await this.db.getConnection()
-        const collection = this.db.getCollection(connection, this.dbName, this.collname)
+        const collection = this.collection(connection)
         const res = await collection.insertOne(sessionCfg)
         this.db.done(connection)
         return res
@@ -76,11 +74,17 @@ class SessionModel {
     async findOne(id) {
         console.log(`db_is_______${this.db}`)
         const connection = await this.db.getConnection()
-        const collection = this.db.getCollection(connection, this.dbName, this.collname)
+        const collection = this.collection(connection)
         console.log(`collection_is________${collection}`)
-        const res = await collection.findOne({ _id: id }).toArray()
+        let result = null
+        await collection.findOne({ _id: id }).then(res => {
+            console.log(`res_is________${res}`)
+            result = res
+        }).catch((err) => console.error(err))
+        console.log(`result_is________${result}`)
+
         this.db.done(connection)
-        return res
+        return result
     }
 
 }

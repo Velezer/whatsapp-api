@@ -26,19 +26,22 @@ app.use(express.urlencoded({ extended: true }));
 app.use(fileUpload())
 app.use(cors({ credentials: true, origin: '*' }));
 
-const manager = new ManagerWaweb()
+let manager = new ManagerWaweb()
 
 io.on('connection', function (socket) {
   socket.emit('message', 'Connecting...');
 
   socket.on('create-session', async (data) => {
+    socket.emit('log', 'create-sessio...?');
+
     const sessionModel = new SessionModel(db)
     const session = await sessionModel.findOne(data.id).catch((err) => console.error(err))
 
     const clientWaweb = new ClientWaweb(session,sessionModel)
     clientWaweb.setEmitter(socket)
 
-    manager.pushCLient(clientWaweb)
+    manager.pushClient(clientWaweb)
+    socket.emit('log', 'create-sessio...!!!!');
   })
 
 });

@@ -28,7 +28,10 @@ class ManagerWaweb {
     constructor() {
         this.clients = []
     }
-
+    /**
+     * 
+     * @param {*} clientWaweb 
+     */
     pushClient(clientWaweb) {
         this.clients.push(clientWaweb)
     }
