@@ -1,6 +1,6 @@
 const { Client, MessageMedia, Events } = require('whatsapp-web.js')
 const qrcode = require('qrcode')
-const { SessionModel } = require('./session');
+const { SessionModel } = require('./model');
 
 class WaWebEmitter {
     /**

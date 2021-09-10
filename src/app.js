@@ -7,7 +7,10 @@ const cors = require('cors');
 const process = require('process')
 const { validateReqSendMessages, validateReqSendMedia } = require('./validator')
 const fileUpload = require('express-fileupload');
-const { SessionModel } = require('./session');
+const { SessionModel } = require('./model');
+const { DatabaseMongo } = require('./database');
+
+const db=new DatabaseMongo(5)
 
 const app = express()
 const server = http.createServer(app);
