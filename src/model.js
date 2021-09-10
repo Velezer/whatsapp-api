@@ -12,7 +12,7 @@ class DatabaseMongo {
      * 
      * @param {number} max_connections_amount 
      */
-    constructor(max_connections_amount) {
+    constructor(max_connections_amount = 10) {
         this.max_connections_amount = max_connections_amount
         this.pool = []
         this.createConnection(this.max_connections_amount)
