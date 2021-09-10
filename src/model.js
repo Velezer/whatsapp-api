@@ -21,16 +21,16 @@ class DatabaseMongo {
      * 
      * @param {number} connections_amount 
      */
-    createConnection(connections_amount) {
+    async createConnection(connections_amount) {
         for (let i = 0; i < connections_amount; i++) {
             const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
-            client.connect().then(() => this.pool.push(client))
+            await client.connect().then(() => this.pool.push(client))
         }
     }
 
-    getConnection() {
+    async getConnection() {
         if (this.pool.length == 0) {
-            this.createConnection(1)
+            await this.createConnection(1)
         }
         return this.pool.pop()
     }
@@ -63,7 +63,7 @@ class SessionModel {
     }
 
     async save(sessionCfg) {
-        const connection = this.db.getConnection()
+        const connection = await this.db.getConnection()
         const collection = this.db.getCollection(connection, this.dbName, this.collname)
         const res = await collection.insertOne(sessionCfg)
         this.db.done(connection)
@@ -71,7 +71,7 @@ class SessionModel {
     }
 
     async findOne(id) {
-        const connection = this.db.getConnection()
+        const connection = await this.db.getConnection()
         const collection = this.db.getCollection(connection, this.dbName, this.collname)
         const res = await collection.findOne({ _id: id }).toArray()
         this.db.done(connection)
