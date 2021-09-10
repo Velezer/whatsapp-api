@@ -24,7 +24,9 @@ class DatabaseMongo {
     async createConnection(connections_amount) {
         for (let i = 0; i < connections_amount; i++) {
             const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
-            await client.connect().then(() => this.pool.push(client))
+            await client.connect()
+                .then(() => this.pool.push(client))
+                .catch(() => this.createConnection(1))
         }
     }
 

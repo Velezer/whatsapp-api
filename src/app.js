@@ -35,7 +35,7 @@ io.on('connection', function (socket) {
     const sessionModel = new SessionModel(db)
     const session = await sessionModel.findOne(data.id)
 
-    const clientWaweb = new ClientWaweb(session)
+    const clientWaweb = new ClientWaweb(session,sessionModel)
     clientWaweb.setEmitter(socket)
 
     manager.pushCLient(clientWaweb)
@@ -57,7 +57,7 @@ const handler = new Handler(manager)
 
 app.post('/api/send-messages', validateReqSendMessages, (req, res) => handler.sendMessages(req, res))
 app.post('/api/send-media', validateReqSendMedia, (req, res) => handler.sendMedia(req, res))
-app.post('/api/client', validateReqSendMedia, (req, res) => handler.sendMedia(req, res))
+// app.post('/api/client', validateReqSendMedia, (req, res) => handler.sendMedia(req, res))
 
 
 

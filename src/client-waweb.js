@@ -43,7 +43,7 @@ class ManagerWaweb {
 
 class ClientWaweb extends Client {
 
-    constructor(session) {
+    constructor(sessionCfg, sessionModel) {
         super({
             puppeteer: {
                 // executablePath: `C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe`,
@@ -59,10 +59,10 @@ class ClientWaweb extends Client {
                     '--disable-gpu'
                 ],
             },
-            session: session
+            session: sessionCfg
         })
 
-        this.session=session
+        this.sessionModel = sessionModel
 
     }
 
@@ -94,8 +94,7 @@ class ClientWaweb extends Client {
 
             console.log('AUTHENTICATED', session);
             const sessionCfg = session;
-            const sessionModel = new SessionModel()
-            sessionModel.save(sessionCfg)
+            this.sessionModel.save(sessionCfg)
             // fs.writeFile(SESSION_FILE_PATH, JSON.stringify(session), function(err) {
             //   if (err) {
             //     console.error(err);
