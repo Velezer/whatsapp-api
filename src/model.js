@@ -74,8 +74,10 @@ class SessionModel {
     }
 
     async findOne(id) {
+        console.log(`db_is_______${this.db}`)
         const connection = await this.db.getConnection()
         const collection = this.db.getCollection(connection, this.dbName, this.collname)
+        console.log(`collection_is________${collection}`)
         const res = await collection.findOne({ _id: id }).toArray()
         this.db.done(connection)
         return res

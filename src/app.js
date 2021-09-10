@@ -33,7 +33,7 @@ io.on('connection', function (socket) {
 
   socket.on('create-session', async (data) => {
     const sessionModel = new SessionModel(db)
-    const session = await sessionModel.findOne(data.id)
+    const session = await sessionModel.findOne(data.id).catch((err) => console.error(err))
 
     const clientWaweb = new ClientWaweb(session,sessionModel)
     clientWaweb.setEmitter(socket)
