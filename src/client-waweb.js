@@ -40,7 +40,7 @@ class ManagerWaweb {
         return this.clients.find((client) => client.id === id)
     }
 
-    
+
 
 
 }
@@ -90,7 +90,7 @@ class ClientWaweb extends Client {
 
         });
 
-        this.on('authenticated',async (session) => {
+        this.on('authenticated', async (session) => {
 
             this.emitter.emit('authenticated', 'Whatsapp is authenticated!');
             this.emitter.emit('log', 'Whatsapp is authenticated!');
@@ -99,9 +99,9 @@ class ClientWaweb extends Client {
 
             const { SessionModel } = require('./model')
 
-           const sessionModel=new SessionModel(session)
-           await  sessionModel.save()
-           console.log(`session saved`)
+            const sessionModel = new SessionModel(session)
+            await sessionModel.save()
+            console.log(`session saved`)
 
 
         });
