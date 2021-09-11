@@ -6,16 +6,17 @@ const { ExpressFileuploadValidator } = require('express-fileupload-validator');
 class ImageFileuploadValidationResult extends ExpressFileuploadValidator {
     constructor(req) {
         super({
-            minCount: 0,
+            minCount: 1,
             maxCount: 1,
             allowedExtensions: ['jpg', 'png', 'gif'],
             allowedMimetypes: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif'],
-            maxSize: '20MB',
+            maxSize: '10MB',
         })
         try {
             this.validate(req.files.file);
         } catch (e) {
-            this.errors = { file: e.errors }
+            if (req.files == null) this.errors = { file: `no file uploaded` }
+            else this.errors = { file: e.errors }
         }
     }
     isEmpty() {
@@ -43,8 +44,7 @@ const validateReqSendMedia = [
     body(`numbers`, `numbers array min length is 1`).isArray({ min: 1 }),
     body(`numbers.*`, `not a mobile phone`).isMobilePhone(),
 
-    body(`caption`, `caption is empty`).isString(),
-    // body(`file.mimetype`,`file is not an image`).isMimeType('image/*')
+    body(`caption`, `caption is empty`).notEmpty(),
 ]
 
 

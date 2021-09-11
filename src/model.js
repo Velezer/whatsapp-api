@@ -4,7 +4,7 @@ const Schema = mongoose.Schema
 
 const SessionModel = mongoose.model('Session', new Schema(
     {
-        session: Schema.Types.Mixed
+        session: Object
     },
 ))
 
