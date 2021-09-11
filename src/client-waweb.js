@@ -45,11 +45,12 @@ class ManagerWaweb {
 
 class ClientWaweb extends Client {
 
-    constructor(data) {
+    constructor(sessionData) {
+        if(sessionData){}
         super({
             puppeteer: {
-                // executablePath: `C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe`,
-                headless: true,
+                executablePath: `C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe`,
+                headless: false,
                 args: [
                     '--no-sandbox',
                     '--disable-setuid-sandbox',
@@ -61,7 +62,7 @@ class ClientWaweb extends Client {
                     '--disable-gpu'
                 ],
             },
-            session: data.session
+            session: sessionData?sessionData:{}
         })
 
     }
