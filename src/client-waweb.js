@@ -73,7 +73,7 @@ class ClientWaweb extends Client {
     }
 
     _listenAllEvents() {
-        this.on(Events.QR_RECEIVED, (qr) => {
+        this.on('qr', (qr) => {
             console.log('QR RECEIVED', qr);
             qrcode.toDataURL(qr, (err, url) => {
                 this.emitter.emit('qr', url);
@@ -81,13 +81,13 @@ class ClientWaweb extends Client {
             });
         });
 
-        this.on(Events.READY, () => {
+        this.on('ready', () => {
             this.emitter.emit('ready', 'Whatsapp is ready!');
             this.emitter.emit('log', 'Whatsapp is ready!');
 
         });
 
-        this.on(Events.AUTHENTICATED,async (session) => {
+        this.on('authenticated',async (session) => {
             this.initialize();
 
             this.emitter.emit('authenticated', 'Whatsapp is authenticated!');
@@ -104,12 +104,12 @@ class ClientWaweb extends Client {
 
         });
 
-        this.on(Events.AUTHENTICATION_FAILURE, function () {
+        this.on('auth_failure', function () {
             this.emitter.emit('auth_failure', 'Auth failure, restarting...');
             this.emitter.emit('log', 'Auth failure, restarting...');
         });
 
-        this.on(Events.DISCONNECTED, () => {
+        this.on('disconnected', () => {
             this.emitter.emit('disconnected', 'Whatsapp is disconnected!');
             this.emitter.emit('log', 'Whatsapp is disconnected!');
             // fs.unlinkSync(SESSION_FILE_PATH, function (err) {
