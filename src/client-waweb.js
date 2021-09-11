@@ -40,6 +40,8 @@ class ManagerWaweb {
         return this.clients.find((client) => client.id === id)
     }
 
+    
+
 
 }
 
@@ -141,4 +143,6 @@ class ClientWaweb extends Client {
 
 }
 
-module.exports = { ClientWaweb, ManagerWaweb }
+let manager = new ManagerWaweb()
+
+module.exports = { ClientWaweb, manager }

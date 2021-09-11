@@ -1,7 +1,7 @@
 const express = require('express')
 require('./db')
 const { SessionModel } = require('./model')
-const { ClientWaweb, ManagerWaweb } = require('./client-waweb')
+const { ClientWaweb, manager } = require('./client-waweb')
 const Handler = require('./handler')
 const http = require('http');
 const socketIO = require('socket.io');
@@ -22,11 +22,11 @@ const io = socketIO(server, {
   },
   allowEIO3: true // false by default
 });
+
 app.use(express.urlencoded({ extended: true }));
 app.use(fileUpload())
 app.use(cors({ credentials: true, origin: '*' }));
 
-let manager = new ManagerWaweb()
 
 io.on('connection', function (socket) {
   socket.emit('message', 'Connecting...');

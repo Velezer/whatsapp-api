@@ -16,4 +16,4 @@ mongoose.connect(process.env.DB_URI_CLOUD, { useNewUrlParser: true, useUnifiedTo
     //     console.log(session)
 
     // })
-    // .catch(err => err)
+    .catch(err => console.error(err))
