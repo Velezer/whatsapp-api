@@ -45,7 +45,7 @@ class ManagerWaweb {
 
 class ClientWaweb extends Client {
 
-    constructor(sessionCfg, sessionModel) {
+    constructor(data) {
         super({
             puppeteer: {
                 // executablePath: `C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe`,
@@ -61,10 +61,8 @@ class ClientWaweb extends Client {
                     '--disable-gpu'
                 ],
             },
-            session: sessionCfg
+            session: data.session
         })
-
-        this.sessionModel = sessionModel
 
     }
 
@@ -88,20 +86,20 @@ class ClientWaweb extends Client {
 
         });
 
-        this.on(Events.AUTHENTICATED, (session) => {
+        this.on(Events.AUTHENTICATED,async (session) => {
             this.initialize();
 
             this.emitter.emit('authenticated', 'Whatsapp is authenticated!');
             this.emitter.emit('log', 'Whatsapp is authenticated!');
 
             console.log('AUTHENTICATED', session);
-            const sessionCfg = session;
-            this.sessionModel.save(sessionCfg)
-            // fs.writeFile(SESSION_FILE_PATH, JSON.stringify(session), function(err) {
-            //   if (err) {
-            //     console.error(err);
-            //   }
-            // });
+
+            const { SessionModel } = require('./model')
+
+           const sessionModel=new SessionModel(session)
+           await  sessionModel.save()
+           console.log(`session saved`)
+
 
         });
 

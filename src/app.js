@@ -1,4 +1,6 @@
 const express = require('express')
+require('./db')
+const { SessionModel } = require('./model')
 const { ClientWaweb, ManagerWaweb } = require('./client-waweb')
 const Handler = require('./handler')
 const http = require('http');
@@ -7,9 +9,7 @@ const cors = require('cors');
 const process = require('process')
 const { validateReqSendMessages, validateReqSendMedia } = require('./validator')
 const fileUpload = require('express-fileupload');
-const { SessionModel, DatabaseMongo } = require('./model');
 
-const db = new DatabaseMongo(5)
 
 const app = express()
 const server = http.createServer(app);
@@ -34,10 +34,9 @@ io.on('connection', function (socket) {
   socket.on('create-session', async (data) => {
     socket.emit('log', 'create-sessio...?');
 
-    const sessionModel = new SessionModel(db)
-    const session = await sessionModel.findOne(data.id).catch((err) => console.error(err))
-
-    const clientWaweb = new ClientWaweb(session,sessionModel)
+    const session = await SessionModel.findOne(data)
+    console.log(session)
+    const clientWaweb = new ClientWaweb({ user: data.user, session: session })
     clientWaweb.setEmitter(socket)
 
     manager.pushClient(clientWaweb)

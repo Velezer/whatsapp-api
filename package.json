@@ -19,6 +19,7 @@
     "express-fileupload-validator": "^2.0.1",
     "express-validator": "^6.12.1",
     "mongodb": "^4.1.1",
+    "mongoose": "^6.0.5",
     "nodemon": "^2.0.12",
     "qrcode": "^1.4.4",
     "qrcode-terminal": "^0.12.0",
