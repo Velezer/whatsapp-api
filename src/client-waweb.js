@@ -37,8 +37,8 @@ class ManagerWaweb {
         this.clients.push(clientWaweb)
     }
 
-    getClient(id) {
-        return this.clients.find((client) => client.id === id)
+    getClient(sessionCfg) {
+        return this.clients.find((client) => client.sessionCfg === sessionCfg)
     }
 
 
@@ -66,7 +66,7 @@ class ClientWaweb extends Client {
             },
             session: sessionCfg
         })
-        this.sessionCfg=sessionCfg
+        this.sessionCfg = sessionCfg
 
         this.initialize();
         this._listenAllEvents()
@@ -97,7 +97,7 @@ class ClientWaweb extends Client {
             this.emitter.emit('log', 'Whatsapp is authenticated!');
 
 
-            const sessionModel = new SessionModel({session})
+            const sessionModel = new SessionModel({ session })
             await sessionModel.save()
             console.log(`AUTHENTICATED and session saved`)
             console.log(sessionModel)
@@ -108,7 +108,7 @@ class ClientWaweb extends Client {
             this.emitter.emit('log', 'Auth failure, restarting...');
         });
 
-        this.on('disconnected',async () => {
+        this.on('disconnected', async () => {
             this.emitter.emit('disconnected', 'Whatsapp is disconnected!');
             this.emitter.emit('log', 'Whatsapp is disconnected!');
 

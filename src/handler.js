@@ -12,28 +12,34 @@ class Handler {
             return res.status(400).json({ errors: errors.array() });
         }
 
-        let { sender_id, message, numbers } = req.body
+        // let { sender_id, message, numbers } = req.body
 
-        const client = this.manager.getClient(sender_id)
-        for (let i = 0; i < numbers.length; i++) {
-            const num = `${numbers[i]}@c.us`;
+        let sessionCfg = req.body.sessionCfg
+        sessionCfg = JSON.parse(sessionCfg)
+        res.status(200).json(
+            {
+                client: this.manager.getClient(sessionCfg),
+            });
+        // const client = this.manager.getClient(sender_id)
+        // for (let i = 0; i < numbers.length; i++) {
+        //     const num = `${numbers[i]}@c.us`;
 
-            let numberRegisteredWA = await client.isRegisteredUser(num)
-            if (!numberRegisteredWA) {
-                continue
-            }
+        //     let numberRegisteredWA = await client.isRegisteredUser(num)
+        //     if (!numberRegisteredWA) {
+        //         continue
+        //     }
 
-            this.clientWaweb.sendMessage(num, message)
-                .then(response => {
-                    console.log(response)
-                })
-                .catch(err => {
-                    console.log(err)
-                })
-        }
-        res.status(200).json({
-            message: `called`
-        });
+        //     this.clientWaweb.sendMessage(num, message)
+        //         .then(response => {
+        //             console.log(response)
+        //         })
+        //         .catch(err => {
+        //             console.log(err)
+        //         })
+        // }
+        // res.status(200).json({
+        //     message: `called`
+        // });
     }
 
     async sendMedia(req, res) {
