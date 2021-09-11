@@ -1,5 +1,6 @@
 const { Client, MessageMedia } = require('whatsapp-web.js')
 const qrcode = require('qrcode')
+const { SessionModel } = require('./model')
 
 class WaWebEmitter {
     /**
@@ -47,12 +48,11 @@ class ManagerWaweb {
 
 class ClientWaweb extends Client {
 
-    constructor() {
-
+    constructor(sessionCfg) {
         super({
             puppeteer: {
-                // executablePath: `C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe`,
-                headless: true,
+                executablePath: `C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe`,
+                headless: false,
                 args: [
                     '--no-sandbox',
                     // '--disable-setuid-sandbox',
@@ -64,15 +64,17 @@ class ClientWaweb extends Client {
                     // '--disable-gpu'
                 ],
             },
-            // session: sessionData?sessionData:{}
+            session: sessionCfg
         })
+        this.sessionCfg=sessionCfg
 
         this.initialize();
+        this._listenAllEvents()
+
     }
 
     setEmitter(socket) {
         this.emitter = new WaWebEmitter(socket)
-        this._listenAllEvents()
     }
 
     _listenAllEvents() {
@@ -91,19 +93,14 @@ class ClientWaweb extends Client {
         });
 
         this.on('authenticated', async (session) => {
-
             this.emitter.emit('authenticated', 'Whatsapp is authenticated!');
             this.emitter.emit('log', 'Whatsapp is authenticated!');
 
-            console.log('AUTHENTICATED', session);
 
-            const { SessionModel } = require('./model')
-
-            const sessionModel = new SessionModel(session)
+            const sessionModel = new SessionModel({session})
             await sessionModel.save()
-            console.log(`session saved`)
-
-
+            console.log(`AUTHENTICATED and session saved`)
+            console.log(sessionModel)
         });
 
         this.on('auth_failure', function () {
@@ -111,13 +108,12 @@ class ClientWaweb extends Client {
             this.emitter.emit('log', 'Auth failure, restarting...');
         });
 
-        this.on('disconnected', () => {
+        this.on('disconnected',async () => {
             this.emitter.emit('disconnected', 'Whatsapp is disconnected!');
             this.emitter.emit('log', 'Whatsapp is disconnected!');
-            // fs.unlinkSync(SESSION_FILE_PATH, function (err) {
-            //     if (err) return console.log(err);
-            //     console.log('Session file deleted!');
-            // });
+
+            const res = await SessionModel.deleteOne(this.sessionCfg)
+            console.log(res)
             this.destroy();
         });
     }
