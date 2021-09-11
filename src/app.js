@@ -34,15 +34,13 @@ io.on('connection', function (socket) {
   socket.on('create-session', async (data) => {
     socket.emit('log', 'create-sessio...?');
 
-    let clientWaweb=null
-    if  (data.session){
-      const sessionData = await SessionModel.findOne(data)
-      console.log(sessionData)
-      socket.emit('log', JSON.stringify(sessionData));
-      clientWaweb = new ClientWaweb(sessionData)
-    }else{
-      clientWaweb = new ClientWaweb()
-    }
+
+    const sessionData = await SessionModel.findOne(data)
+    console.log(data)
+    console.log(sessionData)
+    socket.emit('log', JSON.stringify(sessionData));
+
+    let clientWaweb = new ClientWaweb()
     clientWaweb.setEmitter(socket)
 
     manager.pushClient(clientWaweb)
