@@ -1,5 +1,5 @@
 const express = require('express')
-require('./db')
+// require('./db')
 // const { SessionModel } = require('./model')
 const { ClientWaweb, manager } = require('./client-waweb')
 const Handler = require('./handler')
@@ -36,8 +36,6 @@ io.on('connection', function (socket) {
 
 
   //   const sessionData = await SessionModel.findOne(data)
-  //   console.log(data)
-  //   console.log(sessionData)
   //   socket.emit('log', JSON.stringify(sessionData));
 
   let clientWaweb = new ClientWaweb()

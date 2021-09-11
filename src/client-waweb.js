@@ -48,6 +48,7 @@ class ManagerWaweb {
 class ClientWaweb extends Client {
 
     constructor() {
+
         super({
             puppeteer: {
                 // executablePath: `C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe`,
@@ -65,6 +66,8 @@ class ClientWaweb extends Client {
             },
             // session: sessionData?sessionData:{}
         })
+
+        this.initialize();
     }
 
     setEmitter(socket) {
@@ -88,7 +91,6 @@ class ClientWaweb extends Client {
         });
 
         this.on('authenticated',async (session) => {
-            this.initialize();
 
             this.emitter.emit('authenticated', 'Whatsapp is authenticated!');
             this.emitter.emit('log', 'Whatsapp is authenticated!');
