@@ -1,6 +1,6 @@
 const express = require('express')
 require('./db')
-const { SessionModel } = require('./model')
+// const { SessionModel } = require('./model')
 const { ClientWaweb, manager } = require('./client-waweb')
 const Handler = require('./handler')
 const http = require('http');
@@ -31,21 +31,21 @@ app.use(cors({ credentials: true, origin: '*' }));
 io.on('connection', function (socket) {
   socket.emit('message', 'Connecting...');
 
-  socket.on('create-session', async (data) => {
-    socket.emit('log', 'create-sessio...?');
+  // socket.on('create-session', async (data) => {
+  //   socket.emit('log', 'create-sessio...?');
 
 
-    const sessionData = await SessionModel.findOne(data)
-    console.log(data)
-    console.log(sessionData)
-    socket.emit('log', JSON.stringify(sessionData));
+  //   const sessionData = await SessionModel.findOne(data)
+  //   console.log(data)
+  //   console.log(sessionData)
+  //   socket.emit('log', JSON.stringify(sessionData));
 
-    let clientWaweb = new ClientWaweb()
-    clientWaweb.setEmitter(socket)
+  let clientWaweb = new ClientWaweb()
+  clientWaweb.setEmitter(socket)
 
-    manager.pushClient(clientWaweb)
-    socket.emit('log', 'create-session...!!!!');
-  })
+  manager.pushClient(clientWaweb)
+  socket.emit('log', 'create-session...!!!!');
+  // })
 
 });
 
