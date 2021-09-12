@@ -40,10 +40,10 @@ io.on('connection', function (socket) {
 
     socket.emit('sessionData', sessionData);
 
-    let clientWaweb = new ClientWaweb(sessionData ? sessionData.session : null)
+    let clientWaweb = new ClientWaweb(sessionData ? sessionData : null)
     clientWaweb.setEmitter(socket)
 
-    manager.pushClient(clientWaweb,)
+    manager.pushClient(clientWaweb)
     // console.log(`manager.clients: ${manager.clients}`)
     socket.emit('log', 'create-session...!!!!');
   })

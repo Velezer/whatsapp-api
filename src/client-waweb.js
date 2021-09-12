@@ -37,8 +37,14 @@ class ManagerWaweb {
         this.clients.push(clientWaweb)
     }
 
-    getClient(sessionCfg) {
-        return this.clients.find((client) => client.sessionCfg === sessionCfg)
+    getClient(_id) {
+        for (let i = 0; i < this.clients.length; i++) {
+            const client = this.clients[i];
+            if (client._id.toString() == _id) {
+                return client
+            }
+        }
+        // return this.clients.find((client) => client._id == _id)
     }
 
 
@@ -48,7 +54,7 @@ class ManagerWaweb {
 
 class ClientWaweb extends Client {
 
-    constructor(sessionCfg) {
+    constructor(sessionData) {
         super({
             puppeteer: {
                 executablePath: `C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe`,
@@ -64,9 +70,9 @@ class ClientWaweb extends Client {
                     // '--disable-gpu'
                 ],
             },
-            session: sessionCfg
+            session: sessionData.session
         })
-        this.sessionCfg = sessionCfg
+        this._id = sessionData._id
 
         this.initialize();
         this._listenAllEvents()
@@ -96,11 +102,11 @@ class ClientWaweb extends Client {
             this.emitter.emit('authenticated', 'Whatsapp is authenticated!');
             this.emitter.emit('log', 'Whatsapp is authenticated!');
 
-
-            const sessionModel = new SessionModel({ session })
-            await sessionModel.save()
+            const sessionData = new SessionModel({ session })
+            await sessionData.save()
+            this.emitter.emit('log', `_id: ${sessionData._id}`)
             console.log(`AUTHENTICATED and session saved`)
-            console.log(sessionModel)
+            console.log(sessionData)
         });
 
         this.on('auth_failure', function () {
@@ -112,7 +118,7 @@ class ClientWaweb extends Client {
             this.emitter.emit('disconnected', 'Whatsapp is disconnected!');
             this.emitter.emit('log', 'Whatsapp is disconnected!');
 
-            const res = await SessionModel.deleteOne(this.sessionCfg)
+            const res = await SessionModel.deleteOne({ _id: this._id })
             console.log(res)
             this.destroy();
         });
