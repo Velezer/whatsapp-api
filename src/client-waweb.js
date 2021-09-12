@@ -44,7 +44,7 @@ class ManagerWaweb {
                 return client
             }
         }
-        // return this.clients.find((client) => client._id == _id)
+        // return this.clients.find((client) => client._id.toString() == _id)
     }
 
 
@@ -73,6 +73,7 @@ class ClientWaweb extends Client {
             session: sessionData.session
         })
         this._id = sessionData._id
+        this.isReady=false
 
         this.initialize();
         this._listenAllEvents()
@@ -93,6 +94,8 @@ class ClientWaweb extends Client {
         });
 
         this.on('ready', () => {
+            this.isReady=true
+
             this.emitter.emit('ready', 'Whatsapp is ready!');
             this.emitter.emit('log', 'Whatsapp is ready!');
 

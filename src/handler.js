@@ -15,6 +15,9 @@ class Handler {
         let { _id, message, numbers } = req.body
 
         const client = this.manager.getClient(_id)
+        if (!client.isReady) {
+            return res.status(500).json({ message: `client is not ready` })
+        }
         for (let i = 0; i < numbers.length; i++) {
             const num = `${numbers[i]}@c.us`;
 
@@ -24,12 +27,7 @@ class Handler {
             }
 
             client.sendMessage(num, message)
-                .then(response => {
-                    console.log(response)
-                })
-                .catch(err => {
-                    console.log(err)
-                })
+
         }
         res.status(200).json({
             message: `called`
@@ -47,12 +45,15 @@ class Handler {
             return res.status(400).json({ errors: fileErrors.array() });
         }
 
-        const { sender_id, caption, numbers } = req.body
+        const { _id, caption, numbers } = req.body
+
         const file = req.files.file
 
 
-        const client = this.manager.getClient(sender_id)
-
+        const client = this.manager.getClient(_id)
+        if (!client.isReady) {
+            return res.status(500).json({ message: `client is not ready` })
+        }
         for (let i = 0; i < numbers.length; i++) {
             const num = `${numbers[i]}@c.us`;
 
@@ -61,13 +62,8 @@ class Handler {
                 continue
             }
 
-            this.clientWaweb.sendMedia(num, file, caption)
-                .then(response => {
-                    console.log(response)
-                })
-                .catch(err => {
-                    console.log(err)
-                })
+            client.sendMedia(num, file, caption)
+
         }
         res.status(200).json({
             message: `called`
