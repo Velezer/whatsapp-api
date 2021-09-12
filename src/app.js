@@ -32,20 +32,21 @@ io.on('connection', function (socket) {
   socket.emit('message', 'Connecting...');
 
   socket.on('create-session', async (data) => {
-    socket.emit('log', 'create-sessio...?');
+    socket.emit('log', 'create-session...?');
 
-
-    const sessionData = await SessionModel.findOne(data)
-    console.log(`sessionData: ${sessionData}`)
+    let sessionData = null
+    if (data && data !== {}) {
+      sessionData = await SessionModel.findOne(data)
+    }
 
     socket.emit('sessionData', sessionData);
 
-    let clientWaweb = new ClientWaweb(sessionData ? sessionData : null)
+    let clientWaweb = new ClientWaweb(sessionData)
     clientWaweb.setEmitter(socket)
 
     manager.pushClient(clientWaweb)
     // console.log(`manager.clients: ${manager.clients}`)
-    socket.emit('log', 'create-session...!!!!');
+    socket.emit('log', 'created-session...!!!!');
   })
 
 });

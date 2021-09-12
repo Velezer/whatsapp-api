@@ -2,6 +2,7 @@ const { Client, MessageMedia } = require('whatsapp-web.js')
 const qrcode = require('qrcode')
 const { SessionModel } = require('./model')
 
+
 class WaWebEmitter {
     /**
      * 
@@ -23,9 +24,7 @@ class WaWebEmitter {
 }
 
 class ManagerWaweb {
-    /**
-     * @todo choose client when send-message
-     */
+
     constructor() {
         this.clients = []
     }
@@ -36,7 +35,10 @@ class ManagerWaweb {
     pushClient(clientWaweb) {
         this.clients.push(clientWaweb)
     }
-
+    /**
+     * @param {string} _id
+      * @todo choose client when send-message
+      */
     getClient(_id) {
         for (let i = 0; i < this.clients.length; i++) {
             const client = this.clients[i];
@@ -70,10 +72,10 @@ class ClientWaweb extends Client {
                     // '--disable-gpu'
                 ],
             },
-            session: sessionData.session
+            session: sessionData ? sessionData.session : null
         })
-        this._id = sessionData._id
-        this.isReady=false
+        this._id = sessionData ? sessionData._id : null
+        this.isReady = false
 
         this.initialize();
         this._listenAllEvents()
@@ -93,23 +95,32 @@ class ClientWaweb extends Client {
             });
         });
 
-        this.on('ready', () => {
-            this.isReady=true
-
-            this.emitter.emit('ready', 'Whatsapp is ready!');
-            this.emitter.emit('log', 'Whatsapp is ready!');
-
-        });
-
         this.on('authenticated', async (session) => {
             this.emitter.emit('authenticated', 'Whatsapp is authenticated!');
             this.emitter.emit('log', 'Whatsapp is authenticated!');
+
+            const findRes = await SessionModel.findOne({
+                session: session
+            })
+            console.log(`find----------------------`, findRes)
+            const delRes = await SessionModel.deleteOne({
+                session: session
+            })
+            console.log(`del--------------------`, delRes)
 
             const sessionData = new SessionModel({ session })
             await sessionData.save()
             this.emitter.emit('log', `_id: ${sessionData._id}`)
             console.log(`AUTHENTICATED and session saved`)
             console.log(sessionData)
+        });
+
+        this.on('ready', () => {
+            this.isReady = true
+
+            this.emitter.emit('ready', 'Whatsapp is ready!');
+            this.emitter.emit('log', 'Whatsapp is ready!');
+
         });
 
         this.on('auth_failure', function () {
