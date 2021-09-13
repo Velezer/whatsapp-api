@@ -15,19 +15,20 @@ class Handler {
         const { _id, message, numbers } = req.body
 
         const client = this.manager.getClient(_id)
+        if (client.isDestroyed) {
+            this.manager.destroyClient(_id)
+            return res.status(500).json({ message: `client is disconnected` })
+        }
         if (!client.isReady) {
-            return res.status(500).json({ message: `client is not ready` })
+            return res.status(500).json({ message: `client is not ready. please, wait for a minute` })
         }
         for (let i = 0; i < numbers.length; i++) {
             const num = `${numbers[i]}@c.us`;
 
             let numberRegisteredWA = await client.isRegisteredUser(num)
-            if (!numberRegisteredWA) {
-                continue
+            if (numberRegisteredWA) {
+                client.sendMessage(num, message)
             }
-
-            client.sendMessage(num, message)
-
         }
         res.status(200).json({
             message: `called`
@@ -51,6 +52,10 @@ class Handler {
 
 
         const client = this.manager.getClient(_id)
+        if (client.isDestroyed) {
+            this.manager.destroyClient(_id)
+            return res.status(500).json({ message: `client is disconnected` })
+        }
         if (!client.isReady) {
             return res.status(500).json({ message: `client is not ready. please, wait for a minute` })
         }
@@ -59,11 +64,8 @@ class Handler {
 
             let numberRegisteredWA = await client.isRegisteredUser(num)
             if (!numberRegisteredWA) {
-                continue
+                client.sendMedia(num, file, caption)
             }
-
-            client.sendMedia(num, file, caption)
-
         }
         res.status(200).json({
             message: `called`

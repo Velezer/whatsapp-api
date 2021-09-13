@@ -31,22 +31,41 @@ class ManagerWaweb {
     /**
      * 
      * @param {*} clientWaweb 
+     * @todo add client
      */
     pushClient(clientWaweb) {
         this.clients.push(clientWaweb)
     }
     /**
      * @param {string} _id
-      * @todo choose client when send-message
-      */
+     * @todo choose client when send-message
+     * @returns client
+     */
     getClient(_id) {
-        for (let i = 0; i < this.clients.length; i++) {
-            const client = this.clients[i];
-            if (client._id.toString() == _id) {
-                return client
-            }
-        }
-        // return this.clients.find((client) => client._id.toString() == _id)
+        // for (let i = 0; i < this.clients.length; i++) {
+        //     const client = this.clients[i];
+        //     if (client._id.toString() == _id) {
+        //         return client
+        //     }
+        // }
+        return this.clients.find((client) => client._id.toString() == _id)
+    }
+    /**
+     * 
+     * @param {string} _id 
+     * @returns client's index
+     */
+    getClientIndex(_id) {
+        return this.clients.findIndex((client) => client._id.toString() == _id)
+    }
+    /**
+     * 
+     * @param {String} _id 
+     * @todo destroy client
+     * @returns client
+     */
+    destroyClient(_id) {
+        return this.clients.splice(this.getClientIndex(_id), 1)
     }
 
 
@@ -76,9 +95,9 @@ class ClientWaweb extends Client {
         })
         this._id = sessionData ? sessionData._id : null
         this.isReady = false
+        this.isDestroyed = false
 
         this.initialize();
-
     }
 
     setEmitter(socket) {
@@ -121,13 +140,15 @@ class ClientWaweb extends Client {
             this.emitter.emit('log', 'Auth failure, restarting...');
         });
 
-        this.on('disconnected', async () => {
+        this.on('disconnected', async (reason) => {
             this.emitter.emit('disconnected', 'Whatsapp is disconnected!');
             this.emitter.emit('log', 'Whatsapp is disconnected!');
 
             const res = await SessionModel.deleteOne({ _id: this._id })
             console.log('delete sesseion:', res)
+            console.log('disconnected:', reason)
             this.destroy();
+            this.isDestroyed = true
         });
     }
     /**
