@@ -18,7 +18,7 @@ class Handler {
 
         let client = manager.getClient(_id)
         if (client == undefined) {
-            return res.status(500).json({ message: `create a client first` });
+            return res.status(500).json({ message: `no client with _id ${_id}. create a client first` });
         } else {
             if (client.isDestroyed) {
                 manager.destroyClient(_id)
@@ -62,7 +62,7 @@ class Handler {
 
         let client = manager.getClient(_id)
         if (client == undefined) {
-            return res.status(500).json({ message: `create a client first` });
+            return res.status(500).json({ message: `no client with _id ${_id}. create a client first` });
         } else {
             if (client.isDestroyed) {
                 manager.destroyClient(_id)
