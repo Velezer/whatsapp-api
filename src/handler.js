@@ -7,6 +7,8 @@ class Handler {
     }
 
     async sendMessages(req, res) {
+        console.log(`sendMessages`)
+
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(400).json({ errors: errors.array() });
@@ -43,6 +45,7 @@ class Handler {
     }
 
     async sendMedia(req, res) {
+        console.log(`sendMedia`)
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(400).json({ errors: errors.array() });
