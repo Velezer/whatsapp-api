@@ -78,12 +78,12 @@ class ClientWaweb extends Client {
         this.isReady = false
 
         this.initialize();
-        this._listenAllEvents()
 
     }
 
     setEmitter(socket) {
         this.emitter = new WaWebEmitter(socket)
+        this._listenAllEvents()
     }
 
     _listenAllEvents() {
@@ -99,20 +99,13 @@ class ClientWaweb extends Client {
             this.emitter.emit('authenticated', 'Whatsapp is authenticated!');
             this.emitter.emit('log', 'Whatsapp is authenticated!');
 
-            const findRes = await SessionModel.findOne({
-                session: session
-            })
-            console.log(`find----------------------`, findRes)
-            const delRes = await SessionModel.deleteOne({
-                session: session
-            })
-            console.log(`del--------------------`, delRes)
-
-            const sessionData = new SessionModel({ session })
-            await sessionData.save()
-            this.emitter.emit('log', `_id: ${sessionData._id}`)
+            if (this._id !== null) {
+                const sessionData = new SessionModel({ session })
+                await sessionData.save()
+                this.emitter.emit('log', `_id: ${sessionData._id}`)
+                console.log(sessionData)
+            }
             console.log(`AUTHENTICATED and session saved`)
-            console.log(sessionData)
         });
 
         this.on('ready', () => {

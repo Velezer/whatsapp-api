@@ -35,7 +35,7 @@ io.on('connection', function (socket) {
     socket.emit('log', 'create-session...?');
 
     let sessionData = null
-    if (data && data !== {}) {
+    if (data && data != {}) {
       sessionData = await SessionModel.findOne(data)
     }
 
@@ -65,8 +65,6 @@ const handler = new Handler(manager)
 
 app.post('/api/send-messages', validateReqSendMessages, (req, res) => handler.sendMessages(req, res))
 app.post('/api/send-media', validateReqSendMedia, (req, res) => handler.sendMedia(req, res))
-// app.post('/api/client', validateReqSendMedia, (req, res) => handler.sendMedia(req, res))
-
 
 
 let port = process.env.PORT || 5555
