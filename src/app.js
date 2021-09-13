@@ -45,8 +45,6 @@ io.on('connection', function (socket) {
     }
     console.log('sessionData: ', sessionData)
 
-    socket.emit('_id', sessionData._id);
-
     const clientWaweb = new ClientWaweb(sessionData)
     clientWaweb.setEmitter(socket)
 
