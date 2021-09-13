@@ -32,19 +32,15 @@ io.on('connection', function (socket) {
   socket.emit('message', 'Connecting...');
 
   socket.on('create-session', async (_id) => {
-    socket.emit('log', 'create-session...?');
+    socket.emit('log', `create-session with id: ${_id}`);
 
     let sessionData = null
-    socket.emit('log', `send _id: ${_id}`);
-    console.log('send _id: ', _id)
     if (_id) {
       console.log(`find session`)
       sessionData = await SessionModel.findOne({ _id })
     }
-    console.log('sessionData: ', sessionData)
 
     manager.createClient(sessionData, socket)
-    socket.emit('log', 'created-session...!!!!');
   })
 
 });

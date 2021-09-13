@@ -28,6 +28,12 @@ class ManagerWaweb {
     constructor() {
         this.clients = []
     }
+    /**
+     * 
+     * @param {*} sessionData 
+     * @param {*} socket 
+     * @todo create client
+     */
     createClient(sessionData, socket) {
         const clientWaweb = new ClientWaweb(sessionData)
         clientWaweb.setEmitter(socket)
