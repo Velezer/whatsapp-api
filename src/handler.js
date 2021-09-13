@@ -3,11 +3,8 @@ const { ImageFileuploadValidationResult } = require('./validator')
 const { manager } = require('./client-waweb')
 
 class Handler {
-    constructor() {
-        this.manager = manager
-    }
 
-    async sendMessage(req, res) {
+    static async sendMessage(req, res) {
         console.log(`sendMessage`)
 
         const errors = validationResult(req);
@@ -19,12 +16,12 @@ class Handler {
 
         const { _id, message, numbers } = req.body
 
-        let client = this.manager.getClient(_id)
+        let client = manager.getClient(_id)
         if (client == undefined) {
             return res.status(500).json({ message: `create a client first` });
         } else {
             if (client.isDestroyed) {
-                this.manager.destroyClient(_id)
+                manager.destroyClient(_id)
                 return res.status(500).json({ message: `client is disconnected` })
             }
             if (!client.isReady) {
@@ -44,7 +41,7 @@ class Handler {
         });
     }
 
-    async sendMedia(req, res) {
+    static async sendMedia(req, res) {
         console.log(`sendMedia`)
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
@@ -62,12 +59,12 @@ class Handler {
 
         const file = req.files.file
 
-        let client = this.manager.getClient(_id)
+        let client = manager.getClient(_id)
         if (client == undefined) {
             return res.status(500).json({ message: `create a client first` });
         } else {
             if (client.isDestroyed) {
-                this.manager.destroyClient(_id)
+                manager.destroyClient(_id)
                 return res.status(500).json({ message: `client is disconnected` })
             }
             if (!client.isReady) {

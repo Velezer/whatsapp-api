@@ -1,5 +1,5 @@
-const express = require('express')
 require('./db')
+const express = require('express')
 const { manager } = require('./client-waweb')
 const Handler = require('./handler')
 const http = require('http');
@@ -51,11 +51,9 @@ app.get('/', (req, res) => {
   });
 })
 
-//  next  todo  make  it  static
-const handler = new Handler()
 
-app.post('/api/send-message', validateReqSendMessages, (req, res) => handler.sendMessage(req, res))
-app.post('/api/send-media', validateReqSendMedia, (req, res) => handler.sendMedia(req, res))
+app.post('/api/send-message', validateReqSendMessages, (req, res) => Handler.sendMessage(req, res))
+app.post('/api/send-media', validateReqSendMedia, (req, res) => Handler.sendMedia(req, res))
 
 
 let port = process.env.PORT || 5555
