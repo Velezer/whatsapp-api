@@ -5,15 +5,12 @@ const { SessionModel } = require('./model')
 
 class WaWebEmitter {
     /**
-     * 
-     * @param {*} socket 
-     * 
+     * @param {*} socket
      */
     constructor(socket) {
         this.socket = socket
     }
     /**
-     * 
      * @param {string} eventName 
      * @param {*} data 
      * @todo emit event to frontend client
@@ -29,7 +26,6 @@ class ManagerWaweb {
         this.clients = []
     }
     /**
-     * 
      * @param {string} _id 
      * @returns sessionData
      */
@@ -42,7 +38,6 @@ class ManagerWaweb {
         return sessionData
     }
     /**
-     * 
      * @param {*} sessionData 
      * @todo create client
      * @returns client
@@ -52,7 +47,6 @@ class ManagerWaweb {
     }
 
     /**
-     * 
      * @param {*} clientWaweb 
      * @todo add client
      */
@@ -75,10 +69,13 @@ class ManagerWaweb {
                 return client
             }
         }
-        // return this.clients.find((client) => client._id.toString() == _id)
+        // return this.clients.find((client) => {
+        //     if (!client._id == null) {
+        //         return client._id.toString() == _id
+        //     }
+        // })
     }
     /**
-     * 
      * @param {string} _id 
      * @returns client's index
      */
@@ -86,7 +83,6 @@ class ManagerWaweb {
         return this.clients.findIndex((client) => client._id.toString() == _id)
     }
     /**
-     * 
      * @param {String} _id 
      * @todo destroy client
      * @returns client
@@ -129,7 +125,6 @@ class ClientWaweb extends Client {
     }
 
     /**
-     * 
      * @param {*} socket 
      */
     setEmitter(socket) {
@@ -191,25 +186,23 @@ class ClientWaweb extends Client {
         });
     }
     /**
-     * 
      * @param {string} number 
      * @param {string} message 
-     * @returns 
+     * @todo send message
      */
     sendMessage(number, message) {
-        return super.sendMessage(number, message)
+        super.sendMessage(number, message)
     }
     /**
-     * 
      * @param {string} number 
      * @param {*} file 
      * @param {string} caption 
-     * @returns 
+     * @todo send media
      */
     sendMedia(number, file, caption) {
         const base64Data = file.data.toString('base64')
         const media = new MessageMedia(file.mimetype, base64Data, file.name)
-        return super.sendMessage(number, media, { caption: caption })
+        super.sendMessage(number, media, { caption: caption })
     }
 
 }
