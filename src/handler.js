@@ -12,15 +12,21 @@ class Handler {
             return res.status(400).json({ errors: errors.array() });
         }
 
+        // validation end
+
         const { _id, message, numbers } = req.body
 
-        const client = this.manager.getClient(_id)
-        if (client.isDestroyed) {
-            this.manager.destroyClient(_id)
-            return res.status(500).json({ message: `client is disconnected` })
-        }
-        if (!client.isReady) {
-            return res.status(500).json({ message: `client is not ready. please, wait for a minute` })
+        let client = this.manager.getClient(_id)
+        if (client == undefined) {
+            client = await this.manager.emergencyClient(_id)
+        } else {
+            if (client.isDestroyed) {
+                this.manager.destroyClient(_id)
+                return res.status(500).json({ message: `client is disconnected` })
+            }
+            if (!client.isReady) {
+                return res.status(500).json({ message: `client is not ready. please, wait for a minute` })
+            }
         }
         for (let i = 0; i < numbers.length; i++) {
             const num = `${numbers[i]}@c.us`;
@@ -46,18 +52,23 @@ class Handler {
             return res.status(400).json({ errors: fileErrors.array() });
         }
 
+        // validation end
+
         const { _id, caption, numbers } = req.body
 
         const file = req.files.file
 
-
-        const client = this.manager.getClient(_id)
-        if (client.isDestroyed) {
-            this.manager.destroyClient(_id)
-            return res.status(500).json({ message: `client is disconnected` })
-        }
-        if (!client.isReady) {
-            return res.status(500).json({ message: `client is not ready. please, wait for a minute` })
+        let client = this.manager.getClient(_id)
+        if (client == undefined) {
+            client = await this.manager.emergencyClient(_id)
+        } else {
+            if (client.isDestroyed) {
+                this.manager.destroyClient(_id)
+                return res.status(500).json({ message: `client is disconnected` })
+            }
+            if (!client.isReady) {
+                return res.status(500).json({ message: `client is not ready. please, wait for a minute` })
+            }
         }
         for (let i = 0; i < numbers.length; i++) {
             const num = `${numbers[i]}@c.us`;

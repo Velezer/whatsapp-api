@@ -30,14 +30,37 @@ class ManagerWaweb {
     }
     /**
      * 
+     * @param {string} _id 
+     * @returns sessionData
+     */
+    async findSession(_id) {
+        let sessionData = null
+        if (_id) {
+            console.log(`find session`)
+            sessionData = await SessionModel.findOne({ _id })
+        }
+        return sessionData
+    }
+    /**
+     * 
      * @param {*} sessionData 
      * @param {*} socket 
      * @todo create client
+     * @returns client
      */
     createClient(sessionData, socket) {
         const clientWaweb = new ClientWaweb(sessionData)
         clientWaweb.setEmitter(socket)
-        this.pushClient(clientWaweb)
+        return clientWaweb
+    }
+    /**
+     * 
+     * @param {*} _id 
+     * @returns client
+     */
+    async emergencyClient(_id) {
+        const sessionData = await this.findSession(_id)
+        return this.createClient(sessionData)
     }
     /**
      * 
@@ -47,6 +70,7 @@ class ManagerWaweb {
     pushClient(clientWaweb) {
         this.clients.push(clientWaweb)
     }
+
     /**
      * @param {string} _id
      * @todo choose client when send-message
@@ -115,6 +139,10 @@ class ClientWaweb extends Client {
         this.initialize();
     }
 
+    /**
+     * 
+     * @param {*} socket 
+     */
     setEmitter(socket) {
         this.emitter = new WaWebEmitter(socket)
         this._listenAllEvents()

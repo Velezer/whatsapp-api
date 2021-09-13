@@ -1,6 +1,5 @@
 const express = require('express')
 require('./db')
-const { SessionModel } = require('./model')
 const { manager } = require('./client-waweb')
 const Handler = require('./handler')
 const http = require('http');
@@ -28,19 +27,16 @@ app.use(fileUpload())
 app.use(cors({ credentials: true, origin: '*' }));
 
 
+
 io.on('connection', function (socket) {
   socket.emit('message', 'Connecting...');
 
   socket.on('create-session', async (_id) => {
     socket.emit('log', `create-session with id: ${_id}`);
 
-    let sessionData = null
-    if (_id) {
-      console.log(`find session`)
-      sessionData = await SessionModel.findOne({ _id })
-    }
-
-    manager.createClient(sessionData, socket)
+    const sessionData = await manager.findSession(_id)
+    const client = manager.createClient(sessionData, socket)
+    manager.pushClient(client)
   })
 
 });
