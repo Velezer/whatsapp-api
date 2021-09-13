@@ -40,8 +40,9 @@ io.on('connection', function (socket) {
     if (data && data != {}) {
       sessionData = await SessionModel.findOne(data)
     }
+    console.log('sessionData: ', sessionData)
 
-    socket.emit('sessionData', sessionData);
+    socket.emit('_id', sessionData._id);
 
     const clientWaweb = new ClientWaweb(sessionData)
     clientWaweb.setEmitter(socket)
