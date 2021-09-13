@@ -119,6 +119,7 @@ class ClientWaweb extends Client {
             this.emitter.emit('authenticated', 'Whatsapp is authenticated!');
             this.emitter.emit('log', 'Whatsapp is authenticated!');
 
+            console.log(`created with _id=${this._id}`)
             if (this._id == null) {
                 const sessionData = new SessionModel({ session })
                 await sessionData.save()
