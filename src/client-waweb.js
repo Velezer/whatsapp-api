@@ -77,6 +77,7 @@ class ClientWaweb extends Client {
 
     constructor(sessionData) {
         super({
+            restartOnAuthFail: true,
             puppeteer: {
                 // executablePath: `C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe`,
                 headless: true,
@@ -148,6 +149,8 @@ class ClientWaweb extends Client {
             console.log('delete sesseion:', res)
             console.log('disconnected:', reason)
             this.destroy();
+            this.initialize();
+
             this.isDestroyed = true
         });
     }
