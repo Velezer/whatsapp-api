@@ -42,13 +42,14 @@ class ManagerWaweb {
      * @returns client
      */
     getClient(_id) {
-        // for (let i = 0; i < this.clients.length; i++) {
-        //     const client = this.clients[i];
-        //     if (client._id.toString() == _id) {
-        //         return client
-        //     }
-        // }
-        return this.clients.find((client) => client._id.toString() == _id)
+        console.log(`clien len is `, this.clients.length)
+        for (let i = 0; i < this.clients.length; i++) {
+            const client = this.clients[i];
+            if (client._id.toString() == _id) {
+                return client
+            }
+        }
+        // return this.clients.find((client) => client._id.toString() == _id)
     }
     /**
      * 
