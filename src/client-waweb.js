@@ -133,7 +133,10 @@ class ClientWaweb extends Client {
     }
 
     _listenAllEvents() {
-        this.on('qr', (qr) => {
+        this.on('qr', async (qr) => {
+            const state = await this.getState()
+            console.log(`qr______${state}`)
+
             console.log('QR RECEIVED', qr);
             qrcode.toDataURL(qr, (err, url) => {
                 this.emitter.emit('qr', url);
@@ -142,6 +145,9 @@ class ClientWaweb extends Client {
         });
 
         this.on('authenticated', async (session) => {
+            const state = await this.getState()
+            console.log(`authenticated______${state}`)
+
             this.emitter.emit('authenticated', 'Whatsapp is authenticated!');
             this.emitter.emit('log', 'Whatsapp is authenticated!');
 
@@ -155,7 +161,10 @@ class ClientWaweb extends Client {
             console.log(`AUTHENTICATED with _id=${this._id}`)
         });
 
-        this.on('ready', () => {
+        this.on('ready', async () => {
+            const state = await this.getState()
+            console.log(`ready______${state}`)
+
             this.isReady = true
 
             this.emitter.emit('ready', 'Whatsapp is ready!');
@@ -164,6 +173,9 @@ class ClientWaweb extends Client {
         });
 
         this.on('auth_failure', async function () {
+            const state = await this.getState()
+            console.log(`auth_failure______${state}`)
+
             this.emitter.emit('auth_failure', 'Auth failure, restarting...');
             this.emitter.emit('log', 'Auth failure, restarting...');
             const res = await SessionModel.deleteOne({ _id: this._id })
@@ -173,7 +185,11 @@ class ClientWaweb extends Client {
             }
         });
 
-        this.on('disconnected', (reason) => {
+        this.on('disconnected', async (reason) => {
+            this.info
+            const state = await this.getState()
+            console.log(`disconnected______${state}`)
+
             this.emitter.emit('disconnected', 'Whatsapp is disconnected!');
             this.emitter.emit('log', 'Whatsapp is disconnected!');
 
