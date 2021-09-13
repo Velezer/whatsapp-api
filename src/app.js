@@ -35,7 +35,8 @@ io.on('connection', function (socket) {
     socket.emit('log', `create-session with id: ${_id}`);
 
     const sessionData = await manager.findSession(_id)
-    const client = manager.createClient(sessionData, socket)
+    const client = manager.createClient(sessionData)
+    client.setEmitter(socket)
     manager.pushClient(client)
   })
 

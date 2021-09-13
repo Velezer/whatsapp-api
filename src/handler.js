@@ -18,7 +18,8 @@ class Handler {
 
         let client = this.manager.getClient(_id)
         if (client == undefined) {
-            client = await this.manager.emergencyClient(_id)
+            const sessionData = await this.manager.findSession(_id)
+            client = this.manager.createClient(sessionData)
         } else {
             if (client.isDestroyed) {
                 this.manager.destroyClient(_id)
@@ -60,7 +61,8 @@ class Handler {
 
         let client = this.manager.getClient(_id)
         if (client == undefined) {
-            client = await this.manager.emergencyClient(_id)
+            const sessionData = await this.manager.findSession(_id)
+            client = this.manager.createClient(sessionData)
         } else {
             if (client.isDestroyed) {
                 this.manager.destroyClient(_id)

@@ -44,24 +44,13 @@ class ManagerWaweb {
     /**
      * 
      * @param {*} sessionData 
-     * @param {*} socket 
      * @todo create client
      * @returns client
      */
-    createClient(sessionData, socket) {
-        const clientWaweb = new ClientWaweb(sessionData)
-        clientWaweb.setEmitter(socket)
-        return clientWaweb
+    createClient(sessionData) {
+        return new ClientWaweb(sessionData)
     }
-    /**
-     * 
-     * @param {*} _id 
-     * @returns client
-     */
-    async emergencyClient(_id) {
-        const sessionData = await this.findSession(_id)
-        return this.createClient(sessionData)
-    }
+
     /**
      * 
      * @param {*} clientWaweb 
