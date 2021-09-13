@@ -37,6 +37,7 @@ class Handler {
             }
         }
         res.status(200).json({
+            _id: client._id,
             message: `send-message called`
         });
     }
@@ -80,6 +81,7 @@ class Handler {
             }
         }
         res.status(200).json({
+            _id: client._id,
             message: `send-media called`
         });
     }
