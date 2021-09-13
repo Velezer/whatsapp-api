@@ -51,10 +51,10 @@ app.get('/', (req, res) => {
   });
 })
 
+//  next  todo  make  it  static
+const handler = new Handler()
 
-const handler = new Handler(manager)
-
-app.post('/api/send-message', validateReqSendMessages, (req, res) => handler.sendMessages(req, res))
+app.post('/api/send-message', validateReqSendMessages, (req, res) => handler.sendMessage(req, res))
 app.post('/api/send-media', validateReqSendMedia, (req, res) => handler.sendMedia(req, res))
 
 

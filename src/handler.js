@@ -1,13 +1,14 @@
 const { validationResult } = require('express-validator');
 const { ImageFileuploadValidationResult } = require('./validator')
+const { manager } = require('./client-waweb')
 
 class Handler {
-    constructor(manager) {
+    constructor() {
         this.manager = manager
     }
 
-    async sendMessages(req, res) {
-        console.log(`sendMessages`)
+    async sendMessage(req, res) {
+        console.log(`sendMessage`)
 
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
@@ -20,8 +21,7 @@ class Handler {
 
         let client = this.manager.getClient(_id)
         if (client == undefined) {
-            const sessionData = await this.manager.findSession(_id)
-            client = this.manager.createClient(sessionData)
+            return res.status(500).json({ message: `create a client first` });
         } else {
             if (client.isDestroyed) {
                 this.manager.destroyClient(_id)
@@ -40,7 +40,7 @@ class Handler {
             }
         }
         res.status(200).json({
-            message: `called`
+            message: `send-message called`
         });
     }
 
@@ -64,8 +64,7 @@ class Handler {
 
         let client = this.manager.getClient(_id)
         if (client == undefined) {
-            const sessionData = await this.manager.findSession(_id)
-            client = this.manager.createClient(sessionData)
+            return res.status(500).json({ message: `create a client first` });
         } else {
             if (client.isDestroyed) {
                 this.manager.destroyClient(_id)
@@ -84,7 +83,7 @@ class Handler {
             }
         }
         res.status(200).json({
-            message: `called`
+            message: `send-media called`
         });
     }
 }
