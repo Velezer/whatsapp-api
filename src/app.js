@@ -37,7 +37,8 @@ io.on('connection', function (socket) {
     let sessionData = null
     socket.emit('log', 'send data: ', data);
     console.log('data: ', data)
-    if (data && data != {}) {
+    if (data && data !== {} && data !== [] && data !== ``) {
+      console.log(`find session`)
       sessionData = await SessionModel.findOne(data)
     }
     console.log('sessionData: ', sessionData)
