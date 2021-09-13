@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 const process = require('process')
 require('dotenv').config()
 
-mongoose.connect(process.env.DB_URI_LOCAL, { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(process.env.DB_URI_CLOUD, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(async () => {
         console.log(`connected db`)
         // const { SessionModel } = require('./model')

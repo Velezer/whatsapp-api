@@ -45,7 +45,6 @@ io.on('connection', function (socket) {
     clientWaweb.setEmitter(socket)
 
     manager.pushClient(clientWaweb)
-    // console.log(`manager.clients: ${manager.clients}`)
     socket.emit('log', 'created-session...!!!!');
   })
 

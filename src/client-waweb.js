@@ -63,13 +63,13 @@ class ClientWaweb extends Client {
                 headless: false,
                 args: [
                     '--no-sandbox',
-                    // '--disable-setuid-sandbox',
-                    // '--disable-dev-shm-usage',
+                    '--disable-setuid-sandbox',
+                    '--disable-dev-shm-usage',
                     '--disable-accelerated-2d-canvas',
-                    // '--no-first-run',
-                    // '--no-zygote',
-                    // //   '--single-process', // <- this one doesn't works in Windows
-                    // '--disable-gpu'
+                    '--no-first-run',
+                    '--no-zygote',
+                      '--single-process', // <- this one doesn't works in Windows
+                    '--disable-gpu'
                 ],
             },
             session: sessionData ? sessionData.session : null
@@ -99,13 +99,13 @@ class ClientWaweb extends Client {
             this.emitter.emit('authenticated', 'Whatsapp is authenticated!');
             this.emitter.emit('log', 'Whatsapp is authenticated!');
 
-            if (this._id !== null) {
+            if (this._id == null) {
                 const sessionData = new SessionModel({ session })
                 await sessionData.save()
                 this.emitter.emit('log', `_id: ${sessionData._id}`)
                 console.log(sessionData)
             }
-            console.log(`AUTHENTICATED and session saved`)
+            console.log(`AUTHENTICATED`)
         });
 
         this.on('ready', () => {
@@ -126,7 +126,7 @@ class ClientWaweb extends Client {
             this.emitter.emit('log', 'Whatsapp is disconnected!');
 
             const res = await SessionModel.deleteOne({ _id: this._id })
-            console.log(res)
+            console.log('delete sesseion:', res)
             this.destroy();
         });
     }
