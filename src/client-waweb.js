@@ -7,7 +7,6 @@ class WaWebEmitter {
     /**
      * 
      * @param {*} socket 
-     * @todo emit event to frontend client
      * 
      */
     constructor(socket) {
@@ -17,6 +16,7 @@ class WaWebEmitter {
      * 
      * @param {string} eventName 
      * @param {*} data 
+     * @todo emit event to frontend client
      */
     emit(eventName, data) {
         this.socket.emit(`${eventName}`, data);
