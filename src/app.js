@@ -35,7 +35,7 @@ io.on('connection', function (socket) {
     socket.emit('log', 'create-session...?');
 
     let sessionData = null
-    socket.emit('log', 'send _id: ', _id);
+    socket.emit('log', `send _id: ${_id}`);
     console.log('send _id: ', _id)
     if (_id) {
       console.log(`find session`)
