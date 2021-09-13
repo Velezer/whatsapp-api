@@ -47,11 +47,12 @@ class ManagerWaweb {
      * @returns client
      */
     getClient(_id) {
-        console.log(`clien len is `, this.clients.length)
+        console.log(`clients.length is `, this.clients.length)
         for (let i = 0; i < this.clients.length; i++) {
             const client = this.clients[i];
             if (client._id == null) { continue }
             if (client._id.toString() == _id) {
+                console.log(`client selected: `, client._id.toString())
                 return client
             }
         }
