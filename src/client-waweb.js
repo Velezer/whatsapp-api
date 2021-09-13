@@ -28,6 +28,11 @@ class ManagerWaweb {
     constructor() {
         this.clients = []
     }
+    createClient(sessionData, socket) {
+        const clientWaweb = new ClientWaweb(sessionData)
+        clientWaweb.setEmitter(socket)
+        this.pushClient(clientWaweb)
+    }
     /**
      * 
      * @param {*} clientWaweb 
@@ -45,6 +50,7 @@ class ManagerWaweb {
         console.log(`clien len is `, this.clients.length)
         for (let i = 0; i < this.clients.length; i++) {
             const client = this.clients[i];
+            if (client._id == null) { continue }
             if (client._id.toString() == _id) {
                 return client
             }

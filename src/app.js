@@ -1,7 +1,7 @@
 const express = require('express')
 require('./db')
 const { SessionModel } = require('./model')
-const { ClientWaweb, manager } = require('./client-waweb')
+const { manager } = require('./client-waweb')
 const Handler = require('./handler')
 const http = require('http');
 const socketIO = require('socket.io');
@@ -43,10 +43,7 @@ io.on('connection', function (socket) {
     }
     console.log('sessionData: ', sessionData)
 
-    const clientWaweb = new ClientWaweb(sessionData)
-    clientWaweb.setEmitter(socket)
-
-    manager.pushClient(clientWaweb)
+    manager.createClient(sessionData, socket)
     socket.emit('log', 'created-session...!!!!');
   })
 
@@ -64,7 +61,7 @@ app.get('/', (req, res) => {
 
 const handler = new Handler(manager)
 
-app.post('/api/send-messages', validateReqSendMessages, (req, res) => handler.sendMessages(req, res))
+app.post('/api/send-message', validateReqSendMessages, (req, res) => handler.sendMessages(req, res))
 app.post('/api/send-media', validateReqSendMedia, (req, res) => handler.sendMedia(req, res))
 
 
