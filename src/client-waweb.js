@@ -134,9 +134,6 @@ class ClientWaweb extends Client {
 
     _listenAllEvents() {
         this.on('qr', async (qr) => {
-            const state = await this.getState()
-            console.log(`qr______${state}`)
-
             console.log('QR RECEIVED', qr);
             qrcode.toDataURL(qr, (err, url) => {
                 this.emitter.emit('qr', url);
