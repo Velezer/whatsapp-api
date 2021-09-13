@@ -31,17 +31,15 @@ app.use(cors({ credentials: true, origin: '*' }));
 io.on('connection', function (socket) {
   socket.emit('message', 'Connecting...');
 
-  socket.on('create-session', async (data) => {
+  socket.on('create-session', async (_id) => {
     socket.emit('log', 'create-session...?');
 
     let sessionData = null
-    socket.emit('log', 'send data: ', data);
-    console.log('data: ', data)
-    // when data = {}
-    // data === {} is false
-    if (data && data === {}) {
+    socket.emit('log', 'send _id: ', _id);
+    console.log('send _id: ', _id)
+    if (_id) {
       console.log(`find session`)
-      sessionData = await SessionModel.findOne(data)
+      sessionData = await SessionModel.findOne({ _id })
     }
     console.log('sessionData: ', sessionData)
 
