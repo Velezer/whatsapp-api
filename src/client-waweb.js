@@ -152,9 +152,7 @@ class ClientWaweb extends Client {
                 console.log(sessionData)
                 this._id = sessionData._id
             }
-            console.log(`created with _id=${this._id}`)
-
-            console.log(`AUTHENTICATED`)
+            console.log(`AUTHENTICATED with _id=${this._id}`)
         });
 
         this.on('ready', () => {
