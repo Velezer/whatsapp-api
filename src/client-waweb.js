@@ -126,13 +126,15 @@ class ClientWaweb extends Client {
             this.emitter.emit('authenticated', 'Whatsapp is authenticated!');
             this.emitter.emit('log', 'Whatsapp is authenticated!');
 
-            console.log(`created with _id=${this._id}`)
             if (this._id == null) {
                 const sessionData = new SessionModel({ session })
                 await sessionData.save()
                 this.emitter.emit('log', `_id: ${sessionData._id}`)
                 console.log(sessionData)
+                this._id = sessionData._id
             }
+            console.log(`created with _id=${this._id}`)
+
             console.log(`AUTHENTICATED`)
         });
 
@@ -149,6 +151,9 @@ class ClientWaweb extends Client {
             this.emitter.emit('log', 'Auth failure, restarting...');
             const res = await SessionModel.deleteOne({ _id: this._id })
             console.log('delete session:', res)
+            if (res.deletedCount > 0) {
+                this._id = null
+            }
         });
 
         this.on('disconnected', (reason) => {
