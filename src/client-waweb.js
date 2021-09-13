@@ -138,20 +138,19 @@ class ClientWaweb extends Client {
 
         });
 
-        this.on('auth_failure', function () {
+        this.on('auth_failure', async function () {
             this.emitter.emit('auth_failure', 'Auth failure, restarting...');
             this.emitter.emit('log', 'Auth failure, restarting...');
+            const res = await SessionModel.deleteOne({ _id: this._id })
+            console.log('delete session:', res)
         });
 
-        this.on('disconnected', async (reason) => {
+        this.on('disconnected', (reason) => {
             this.emitter.emit('disconnected', 'Whatsapp is disconnected!');
             this.emitter.emit('log', 'Whatsapp is disconnected!');
 
-            const res = await SessionModel.deleteOne({ _id: this._id })
-            console.log('delete sesseion:', res)
             console.log('disconnected:', reason)
             this.destroy();
-            this.initialize();
 
             this.isDestroyed = true
         });
