@@ -30,9 +30,10 @@ class ManagerWaweb {
      * @returns client
      */
     getClient(_id) {
-        console.log(`clients.length is `, this.clients.length)
+        console.log(`manager.getClient  clients.length is `, this.clients.length)
         for (let i = 0; i < this.clients.length; i++) {
             const client = this.clients[i];
+            console.log(client._id)
             if (client._id == null) { continue }
             if (client._id.toString() == _id) {
                 console.log(`client selected: `, client._id.toString())
@@ -50,8 +51,9 @@ class ManagerWaweb {
      * @returns client's index
      */
     getClientIndex(_id) {
-        console.log(`manager clients is ${this.clients.length}`)
+        console.log(`manager.getClientIndex clients.length is ${this.clients.length}`)
         return this.clients.findIndex((client) => {
+            console.log(client._id)
             if (!client._id == null) {
                 return client._id.toString() == _id
             }
