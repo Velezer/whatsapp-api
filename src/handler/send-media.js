@@ -1,5 +1,5 @@
 const { validationResult } = require('express-validator');
-const { Helper } = require('../helper')
+const { Helper } = require('./helper')
 const { ImageFileuploadValidationResult } = require('../validation/validator')
 
 

@@ -1,6 +1,6 @@
 const { Client, MessageMedia } = require('whatsapp-web.js')
 const qrcode = require('qrcode')
-const { SessionModel } = require('./model')
+const { SessionModel } = require('../model/session')
 
 
 class WaWebEmitter {
@@ -127,6 +127,13 @@ class ClientWaweb extends Client {
         const base64Data = file.data.toString('base64')
         const media = new MessageMedia(file.mimetype, base64Data, file.name)
         return await super.sendMessage(number, media, { caption: caption })
+    }
+    /**
+     * 
+     * @returns Promise<Contact[]>
+     */
+    async getContacts() {
+        return await super.getContacts()
     }
 
 }

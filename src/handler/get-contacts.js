@@ -1,5 +1,5 @@
 const { validationResult } = require('express-validator');
-const { Helper } = require('../helper')
+const { Helper } = require('./helper')
 
 
 module.exports = async (req, res) => {
@@ -19,14 +19,18 @@ module.exports = async (req, res) => {
     }
 
     let contacts = await client.getContacts()
-    // contacts.forEach(contact => {
-    //     const keys = Object.keys(contact)
-    //     keys.forEach(key => {
-    //         if (key !== `number` && key !== `name`) {
-    //             delete contact[key] // delete unused property
-    //         }
-    //     });
-    // })
+    contacts.forEach(contact => {
+        const keys = Object.keys(contact)
+        keys.forEach(key => {
+            if (key !== `number` &&
+                key !== `name` &&
+                key !== `pushname` &&
+                key !== `shortName` &&
+                key !== `verifiedName`) {
+                delete contact[key] // delete unused property
+            }
+        });
+    })
     contacts = contacts.filter(contact => contact.number !== null)
 
     res.status(200).json({

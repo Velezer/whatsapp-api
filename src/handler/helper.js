@@ -1,11 +1,11 @@
-const { manager } = require('./manager-waweb')
+const { manager } = require('../waweb/manager')
 
 
 class Helper {
     /**
      * 
      * @param {string} _id 
-     * @returns 
+     * @returns {Object} {client, err}
      */
     static getClient(_id) {
         const client = manager.getClient(_id)
