@@ -1,4 +1,4 @@
-const { ClientWaweb } = require('./client-waweb')
+const { ClientWaweb } = require('./client')
 
 
 class ManagerWaweb {
