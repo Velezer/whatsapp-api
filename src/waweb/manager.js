@@ -5,6 +5,25 @@ class ManagerWaweb {
 
     constructor() {
         this.clients = []
+
+        setInterval(() => {
+            console.log(`scheduler client.destroy()`)
+            const start = this.clients.length
+            console.log(`clients.length=${start}`)
+            this.clients.forEach(client => {
+                if (client._id == null) { client.destroy() }
+            });
+            const end = this.clients.length
+            console.log(`clients deleted=${end - start}`)
+            console.log(`clients.length=${end}`)
+
+            console.log(`list active client:___`)
+            for (let i = 0; i < this.clients.length; i++) {
+                const client = this.clients[i];
+                console.log(`--- client: ${client._id}`)
+            }
+        }, 1000 * 60);
+
     }
 
     /**
@@ -33,7 +52,6 @@ class ManagerWaweb {
         console.log(`manager.getClient  clients.length is `, this.clients.length)
         for (let i = 0; i < this.clients.length; i++) {
             const client = this.clients[i];
-            console.log(client._id)
             if (client._id == null) { continue }
             if (client._id.toString() == _id) {
                 console.log(`client selected: `, client._id.toString())
@@ -53,7 +71,6 @@ class ManagerWaweb {
     getClientIndex(_id) {
         console.log(`manager.getClientIndex clients.length is ${this.clients.length}`)
         return this.clients.findIndex((client) => {
-            console.log(client._id)
             if (!client._id == null) {
                 return client._id.toString() == _id
             }
@@ -65,7 +82,8 @@ class ManagerWaweb {
      * @returns client
      */
     destroyClient(_id) {
-        return this.clients.splice(this.getClientIndex(_id), 1)
+        const client = this.clients.splice(this.getClientIndex(_id), 1)
+        return client
     }
 
 
