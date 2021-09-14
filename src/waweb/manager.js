@@ -7,27 +7,19 @@ class ManagerWaweb {
         this.clients = []
 
         setInterval(() => {
-            console.log(`scheduler client.destroy()`)
-            const start = this.clients.length
-            console.log(`clients.length=${start}`)
-
-            for (var i in this.clients) {// iterate until got valid client._id and hold value of i by using var keyword
+            for (let i = 0; i < this.clients.length; i++) {
                 if (this.clients[i]._id !== null) { break }
+                this.clients[i].destroy()
+                this.clients.splice(i, 1)
+                i--
             }
-            for (let j = 0; j < i - 1; j++) {// destroy client with index less than i
-                this.clients[j].destroy()
-                this.clients.splice(j, 1)
-            }
-            const end = this.clients.length
-            console.log(`clients deleted=${end - start}`)
-            console.log(`clients.length=${end}`)
 
             console.log(`list active client:___`)
             for (let i = 0; i < this.clients.length; i++) {
                 const client = this.clients[i];
                 console.log(`--- client: ${client._id}`)
             }
-        }, 1000 * 60);
+        }, 1000 * 60 * 2);
 
     }
 
@@ -54,27 +46,19 @@ class ManagerWaweb {
      * @returns client
      */
     getClient(_id) {
-        console.log(`manager.getClient  clients.length is `, this.clients.length)
         for (let i = 0; i < this.clients.length; i++) {
             const client = this.clients[i];
             if (client._id == null) { continue }
             if (client._id.toString() == _id) {
-                console.log(`client selected: `, client._id.toString())
                 return client
             }
         }
-        // return this.clients.find((client) => {
-        //     if (!client._id == null) {
-        //         return client._id.toString() == _id
-        //     }
-        // })
     }
     /**
      * @param {string} _id 
      * @returns client's index
      */
     getClientIndex(_id) {
-        console.log(`manager.getClientIndex clients.length is ${this.clients.length}`)
         return this.clients.findIndex((client) => {
             if (!client._id == null) {
                 return client._id.toString() == _id
