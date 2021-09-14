@@ -10,9 +10,14 @@ class ManagerWaweb {
             console.log(`scheduler client.destroy()`)
             const start = this.clients.length
             console.log(`clients.length=${start}`)
-            this.clients.forEach(client => {
-                if (client._id == null) { client.destroy() }
-            });
+
+            for (const i in this.clients) {
+                const client = this.clients[i];
+                if (client._id == null) {
+                    client.destroy()
+                    this.clients.splice(i, 1)
+                }
+            }
             const end = this.clients.length
             console.log(`clients deleted=${end - start}`)
             console.log(`clients.length=${end}`)
