@@ -1,6 +1,7 @@
 require('./db')
 const express = require('express')
-const { manager } = require('./client-waweb')
+const { manager } = require('./manager-waweb')
+const { SessionModel } = require('./model')
 const Handler = require('./handler')
 const http = require('http');
 const socketIO = require('socket.io');
@@ -34,7 +35,7 @@ io.on('connection', function (socket) {
   socket.on('create-session', async (_id) => {
     socket.emit('log', `create-session with id: ${_id}`);
 
-    const sessionData = await manager.findSession(_id)
+    const sessionData = await SessionModel.findSession(_id)
     const client = manager.createClient(sessionData)
     client.setEmitter(socket)
     manager.pushClient(client)

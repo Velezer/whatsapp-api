@@ -1,24 +1,7 @@
 const { validationResult } = require('express-validator');
 const { ImageFileuploadValidationResult } = require('./validator')
-const { manager } = require('./client-waweb')
+const { Helper } = require('./helper')
 
-class Helper {
-    static getClient(_id) {
-        const client = manager.getClient(_id)
-        if (client == undefined) {
-            return { client: null, err: `no client with _id ${_id}. create a client first` };
-        }
-        if (client.isDestroyed) {
-            manager.destroyClient(_id)
-            return { client: null, err: `client is disconnected` };
-        }
-        if (!client.isReady) {
-            return { client: null, err: `client is not ready. please, wait for a minute` };
-        }
-        return { client, err: null }
-    }
-
-}
 
 class Handler {
 
@@ -81,10 +64,7 @@ class Handler {
 
             let numberRegisteredWA = await client.isRegisteredUser(num)
             if (numberRegisteredWA) {
-                const res = await client.sendMedia(num, file, caption)
-                console.log(`--------`)
-                console.log(res)
-                console.log(`--------`)
+                client.sendMedia(num, file, caption)
             }
         }
         res.status(200).json({
@@ -113,7 +93,7 @@ class Handler {
         contacts.forEach(contact => {
             const keys = Object.keys(contact)
             keys.forEach(key => {
-                if (key !== `number` || key !== `name`) {
+                if (key !== `number` && key !== `name`) {
                     delete contact[key] // delete unused property
                 }
             });
