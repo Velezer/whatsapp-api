@@ -1,4 +1,4 @@
-const Handler = require('./handler/handler')
+const Handler = require('./handler')
 const { validationResult } = require('express-validator');
 const { Helper } = require('../helper')
 
@@ -20,14 +20,14 @@ Handler.getContacts = async (req, res) => {
     }
 
     let contacts = await client.getContacts()
-    contacts.forEach(contact => {
-        const keys = Object.keys(contact)
-        keys.forEach(key => {
-            if (key !== `number` && key !== `name`) {
-                delete contact[key] // delete unused property
-            }
-        });
-    })
+    // contacts.forEach(contact => {
+    //     const keys = Object.keys(contact)
+    //     keys.forEach(key => {
+    //         if (key !== `number` && key !== `name`) {
+    //             delete contact[key] // delete unused property
+    //         }
+    //     });
+    // })
     contacts = contacts.filter(contact => contact.number !== null)
 
     res.status(200).json({

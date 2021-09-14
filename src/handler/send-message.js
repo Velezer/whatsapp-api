@@ -1,4 +1,4 @@
-const Handler = require('./handler/handler')
+const Handler = require('./handler')
 const { validationResult } = require('express-validator');
 const { Helper } = require('../helper')
 
