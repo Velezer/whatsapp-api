@@ -109,7 +109,24 @@ class Handler {
             return res.status(500).json({ message: err })
         }
 
-        const contacts = await client.getContacts()
+        let contacts = await client.getContacts()
+        contacts.forEach(contact => {
+            const keys = Object.keys(contact)
+            keys.forEach(key => {
+                if (key !== `number`) {
+                    delete contact[key] // delete unused property
+                }
+            });
+        })
+        contacts = contacts.filter(contact => contact.number !== null)
+        /**
+         * contacts=[
+         * {number: string},
+         * {number: string},
+         * {number: string},
+         * {number: string},
+         * ]
+         */
         console.log(`--------`)
         console.log(contacts)
         console.log(`--------`)

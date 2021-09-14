@@ -55,7 +55,7 @@ app.get('/', (req, res) => {
 app.post('/api/send-message', validateReqSendMessages, (req, res) => Handler.sendMessage(req, res))
 app.post('/api/send-media', validateReqSendMedia, (req, res) => Handler.sendMedia(req, res))
 
-app.get('/api/get-contacts', validateGetContacts, (req, res) => Handler.getContacts(req, res))
+app.post('/api/get-contacts', validateGetContacts, (req, res) => Handler.getContacts(req, res))
 
 let port = process.env.PORT || 5555
 server.listen(port, function () {
