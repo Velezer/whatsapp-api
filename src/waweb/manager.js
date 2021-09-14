@@ -50,7 +50,12 @@ class ManagerWaweb {
      * @returns client's index
      */
     getClientIndex(_id) {
-        return this.clients.findIndex((client) => client._id.toString() == _id)
+        console.log(`manager clients is ${this.clients.length}`)
+        return this.clients.findIndex((client) => {
+            if (!client._id == null) {
+                return client._id.toString() == _id
+            }
+        })
     }
     /**
      * @param {String} _id 
