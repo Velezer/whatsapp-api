@@ -11,12 +11,12 @@ class ManagerWaweb {
             const start = this.clients.length
             console.log(`clients.length=${start}`)
 
-            for (const i in this.clients) {
-                const client = this.clients[i];
-                if (client._id == null) {
-                    client.destroy()
-                    this.clients.splice(i, 1)
-                }
+            for (var i in this.clients) {// iterate until got valid client._id and hold value of i by using var keyword
+                if (this.clients[i]._id !== null) { break }
+            }
+            for (let j = 0; j < i - 1; j++) {// destroy client with index less than i
+                this.clients[j].destroy()
+                this.clients.splice(j, 1)
             }
             const end = this.clients.length
             console.log(`clients deleted=${end - start}`)
