@@ -2,12 +2,12 @@ require('./db')
 const express = require('express')
 const { manager } = require('./manager-waweb')
 const { SessionModel } = require('./model')
-const Handler = require('./handler')
+const Handler = require('./handler/handler')
 const http = require('http');
 const socketIO = require('socket.io');
 const cors = require('cors');
 const process = require('process')
-const { validateReqSendMessages, validateReqSendMedia, validateGetContacts } = require('./validator')
+const { validateReqSendMessages, validateReqSendMedia, validateGetContacts } = require('./validation/validator')
 const fileUpload = require('express-fileupload');
 
 
@@ -51,7 +51,6 @@ app.get('/', (req, res) => {
     message: `see?`
   });
 })
-
 
 app.post('/api/send-message', validateReqSendMessages, (req, res) => Handler.sendMessage(req, res))
 app.post('/api/send-media', validateReqSendMedia, (req, res) => Handler.sendMedia(req, res))

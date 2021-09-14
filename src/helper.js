@@ -2,6 +2,11 @@ const { manager } = require('./manager-waweb')
 
 
 class Helper {
+    /**
+     * 
+     * @param {string} _id 
+     * @returns 
+     */
     static getClient(_id) {
         const client = manager.getClient(_id)
         if (client == undefined) {

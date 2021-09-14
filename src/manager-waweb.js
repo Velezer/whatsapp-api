@@ -6,18 +6,7 @@ class ManagerWaweb {
     constructor() {
         this.clients = []
     }
-    // /**
-    //  * @param {string} _id 
-    //  * @returns sessionData
-    //  */
-    // async findSession(_id) {
-    //     let sessionData = null
-    //     if (_id) {
-    //         console.log(`find session`)
-    //         sessionData = await SessionModel.findOne({ _id })
-    //     }
-    //     return sessionData
-    // }
+
     /**
      * @param {*} sessionData 
      * @todo create client

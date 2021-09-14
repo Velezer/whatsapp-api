@@ -1,6 +1,5 @@
-const { body } = require('express-validator');
 const { ExpressFileuploadValidator } = require('express-fileupload-validator');
-
+const { Rules } = require('./rules')
 
 
 class ImageFileuploadValidationResult extends ExpressFileuploadValidator {
@@ -31,29 +30,18 @@ class ImageFileuploadValidationResult extends ExpressFileuploadValidator {
 
 
 const validateReqSendMessages = [
-    body(`numbers`, `numbers is empty`).notEmpty(),
-    body(`numbers`, `can't convert to array`).toArray(),
-    body(`numbers`, `numbers array min length is 1`).isArray({ min: 1 }),
-    body(`numbers.*`, `not a mobile phone`).isMobilePhone(),
-
-    body(`message`, `message is empty`).notEmpty(),
-    body(`_id`, `_id is empty`).notEmpty(),
-    body(`_id`, `_id is not string`).isString()
+    ...Rules.numbers,
+    ...Rules.message,
+    ...Rules._id
 ]
 const validateReqSendMedia = [
-    body(`numbers`, `numbers is empty`).notEmpty(),
-    body(`numbers`, `can't convert to array`).toArray(),
-    body(`numbers`, `numbers array min length is 1`).isArray({ min: 1 }),
-    body(`numbers.*`, `not a mobile phone`).isMobilePhone(),
-
-    body(`caption`, `caption is empty`).notEmpty(),
-    body(`_id`, `_id is empty`).notEmpty(),
-    body(`_id`, `_id is not string`).isString()
+    ...Rules.numbers,
+    ...Rules.caption,
+    ...Rules._id
 ]
 
 const validateGetContacts = [
-    body(`_id`, `_id is empty`).notEmpty(),
-    body(`_id`, `_id is not string`).isString()
+    ...Rules._id
 ]
 
 
