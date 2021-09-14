@@ -205,6 +205,6 @@ class ClientWaweb extends Client {
 
 }
 
-let manager = new ManagerWaweb()
+const manager = new ManagerWaweb()
 
 module.exports = { ClientWaweb, manager }

@@ -2,6 +2,24 @@ const { validationResult } = require('express-validator');
 const { ImageFileuploadValidationResult } = require('./validator')
 const { manager } = require('./client-waweb')
 
+class Helper {
+    static getClient(_id) {
+        const client = manager.getClient(_id)
+        if (client == undefined) {
+            return { client: null, err: `no client with _id ${_id}. create a client first` };
+        }
+        if (client.isDestroyed) {
+            manager.destroyClient(_id)
+            return { client: null, err: `client is disconnected` };
+        }
+        if (!client.isReady) {
+            return { client: null, err: `client is not ready. please, wait for a minute` };
+        }
+        return { client, err: null }
+    }
+
+}
+
 class Handler {
 
     static async sendMessage(req, res) {
@@ -16,18 +34,11 @@ class Handler {
 
         const { _id, message, numbers } = req.body
 
-        let client = manager.getClient(_id)
-        if (client == undefined) {
-            return res.status(500).json({ message: `no client with _id ${_id}. create a client first` });
-        } else {
-            if (client.isDestroyed) {
-                manager.destroyClient(_id)
-                return res.status(500).json({ message: `client is disconnected` })
-            }
-            if (!client.isReady) {
-                return res.status(500).json({ message: `client is not ready. please, wait for a minute` })
-            }
+        const { client, err } = Helper.getClient(_id)
+        if (client == null) {
+            return res.status(500).json({ message: err })
         }
+
         for (let i = 0; i < numbers.length; i++) {
             const num = `${numbers[i]}@c.us`;
 
@@ -60,18 +71,11 @@ class Handler {
 
         const file = req.files.file
 
-        let client = manager.getClient(_id)
-        if (client == undefined) {
-            return res.status(500).json({ message: `no client with _id ${_id}. create a client first` });
-        } else {
-            if (client.isDestroyed) {
-                manager.destroyClient(_id)
-                return res.status(500).json({ message: `client is disconnected` })
-            }
-            if (!client.isReady) {
-                return res.status(500).json({ message: `client is not ready. please, wait for a minute` })
-            }
+        const { client, err } = Helper.getClient(_id)
+        if (client == null) {
+            return res.status(500).json({ message: err })
         }
+
         for (let i = 0; i < numbers.length; i++) {
             const num = `${numbers[i]}@c.us`;
 
@@ -83,6 +87,30 @@ class Handler {
         res.status(200).json({
             _id: client._id,
             message: `send-media called`
+        });
+    }
+
+    static async getContacts(req, res) {
+        console.log(`getContacts`)
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
+
+        // validation end
+
+        const { _id } = req.body
+
+        const { client, err } = Helper.getClient(_id)
+        if (client == null) {
+            return res.status(500).json({ message: err })
+        }
+
+        const contacts = await client.getContacts()
+        res.status(200).json({
+            _id: client._id,
+            contacts,
+            message: `contacts called`
         });
     }
 }

@@ -51,5 +51,10 @@ const validateReqSendMedia = [
     body(`_id`, `_id is not string`).isString()
 ]
 
+const validateGetContacts = [
+    body(`_id`, `_id is empty`).notEmpty(),
+    body(`_id`, `_id is not string`).isString()
+]
 
-module.exports = { validateReqSendMessages, validateReqSendMedia, ImageFileuploadValidationResult }
+
+module.exports = { validateReqSendMessages, validateReqSendMedia, ImageFileuploadValidationResult, validateGetContacts }
