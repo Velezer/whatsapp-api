@@ -1,10 +1,11 @@
 const { ClientWaweb } = require('./client')
-
+const Scheduler = require('./scheduler')
 
 class ManagerWaweb {
 
     constructor() {
         this.clients = []
+        Scheduler.destroyClient(this)
     }
 
     /**
@@ -37,26 +38,6 @@ class ManagerWaweb {
                 return client
             }
         }
-    }
-    /**
-     * @param {string} _id 
-     * @returns client's index
-     */
-    getClientIndex(_id) {
-        return this.clients.findIndex((client) => {
-            if (!client._id == null) {
-                return client._id.toString() == _id
-            }
-        })
-    }
-    /**
-     * @param {String} _id 
-     * @todo destroy client
-     * @returns client
-     */
-    destroyClient(_id) {
-        const client = this.clients.splice(this.getClientIndex(_id), 1)
-        return client
     }
 
 

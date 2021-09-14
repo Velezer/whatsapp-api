@@ -12,10 +12,6 @@ class Helper {
         if (client == undefined) {
             return { client: null, err: `no client with _id ${_id}. create a client first` };
         }
-        if (client.isDestroyed) {
-            manager.destroyClient(_id)
-            return { client: null, err: `client with _id ${_id} is disconnected` };
-        }
         if (!client.isReady) {
             return { client: null, err: `client with _id ${_id} is not ready. please, wait for a minute` };
         }

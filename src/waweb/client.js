@@ -44,7 +44,6 @@ class ClientWaweb extends Client {
         })
         this._id = sessionData ? sessionData._id : null
         this.isReady = false
-        this.isDestroyed = false
 
         this.initialize();
     }
@@ -104,7 +103,7 @@ class ClientWaweb extends Client {
             console.log('disconnected:', reason)
             this.destroy();
 
-            this.isDestroyed = true
+            this._id = null
         });
     }
     /**
