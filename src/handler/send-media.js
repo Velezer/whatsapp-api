@@ -1,10 +1,9 @@
-const Handler = require('./handler')
 const { validationResult } = require('express-validator');
 const { Helper } = require('../helper')
 const { ImageFileuploadValidationResult } = require('../validation/validator')
 
 
-Handler.sendMedia = async (req, res) => {
+module.exports = async (req, res) => {
     console.log(`sendMedia`)
     const errors = validationResult(req);
     if (!errors.isEmpty()) {

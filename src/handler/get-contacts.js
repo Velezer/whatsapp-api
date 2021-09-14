@@ -1,9 +1,8 @@
-const Handler = require('./handler')
 const { validationResult } = require('express-validator');
 const { Helper } = require('../helper')
 
 
-Handler.getContacts = async (req, res) => {
+module.exports = async (req, res) => {
     console.log(`getContacts`)
     const errors = validationResult(req);
     if (!errors.isEmpty()) {

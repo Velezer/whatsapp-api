@@ -1,8 +1,8 @@
-const Handler = require('./handler')
 const { validationResult } = require('express-validator');
 const { Helper } = require('../helper')
 
-Handler.sendMessage = async (req, res) => {
+
+module.exports = async (req, res) => {
     console.log(`sendMessage`)
 
     const errors = validationResult(req);
