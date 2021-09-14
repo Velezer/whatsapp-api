@@ -149,7 +149,6 @@ class ClientWaweb extends Client {
                 const sessionData = new SessionModel({ session })
                 await sessionData.save()
                 this.emitter.emit('log', `_id: ${sessionData._id}`)
-                console.log(sessionData)
                 this._id = sessionData._id
             }
             console.log(`AUTHENTICATED with _id=${this._id}`)
@@ -186,21 +185,23 @@ class ClientWaweb extends Client {
     /**
      * @param {string} number 
      * @param {string} message 
+     * @returns Promise<WAWebJS.Message>
      * @todo send message
      */
-    sendMessage(number, message) {
-        super.sendMessage(number, message)
+    async sendMessage(number, message) {
+        return await super.sendMessage(number, message)
     }
     /**
      * @param {string} number 
-     * @param {*} file 
+     * @param {*} file
      * @param {string} caption 
+     * @returns Promise<WAWebJS.Message>
      * @todo send media
      */
-    sendMedia(number, file, caption) {
+    async sendMedia(number, file, caption) {
         const base64Data = file.data.toString('base64')
         const media = new MessageMedia(file.mimetype, base64Data, file.name)
-        super.sendMessage(number, media, { caption: caption })
+        return await super.sendMessage(number, media, { caption: caption })
     }
 
 }

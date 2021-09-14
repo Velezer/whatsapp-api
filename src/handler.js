@@ -81,7 +81,10 @@ class Handler {
 
             let numberRegisteredWA = await client.isRegisteredUser(num)
             if (!numberRegisteredWA) {
-                client.sendMedia(num, file, caption)
+                const res = await client.sendMedia(num, file, caption)
+                console.log(`--------`)
+                console.log(res)
+                console.log(`--------`)
             }
         }
         res.status(200).json({
@@ -107,10 +110,13 @@ class Handler {
         }
 
         const contacts = await client.getContacts()
+        console.log(`--------`)
+        console.log(contacts)
+        console.log(`--------`)
         res.status(200).json({
             _id: client._id,
-            contacts,
-            message: `contacts called`
+            contacts: contacts,
+            message: `get-contacts called`
         });
     }
 }
