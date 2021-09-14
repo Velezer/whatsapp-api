@@ -5,22 +5,6 @@ class ManagerWaweb {
 
     constructor() {
         this.clients = []
-
-        setInterval(() => {
-            for (let i = 1; i < this.clients.length; i++) {
-                if (this.clients[i]._id !== null) { break }
-                this.clients[i].destroy()
-                this.clients.splice(i, 1)
-                i--
-            }
-
-            console.log(`active clients: ${this.clients.length}`)
-            for (let i = 0; i < this.clients.length; i++) {
-                const client = this.clients[i];
-                console.log(`--- client: ${client._id}`)
-            }
-        }, 1000 * 60 * 2);
-
     }
 
     /**

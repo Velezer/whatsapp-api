@@ -35,7 +35,8 @@ module.exports = async (req, res) => {
 
     res.status(200).json({
         _id: client._id,
+        found: contacts.length,
+        message: `get-contacts called`,
         contacts: contacts,
-        message: `get-contacts called`
     });
 }

@@ -1,7 +1,8 @@
 require('./model/db')
 const express = require('express')
 const { manager } = require('./waweb/manager')
-const { SessionModel } = require('./model/session')
+require('./scheduler')// put this below manager
+const { SessionModel } = require('./model/session')// put this below db
 const Handler = require('./handler/handler')
 const http = require('http');
 const socketIO = require('socket.io');
