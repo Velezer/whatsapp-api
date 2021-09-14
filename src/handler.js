@@ -80,7 +80,7 @@ class Handler {
             const num = `${numbers[i]}@c.us`;
 
             let numberRegisteredWA = await client.isRegisteredUser(num)
-            if (!numberRegisteredWA) {
+            if (numberRegisteredWA) {
                 const res = await client.sendMedia(num, file, caption)
                 console.log(`--------`)
                 console.log(res)
@@ -113,23 +113,13 @@ class Handler {
         contacts.forEach(contact => {
             const keys = Object.keys(contact)
             keys.forEach(key => {
-                if (key !== `number`) {
+                if (key !== `number` || key !== `name`) {
                     delete contact[key] // delete unused property
                 }
             });
         })
         contacts = contacts.filter(contact => contact.number !== null)
-        /**
-         * contacts=[
-         * {number: string},
-         * {number: string},
-         * {number: string},
-         * {number: string},
-         * ]
-         */
-        console.log(`--------`)
-        console.log(contacts)
-        console.log(`--------`)
+
         res.status(200).json({
             _id: client._id,
             contacts: contacts,
