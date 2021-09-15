@@ -16,7 +16,16 @@ Rules.caption = [
 ]
 Rules._id = [
     body(`_id`, `_id is empty`).notEmpty(),
-    body(`_id`, `_id is not string`).isString()
 ]
 
+Rules.user = [
+    body(`user`, `user is empty`).notEmpty(),
+    body(`password`, `password is empty`).notEmpty(),
+]
+
+Rules.contact = [
+    body(`name`, `name is empty`).notEmpty(),
+    body(`number`, `number is empty`).notEmpty(),
+    body(`number`, `number is not valid mobile phone`).isMobilePhone()
+]
 module.exports = { Rules }

@@ -6,6 +6,8 @@ const SessionModel = mongoose.model('Session', new Schema(
     {
         // session: Object
         // session: Schema.Types.Mixed
+        // user: String,
+        // password: String,
         session: {
             WABrowserId: String,
             WASecretBundle: String,
