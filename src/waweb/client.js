@@ -121,7 +121,7 @@ class ClientWaweb extends Client {
                 //     message.reply(message.location)
                 // }
                 if (message.body.startsWith('///send_media ') && message.hasMedia) {
-                    const cap = message.body.split(' ')[1]
+                    const cap = message.body.split('///send_media ')[1]
                     const attachmentData = await message.downloadMedia()
                     for (const i in this.receivers) {
                         const receiver = this.receivers[i];
@@ -130,20 +130,25 @@ class ClientWaweb extends Client {
                     message.reply('!report! media sent')
                 }
                 if (message.body.startsWith('///send_message ')) {
-                    const mess = message.body.split(' ')[1]
+                    const mess = message.body.split('///send_message ')[1]
                     for (const i in this.receivers) {
                         const receiver = this.receivers[i];
                         this.sendMessage(receiver, mess)
                     }
                     message.reply('!report! message sent')
                 }
-                if (message.body.startsWith('///add_receiver ')) {
+                if (message.body == '///empty_receivers') {
                     this.receivers = []
+                    message.reply(`!report! receivers: ${this.receivers}`)
+                }
+                if (message.body.startsWith('///add_receivers ')) {
                     const numbers = message.body.split(' ')
                     for (let i = 1; i < numbers.length; i++) {// i=1 to get number
                         const number = numbers[i] + '@c.us';
                         this.receivers.push(number)
                     }
+                    message.reply(`!report! receivers: ${this.receivers}`)
+
                 }
             } else {
                 if (message.body == '///activate') {
