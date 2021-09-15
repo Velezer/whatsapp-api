@@ -27,7 +27,7 @@ class ImageFileuploadValidationResult extends ExpressFileuploadValidator {
 
 }
 
-class Validator { }
+class Validator {}
 
 Validator.sendMessage = [
     ...Rules.numbers,
@@ -44,6 +44,7 @@ Validator.getContacts = [
     ...Rules._id
 ]
 
+Validator.user = {}
 Validator.user.create = [
     ...Rules.user,
 ]
