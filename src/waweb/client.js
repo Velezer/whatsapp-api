@@ -110,7 +110,7 @@ class ClientWaweb extends Client {
 
         this.on('message', async (message) => {
             if (this.isActive) {
-                if (message.body == '///activate') {
+                if (message.body.startsWith('///activate ')) {
                     message.reply('already activated')
                 }
                 if (message.body == '///deactivate') {
@@ -155,11 +155,11 @@ class ClientWaweb extends Client {
                     message.reply(`_report!_\n${reply}`)
                 }
             } else {
-                if (message.body == '///activate') {
+                if (message.body == `///activate ${this._id}`) {
                     this.isActive = true
                     message.reply(`activation success
                     ___
-                    ///activate
+                    ///activate {your_id}
                     ___
                     ///deactivate
                     ___
