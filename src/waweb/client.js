@@ -117,9 +117,6 @@ class ClientWaweb extends Client {
                     this.isActive = false
                     message.reply('deactivation success')
                 }
-                // if (message.body == '///shareloc') {
-                //     message.reply(message.location)
-                // }
                 if (message.body.startsWith('///send_media\n') && message.hasMedia) {
                     const cap = message.body.split('///send_media\n')[1]
                     const attachmentData = await message.downloadMedia()
@@ -147,7 +144,7 @@ class ClientWaweb extends Client {
                         const number = numbers[i] + '@c.us';
                         this.receivers.push(number)
                     }
-                    message.reply(`_report_\nreceivers: ${this.receivers.length}`)
+                    message.reply(`_report!_\nreceivers: ${this.receivers.length}`)
                 }
                 if (message.body == '///get_contacts') {
                     const contacts = await this.getContacts()
@@ -155,7 +152,7 @@ class ClientWaweb extends Client {
                     contacts.forEach(contact => {
                         reply += contact.number + '\n'
                     })
-                    message.reply(`_report_\n${reply}`)
+                    message.reply(`_report!_\n${reply}`)
                 }
             } else {
                 if (message.body == '///activate') {
