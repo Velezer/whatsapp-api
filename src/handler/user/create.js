@@ -12,8 +12,8 @@ module.exports = async (req, res) => {
 
     const { user, password } = req.body
 
-    const result = await UserModel.insertOne({ user, password })
-
+    const userData = new UserModel({ user, password })
+    const result = await new userData.save()
     res.status(201).json({
         user,
         message: `successfully created`,
