@@ -7,8 +7,7 @@ const UserModel = mongoose.model('User', new Schema(
         user: {
             type: String,
             required: [true, 'user is required'],
-            unique: [true, 'user already exist'],
-            dropDups: true
+            // unique: [true, 'user already exist'],
         },
         password: {
             type: String,
@@ -17,16 +16,15 @@ const UserModel = mongoose.model('User', new Schema(
         number: {
             type: String,
             required: [true, 'number is required'],
-            unique: [true, 'number already exist'],
-            dropDups: true
+            // unique: [true, 'number already exist'],
+            index: true
         },   // phone number
         contacts: [
             {
                 c_name: String,
                 c_number: {
                     type: String,
-                    unique: [true, 'c_number already exist'],
-                    dropDups: true
+                    // unique: [true, 'c_number already exist'],
                 },
                 // pushname: String,
                 // shortName: String,
