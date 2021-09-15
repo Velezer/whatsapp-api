@@ -1,4 +1,4 @@
-const { manager } = require('../waweb/manager')
+const { manager } = require('../../waweb/manager')
 
 
 class Helper {

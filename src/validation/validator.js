@@ -44,7 +44,10 @@ Validator.getContacts = [
     ...Rules._id
 ]
 
-Validator.db.pushContact = [
+Validator.user.create = [
+    ...Rules.user,
+]
+Validator.user.pushContact = [
     ...Rules.user,
     ...Rules.contact
 ]
