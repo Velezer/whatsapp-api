@@ -13,7 +13,7 @@ module.exports = async (req, res) => {
     const { user, password } = req.body
 
     const userData = new UserModel({ user, password, contacts: [] })
-    const result = await new userData.save()
+    const result = await userData.save()
 
     res.status(201).json({
         user,
