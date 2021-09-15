@@ -7,7 +7,7 @@ const http = require('http');
 const socketIO = require('socket.io');
 const cors = require('cors');
 const process = require('process')
-const { validateReqSendMessages, validateReqSendMedia, validateGetContacts } = require('./validation/validator')
+const { Validator } = require('./validation/validator')
 const fileUpload = require('express-fileupload');
 
 
@@ -28,7 +28,7 @@ app.use(fileUpload())
 app.use(cors({ credentials: true, origin: '*' }));
 
 
-io.on('connection', function (socket) {
+io.on('connection', (socket) => {
   socket.emit('message', 'Connecting...');
 
   socket.on('create-session', async (_id) => {
@@ -51,10 +51,9 @@ app.get('/', (req, res) => {
   });
 })
 
-app.post('/api/send-message', validateReqSendMessages, (req, res) => Handler.sendMessage(req, res))
-app.post('/api/send-media', validateReqSendMedia, (req, res) => Handler.sendMedia(req, res))
-
-app.post('/api/get-contacts', validateGetContacts, (req, res) => Handler.getContacts(req, res))
+app.post('/api/send-message', Validator.sendMessage, (req, res) => Handler.sendMessage(req, res))
+app.post('/api/send-media', Validator.sendMedia, (req, res) => Handler.sendMedia(req, res))
+app.post('/api/get-contacts', Validator.getContacts, (req, res) => Handler.getContacts(req, res))
 
 let port = process.env.PORT || 5555
 server.listen(port, function () {

@@ -27,22 +27,22 @@ class ImageFileuploadValidationResult extends ExpressFileuploadValidator {
 
 }
 
+class Validator{}
 
-
-const validateReqSendMessages = [
+Validator.sendMessage = [
     ...Rules.numbers,
     ...Rules.message,
     ...Rules._id
 ]
-const validateReqSendMedia = [
+Validator.sendMedia = [
     ...Rules.numbers,
     ...Rules.caption,
     ...Rules._id
 ]
 
-const validateGetContacts = [
+Validator.getContacts = [
     ...Rules._id
 ]
 
 
-module.exports = { validateReqSendMessages, validateReqSendMedia, ImageFileuploadValidationResult, validateGetContacts }
+module.exports = { Validator, ImageFileuploadValidationResult }

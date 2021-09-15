@@ -16,10 +16,10 @@ class Scheduler {
             }
 
             console.log(`active clients: ${manager.clients.length}`)
-            for (let i = 0; i < manager.clients.length; i++) {
-                const client = manager.clients[i];
-                console.log(`--- client: ${client._id}`)
-            }
+            // for (let i = 0; i < manager.clients.length; i++) {
+            //     const client = manager.clients[i];
+            //     console.log(`--- client: ${client._id}`)
+            // }
         }, 1000 * 60 * 2);
     }
 }

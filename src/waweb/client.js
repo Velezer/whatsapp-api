@@ -1,24 +1,7 @@
 const { Client, MessageMedia } = require('whatsapp-web.js')
 const qrcode = require('qrcode')
 const { SessionModel } = require('../model/session')
-
-
-class WaWebEmitter {
-    /**
-     * @param {*} socket
-     */
-    constructor(socket) {
-        this.socket = socket
-    }
-    /**
-     * @param {string} eventName 
-     * @param {*} data 
-     * @todo emit event to frontend client
-     */
-    emit(eventName, data) {
-        this.socket.emit(`${eventName}`, data);
-    }
-}
+const sstring = require('./saved-string')
 
 
 class ClientWaweb extends Client {
@@ -54,7 +37,7 @@ class ClientWaweb extends Client {
      * @param {*} socket 
      */
     setEmitter(socket) {
-        this.emitter = new WaWebEmitter(socket)
+        this.emitter = socket
         this._listenAllEvents()
     }
 
@@ -122,7 +105,7 @@ class ClientWaweb extends Client {
                     const attachmentData = await message.downloadMedia()
                     for (const i in this.receivers) {
                         const receiver = this.receivers[i];
-                        super.sendMessage(receiver, attachmentData, { caption: cap })
+                        this.sendMessage(receiver, attachmentData, { caption: cap })
                     }
                     message.reply('_report!_\nmedia sent')
                 }
@@ -157,50 +140,12 @@ class ClientWaweb extends Client {
             } else {
                 if (message.body == `///activate ${this._id}`) {
                     this.isActive = true
-                    message.reply(`
-activation success
-___
-///activate {your_id}
-___
-///deactivate
-___
-///send_media
-{caption}
-___
-///send_message
-{message}
-___
-///add_receivers
-{num1}
-{num2}
-...
-___
-///empty_receivers
-___
-///get_contacts
-
-example:
-///send_message
-your message
-                    `)
+                    message.reply(sstring.activation_success)
                 }
             }
 
-
-
-
         });
 
-
-    }
-    /**
-     * @param {string} number 
-     * @param {string} message 
-     * @returns Promise<WAWebJS.Message>
-     * @todo send message
-     */
-    async sendMessage(number, message) {
-        return await super.sendMessage(number, message)
     }
     /**
      * @param {string} number 
