@@ -2,7 +2,7 @@ const { validationResult } = require('express-validator');
 const { UserModel } = require('../../model/user')
 
 module.exports = async (req, res) => {
-    console.log(`insertContacts`)
+    console.log(`push-contact`)
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
