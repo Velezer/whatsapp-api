@@ -23,6 +23,7 @@ module.exports = async (req, res) => {
         else { code = 500 }
         res.status(code).json({
             message: err.message,
+            _err: err
         });
     }
 
