@@ -21,11 +21,13 @@ Rules._id = [
 Rules.user = [
     body(`user`, `user is empty`).notEmpty(),
     body(`password`, `password is empty`).notEmpty(),
+    body(`number`, `number is empty`).notEmpty(),
+    body(`number`, `number is empty`).isMobilePhone(),
 ]
 
 Rules.contact = [
-    body(`name`, `name is empty`).notEmpty(),
-    body(`number`, `number is empty`).notEmpty(),
-    body(`number`, `number is not valid mobile phone`).isMobilePhone()
+    body(`c_name`, `c_name is empty`).notEmpty(),
+    body(`c_number`, `c_number is empty`).notEmpty(),
+    body(`c_number`, `c_number is not valid mobile phone`).isMobilePhone()
 ]
 module.exports = { Rules }

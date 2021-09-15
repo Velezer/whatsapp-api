@@ -19,11 +19,11 @@ module.exports = async (req, res) => {
     try {
         result = await userData.save()
     } catch (err) {
-        console.log(err)
-        if (err.name == 'ValidationError') { code = 400 }
+        if (err.name == 'ValidationError' || err.code == 11000) { code = 400 }
         else { code = 500 }
         res.status(code).json({
-            message: err,
+            message: err.message,
+            err: err,
         });
     }
 
