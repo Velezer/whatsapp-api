@@ -148,7 +148,14 @@ class ClientWaweb extends Client {
                         this.receivers.push(number)
                     }
                     message.reply(`_report_\nreceivers: ${this.receivers.length}`)
-
+                }
+                if (message.body == '///get_contacts') {
+                    const contacts = await this.getContacts()
+                    let reply = ''
+                    contacts.forEach(contact => {
+                        reply += contact.number + '\n'
+                    })
+                    message.reply(`_report_\n${reply}`)
                 }
             } else {
                 if (message.body == '///activate') {
@@ -211,10 +218,24 @@ class ClientWaweb extends Client {
     }
     /**
      * 
-     * @returns Promise<Contact[]>
+     * @returns Promise<WAWebJS.Contact[]>
      */
     async getContacts() {
-        return await super.getContacts()
+        let contacts = await super.getContacts()
+        contacts.forEach(contact => {
+            const keys = Object.keys(contact)
+            keys.forEach(key => {
+                if (key !== `number` &&
+                    key !== `name` &&
+                    key !== `pushname` &&
+                    key !== `shortName` &&
+                    key !== `verifiedName`) {
+                    delete contact[key] // delete unused property
+                }
+            });
+        })
+        contacts = contacts.filter(contact => contact.number !== null)
+        return contacts
     }
 
 }

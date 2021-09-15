@@ -18,20 +18,7 @@ module.exports = async (req, res) => {
         return res.status(500).json({ message: err })
     }
 
-    let contacts = await client.getContacts()
-    contacts.forEach(contact => {
-        const keys = Object.keys(contact)
-        keys.forEach(key => {
-            if (key !== `number` &&
-                key !== `name` &&
-                key !== `pushname` &&
-                key !== `shortName` &&
-                key !== `verifiedName`) {
-                delete contact[key] // delete unused property
-            }
-        });
-    })
-    contacts = contacts.filter(contact => contact.number !== null)
+    const contacts = await client.getContacts()
 
     res.status(200).json({
         _id: client._id,
