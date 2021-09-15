@@ -10,9 +10,9 @@ module.exports = async (req, res) => {
 
     // validation end
 
-    const { user, password } = req.body
+    const { user, password, number } = req.body
 
-    const { _id } = await UserModel.findOne({ user, password })
+    const { _id } = await UserModel.findOne({ user, password, number })
 
     const { c_name, c_number } = req.body
     const result = await UserModel.pushContact(_id, { c_name, c_number })

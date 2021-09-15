@@ -19,18 +19,16 @@ module.exports = async (req, res) => {
     try {
         result = await userData.save()
     } catch (err) {
-        if (err.name == 'ValidationError' || err.code == 11000) { code = 400 }
+        if (err.name == 'ValidationError' || err.code == 11000) { code = 400 }//validation error n duplication error
         else { code = 500 }
         res.status(code).json({
             message: err.message,
-            err: err,
         });
     }
 
 
     res.status(201).json({
-        user,
-        message: `successfully created`,
-        result: result
+        message: `successfully created user ${user}`,
+        _result: result
     });
 }
