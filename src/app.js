@@ -31,10 +31,10 @@ app.use(cors({ credentials: true, origin: '*' }));
 io.on('connection', (socket) => {
   socket.emit('message', 'Connecting...');
 
-  socket.on('create-session', async (_id) => {
-    socket.emit('log', `create-session with id: ${_id}`);
+  socket.on('create-session', async ({ user, password, number }) => {
+    socket.emit('log', `create-session number: ${number}`);
 
-    const sessionData = await SessionModel.findSession(_id)
+    const sessionData = await SessionModel.findOne({ user, password, number })
     const client = manager.createClient(sessionData)
     client.setEmitter(socket)
     manager.pushClient(client)

@@ -30,11 +30,27 @@ class ManagerWaweb {
      * @todo choose client when send-message
      * @returns client
      */
-    getClient(_id) {
+    getClientById(_id) {
         for (let i = 0; i < this.clients.length; i++) {
             const client = this.clients[i];
             if (client._id == null) { continue }
             if (client._id.toString() == _id) {
+                return client
+            }
+        }
+    }
+
+    /**
+     * 
+     * @param {Object} { user, password, number } 
+     * @returns 
+     */
+    getClient({ user, password, number }) {
+        for (let i = 0; i < this.clients.length; i++) {
+            const client = this.clients[i];
+            if (client.user == user &&
+                client.password == password &&
+                client.number == number) {
                 return client
             }
         }

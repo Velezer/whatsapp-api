@@ -17,15 +17,18 @@ module.exports = async (req, res) => {
 
     // validation end
 
-    const { _id, caption, numbers } = req.body
+    
+    const { user, password, number } = req.body
 
-    const file = req.files.file
-
-    const { client, err } = Helper.getClient(_id)
+    const { client, err } = Helper.getClient({ user, password, number })
     if (client == null) {
         return res.status(500).json({ message: err })
     }
+    // get client end
 
+    const { caption, numbers } = req.body
+
+    const file = req.files.file
     for (let i = 0; i < numbers.length; i++) {
         const num = `${numbers[i]}@c.us`;
 
@@ -35,7 +38,7 @@ module.exports = async (req, res) => {
         }
     }
     res.status(200).json({
-        _id: client._id,
+        number: client.sessionData.number,
         message: `send-media called`
     });
 }

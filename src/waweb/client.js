@@ -25,7 +25,8 @@ class ClientWaweb extends Client {
             },
             session: sessionData ? sessionData.session : null
         })
-        this._id = sessionData ? sessionData._id : null
+        this.sessionData = sessionData ? sessionData : null
+
         this.isReady = false
 
         this.receivers = []
@@ -54,17 +55,18 @@ class ClientWaweb extends Client {
             this.emitter.emit('authenticated', 'Whatsapp is authenticated!');
             this.emitter.emit('log', 'Whatsapp is authenticated!');
 
-            if (this._id == null) {
+            if (this.sessionData == null) {
                 const sessionData = new SessionModel({ session })
                 await sessionData.save()
                 this.emitter.emit('log', `_id: ${sessionData._id}`)
-                this._id = sessionData._id
+                this.sessionData = sessionData
             }
-            console.log(`AUTHENTICATED with _id=${this._id}`)
+            console.log(`AUTHENTICATED with number=${this.sessionData.number}`)
         });
 
         this.on('ready', async () => {
             this.isReady = true
+
 
             this.emitter.emit('ready', 'Whatsapp is ready!');
             this.emitter.emit('log', 'Whatsapp is ready!');
@@ -138,7 +140,7 @@ class ClientWaweb extends Client {
                     message.reply(`_report!_\n${reply}`)
                 }
             } else {
-                if (message.body == `///activate ${this._id}`) {
+                if (message.body == `///activate ${this.sessionData.user} ${this.sessionData.password}`) {
                     this.isActive = true
                     message.reply(sstring.activation_success)
                 }

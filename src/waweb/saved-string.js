@@ -2,7 +2,7 @@ const sstring={}
 sstring.activation_success = `
 activation success
 ___
-///activate {your_id}
+///activate {your_user} {your_password}
 ___
 ///deactivate
 ___

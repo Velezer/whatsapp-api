@@ -11,17 +11,18 @@ module.exports = async (req, res) => {
 
     // validation end
 
-    const { _id } = req.body
+    const { user, password, number } = req.body
 
-    const { client, err } = Helper.getClient(_id)
+    const { client, err } = Helper.getClient({ user, password, number })
     if (client == null) {
         return res.status(500).json({ message: err })
     }
+    // get client end
 
     const contacts = await client.getContacts()
 
     res.status(200).json({
-        _id: client._id,
+        number: client.sessionData.number,
         found: contacts.length,
         message: `get-contacts called`,
         contacts: contacts,

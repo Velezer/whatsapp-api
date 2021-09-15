@@ -12,12 +12,16 @@ module.exports = async (req, res) => {
 
     // validation end
 
-    const { _id, message, numbers } = req.body
+    const { user, password, number } = req.body
 
-    const { client, err } = Helper.getClient(_id)
+    const { client, err } = Helper.getClient({ user, password, number })
     if (client == null) {
         return res.status(500).json({ message: err })
     }
+
+    // get client end
+
+    const { message, numbers } = req.body
 
     for (let i = 0; i < numbers.length; i++) {
         const num = `${numbers[i]}@c.us`;
@@ -28,7 +32,7 @@ module.exports = async (req, res) => {
         }
     }
     res.status(200).json({
-        _id: client._id,
+        number: client.sessionData.number,
         message: `send-message called`
     });
 }
