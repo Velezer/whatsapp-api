@@ -20,7 +20,7 @@ const UserModel = mongoose.model('User', new Schema(
                 c_name: String,
                 c_number: {
                     type: String,
-                    unique: [true, 'c_number already exist']
+                    // unique: [true, 'c_number already exist']
                 },
                 // pushname: String,
                 // shortName: String,

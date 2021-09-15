@@ -22,7 +22,7 @@ Rules.user = [
     body(`user`, `user is empty`).notEmpty(),
     body(`password`, `password is empty`).notEmpty(),
     body(`number`, `number is empty`).notEmpty(),
-    body(`number`, `number is empty`).isMobilePhone(),
+    body(`number`, `number is not valid mobile phone`).isMobilePhone(),
 ]
 
 Rules.contact = [
