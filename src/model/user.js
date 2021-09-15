@@ -7,10 +7,14 @@ const UserModel = mongoose.model('User', new Schema(
         user: {
             type: String,
             required: [true, 'user is required'],
-            unique: [true, 'that user is taken']
+            unique: [true, 'user already existn']
         },
         password: String,
-        number: String,   // phone number
+        number: {
+            type: String,
+            required: [true, 'number is required'],
+            unique: [true, 'number already exist']
+        },   // phone number
         contacts: [
             {
                 name: String,
@@ -35,9 +39,12 @@ const UserModel = mongoose.model('User', new Schema(
  * @returns 
  */
 UserModel.pushContact = async (_id, contact) => {
-    return await UserModel.findByIdAndUpdate(_id, {
+    return await UserModel.updateOne({ _id }, {
         $addToSet: { contacts: contact }
     })
+    // return await UserModel.findByIdAndUpdate(_id, {
+    //     $addToSet: { contacts: contact }
+    // })
 }
 
 

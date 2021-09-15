@@ -13,7 +13,16 @@ module.exports = async (req, res) => {
     const { user, password } = req.body
 
     const userData = new UserModel({ user, password, contacts: [] })
-    const result = await userData.save()
+    let result = null
+
+    try {
+        result = await userData.save()
+    } catch (err) {
+        res.status(500).json({
+            message: err,
+        });
+    }
+
 
     res.status(201).json({
         user,
