@@ -10,15 +10,18 @@ module.exports = async (req, res) => {
 
     // validation end
 
-    const { user, password } = req.body
+    const { user, password, number } = req.body
 
-    const userData = new UserModel({ user, password, contacts: [] })
+    const userData = new UserModel({ user, password, number, contacts: [] })
     let result = null
+    let code = null
 
     try {
         result = await userData.save()
     } catch (err) {
-        res.status(500).json({
+        if (err.name == 'ValidationError') { code = 400 }
+        else { code = 500 }
+        res.status(code).json({
             message: err,
         });
     }
