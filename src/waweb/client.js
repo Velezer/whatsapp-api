@@ -179,6 +179,8 @@ class ClientWaweb extends Client {
                     ___
                     ///empty_receivers
                     ___
+                    ///get_contacts
+                    ___
 
 
                     example:
