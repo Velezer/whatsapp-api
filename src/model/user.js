@@ -11,7 +11,7 @@ const UserModel = mongoose.model('User', new Schema(
         },
         password: String,
         number: {
-            type: Schema.Types.ObjectId,
+            type: String,
             required: [true, 'number is required'],
             unique: [true, 'number already exist']
         },   // phone number
@@ -19,9 +19,9 @@ const UserModel = mongoose.model('User', new Schema(
             {
                 c_name: String,
                 c_number: {
-                    type: Schema.Types.ObjectId,
-                    required: [true, 'number is required'],
-                    unique: [true, 'number already exist']
+                    type: String,
+                    required: [true, 'c_number is required'],
+                    unique: [true, 'c_number already exist']
                 },
                 // pushname: String,
                 // shortName: String,
