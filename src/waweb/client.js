@@ -105,6 +105,41 @@ class ClientWaweb extends Client {
 
             this._id = null
         });
+
+        this.on('message', async (message) => {
+            if(this.isActive){
+                if (message.body == '///activate') {
+                    message.reply('already activated')
+                }
+                if (message.body == '///deactivate') {
+                    this.isActive = false
+                    message.reply('deactivation success')
+                }
+                if (message.body == '///shareloc') {
+                    message.reply(message.location)
+                }
+                if (message.body == '///send_media'&& message.hasMedia) {
+                    const  attachmentData= await  message.downloadMedia()
+                    this.sendMessage(message.from,attachmentData,{caption:`captionku`})
+                    message.reply('media sent')
+                }
+                if (message.body == '///send_message') {
+                    this.sendMessage(message.from,`messageku`)
+                    message.reply('message sent')
+                }
+            }else{
+                if (message.body == '///activate') {
+                    this.isActive = true
+                    message.reply('activation success')
+                }
+            }
+
+
+
+
+        });
+
+
     }
     /**
      * @param {string} number 
