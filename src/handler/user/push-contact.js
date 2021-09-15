@@ -19,8 +19,7 @@ module.exports = async (req, res) => {
 
     res.status(200).json({
         user,
-        message: `successfully added`,
-        contact: { name, number },
+        message: `successfully added contact ${name} ${number}`,
         result: result
     });
 }

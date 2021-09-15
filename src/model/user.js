@@ -4,13 +4,21 @@ const Schema = mongoose.Schema
 
 const UserModel = mongoose.model('User', new Schema(
     {
-        user: String,
+        user: {
+            type: String,
+            required: [true, 'user is required'],
+            unique: [true, 'that user is taken']
+        },
         password: String,
         number: String,   // phone number
         contacts: [
             {
-                number: String,
                 name: String,
+                number: {
+                    type: String,
+                    required: [true, 'number is required'],
+                    unique: [true, 'number already exist']
+                },
                 // pushname: String,
                 // shortName: String,
                 // verifiedName: String
@@ -27,8 +35,8 @@ const UserModel = mongoose.model('User', new Schema(
  * @returns 
  */
 UserModel.pushContact = async (_id, contact) => {
-   return await UserModel.findByIdAndUpdate(_id, { 
-        $push: { contacts: contact } 
+    return await UserModel.findByIdAndUpdate(_id, {
+        $push: { contacts: contact }
     })
 }
 
