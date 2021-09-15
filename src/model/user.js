@@ -20,7 +20,6 @@ const UserModel = mongoose.model('User', new Schema(
                 c_name: String,
                 c_number: {
                     type: String,
-                    required: [true, 'c_number is required'],
                     unique: [true, 'c_number already exist']
                 },
                 // pushname: String,
