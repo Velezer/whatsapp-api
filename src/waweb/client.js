@@ -45,6 +45,8 @@ class ClientWaweb extends Client {
         this._id = sessionData ? sessionData._id : null
         this.isReady = false
 
+        this.receivers = []
+
         this.initialize();
     }
 
@@ -107,7 +109,7 @@ class ClientWaweb extends Client {
         });
 
         this.on('message', async (message) => {
-            if(this.isActive){
+            if (this.isActive) {
                 if (message.body == '///activate') {
                     message.reply('already activated')
                 }
@@ -115,19 +117,32 @@ class ClientWaweb extends Client {
                     this.isActive = false
                     message.reply('deactivation success')
                 }
-                if (message.body == '///shareloc') {
-                    message.reply(message.location)
-                }
-                if (message.body == '///send_media'&& message.hasMedia) {
-                    const  attachmentData= await  message.downloadMedia()
-                    this.sendMessage(message.from,attachmentData,{caption:`captionku`})
-                    message.reply('media sent')
+                // if (message.body == '///shareloc') {
+                //     message.reply(message.location)
+                // }
+                if (message.body == '///send_media' && message.hasMedia) {
+                    const attachmentData = await message.downloadMedia()
+                    for (const i in this.receivers) {
+                        const receiver = this.receivers[i];
+                        this.sendMessage(receiver, attachmentData, { caption: `captionku` })
+                    }
+                    message.reply('!report media sent')
                 }
                 if (message.body == '///send_message') {
-                    this.sendMessage(message.from,`messageku`)
-                    message.reply('message sent')
+                    for (const i in this.receivers) {
+                        const receiver = this.receivers[i];
+                        this.sendMessage(receiver, `dikirim dari wablast`)
+                    }
+                    message.reply('!report message sent')
                 }
-            }else{
+                if (message.body.startsWith('///add_receiver ')) {
+                    const numbers = message.body.split(' ')
+                    for (let i = 1; i < numbers.length; i++) {// i=1 to get number
+                        const number = numbers[i] + '@c.us';
+                        this.receivers.push(number)
+                    }
+                }
+            } else {
                 if (message.body == '///activate') {
                     this.isActive = true
                     message.reply('activation success')
