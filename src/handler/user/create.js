@@ -11,7 +11,9 @@ module.exports = async (req, res) => {
     // validation end
 
     const { user, password, number } = req.body
-
+    if (await UserModel.findOne({ number })) {
+        res.status(400).json({ message: `user with number ${number} is already exist` });
+    }
     const userData = new UserModel({ user, password, number, contacts: [] })
     let result = null
     let code = null
@@ -24,13 +26,11 @@ module.exports = async (req, res) => {
         else { code = 500 }
         res.status(code).json({
             message: err.message,
-            _err: err
         });
     }
 
 
     res.status(201).json({
-        message: `successfully created user ${user}`,
-        _result: result
+        message: `successfully created user:${result.user} and number:${result.number}`,
     });
 }
