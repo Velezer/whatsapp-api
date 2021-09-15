@@ -36,7 +36,7 @@ const UserModel = mongoose.model('User', new Schema(
  */
 UserModel.pushContact = async (_id, contact) => {
     return await UserModel.findByIdAndUpdate(_id, {
-        $push: { contacts: contact }
+        $addToSet: { contacts: contact }
     })
 }
 
