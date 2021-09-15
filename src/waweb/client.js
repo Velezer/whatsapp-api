@@ -127,7 +127,7 @@ class ClientWaweb extends Client {
                         const receiver = this.receivers[i];
                         super.sendMessage(receiver, attachmentData, { caption: cap })
                     }
-                    message.reply('!report! media sent')
+                    message.reply('_report!_\nmedia sent')
                 }
                 if (message.body.startsWith('///send_message\n')) {
                     const mess = message.body.split('///send_message\n')[1]
@@ -135,11 +135,11 @@ class ClientWaweb extends Client {
                         const receiver = this.receivers[i];
                         this.sendMessage(receiver, mess)
                     }
-                    message.reply('!report! message sent')
+                    message.reply('_report!_\nmessage sent')
                 }
                 if (message.body == '///empty_receivers') {
                     this.receivers = []
-                    message.reply(`!report! receivers: ${this.receivers}`)
+                    message.reply(`_report!_\nreceivers: ${this.receivers.length}`)
                 }
                 if (message.body.startsWith('///add_receivers\n')) {
                     const numbers = message.body.split('\n')
@@ -147,7 +147,7 @@ class ClientWaweb extends Client {
                         const number = numbers[i] + '@c.us';
                         this.receivers.push(number)
                     }
-                    message.reply(`!report! receivers: ${this.receivers}`)
+                    message.reply(`_report_\nreceivers: ${this.receivers.length}`)
 
                 }
             } else {
