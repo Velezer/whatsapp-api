@@ -9,7 +9,10 @@ const UserModel = mongoose.model('User', new Schema(
             required: [true, 'user is required'],
             unique: [true, 'user already exist']
         },
-        password: String,
+        password: {
+            type: String,
+            required: [true, 'password is required'],
+        },
         number: {
             type: String,
             required: [true, 'number is required'],

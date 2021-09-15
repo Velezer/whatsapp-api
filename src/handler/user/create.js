@@ -19,6 +19,7 @@ module.exports = async (req, res) => {
     try {
         result = await userData.save()
     } catch (err) {
+        console.log(`____________${err}`)
         if (err.name == 'ValidationError' || err.code == 11000) { code = 400 }//validation error n duplication error
         else { code = 500 }
         res.status(code).json({
