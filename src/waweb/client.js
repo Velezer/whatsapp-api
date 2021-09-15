@@ -120,22 +120,25 @@ class ClientWaweb extends Client {
                 // if (message.body == '///shareloc') {
                 //     message.reply(message.location)
                 // }
-                if (message.body == '///send_media' && message.hasMedia) {
+                if (message.body.startsWith('///send_media ') && message.hasMedia) {
+                    const cap = message.body.split(' ')[1]
                     const attachmentData = await message.downloadMedia()
                     for (const i in this.receivers) {
                         const receiver = this.receivers[i];
-                        this.sendMessage(receiver, attachmentData, { caption: `captionku` })
+                        this.sendMessage(receiver, attachmentData, { caption: cap })
                     }
-                    message.reply('!report media sent')
+                    message.reply('!report! media sent')
                 }
-                if (message.body == '///send_message') {
+                if (message.body.startsWith('///send_message ')) {
+                    const mess = message.body.split(' ')[1]
                     for (const i in this.receivers) {
                         const receiver = this.receivers[i];
-                        this.sendMessage(receiver, `dikirim dari wablast`)
+                        this.sendMessage(receiver, mess)
                     }
-                    message.reply('!report message sent')
+                    message.reply('!report! message sent')
                 }
                 if (message.body.startsWith('///add_receiver ')) {
+                    this.receivers = []
                     const numbers = message.body.split(' ')
                     for (let i = 1; i < numbers.length; i++) {// i=1 to get number
                         const number = numbers[i] + '@c.us';
