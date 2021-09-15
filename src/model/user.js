@@ -7,19 +7,19 @@ const UserModel = mongoose.model('User', new Schema(
         user: {
             type: String,
             required: [true, 'user is required'],
-            unique: [true, 'user already existn']
+            unique: [true, 'user already exist']
         },
         password: String,
         number: {
-            type: String,
+            type: Schema.Types.ObjectId,
             required: [true, 'number is required'],
             unique: [true, 'number already exist']
         },   // phone number
         contacts: [
             {
-                name: String,
-                number: {
-                    type: String,
+                c_name: String,
+                c_number: {
+                    type: Schema.Types.ObjectId,
                     required: [true, 'number is required'],
                     unique: [true, 'number already exist']
                 },

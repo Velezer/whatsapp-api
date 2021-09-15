@@ -14,12 +14,12 @@ module.exports = async (req, res) => {
 
     const { _id } = await UserModel.findOne({ user, password })
 
-    const { name, number } = req.body
-    const result = await UserModel.pushContact(_id, { name, number })
+    const { c_name, c_number } = req.body
+    const result = await UserModel.pushContact(_id, { c_name, c_number })
 
     res.status(200).json({
         user,
-        message: `successfully added contact ${name} ${number}`,
+        message: `successfully added contact ${c_name} ${c_number}`,
         result: result
     });
 }
