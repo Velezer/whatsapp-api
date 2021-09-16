@@ -20,7 +20,7 @@ module.exports = async (req, res) => {
     
     const { user, password, number } = req.body
 
-    const data = Helper.getClient({ user, password, number })
+    const data = await Helper.getClient({ user, password, number })
     console.log(`code:`, data.code)
     if (data.err) {
         return res.status(data.code || 500).json({ message: data.err })
