@@ -13,10 +13,12 @@ module.exports = async (req, res) => {
 
     const { user, password, number } = req.body
 
-    const { client, code, err } = Helper.getClient({ user, password, number })
-    if (err !== null) {
-        return res.status(code).json({ message: err })
+    const data = Helper.getClient({ user, password, number })
+    console.log(`code:`, data.code)
+    if (data.err) {
+        return res.status(data.code || 500).json({ message: data.err })
     }
+    const client = data.client
     // get client end
 
     const contacts = await client.getContacts()

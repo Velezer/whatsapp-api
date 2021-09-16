@@ -14,13 +14,14 @@ module.exports = async (req, res) => {
 
     const { user, password, number } = req.body
 
-    const { client, code, err } = Helper.getClient({ user, password, number })
-    if (err !== null) {
-        return res.status(code || 500).json({ message: err })
+    const data = Helper.getClient({ user, password, number })
+    console.log(`code:`, data.code)
+    if (data.err) {
+        return res.status(data.code || 500).json({ message: data.err })
     }
-
-    // get client end
+    const client = data.client
     console.log(`get client end`)
+    // get client end
     const { message, numbers } = req.body
 
     for (let i = 0; i < numbers.length; i++) {
