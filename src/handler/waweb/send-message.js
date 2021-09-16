@@ -20,7 +20,7 @@ module.exports = async (req, res) => {
     }
 
     // get client end
-
+    console.log(`get client end`)
     const { message, numbers } = req.body
 
     for (let i = 0; i < numbers.length; i++) {
