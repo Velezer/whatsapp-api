@@ -6,19 +6,10 @@ const SessionModel = mongoose.model('Session', new Schema(
     {
         // session: Object
         // session: Schema.Types.Mixed
-        user: {
-            type: String,
-            required: [true, 'user is required'],
-        },
-        password: {
-            type: String,
-            required: [true, 'password is required'],
-        },
-        number: {// phone number
-            type: String,
-            required: [true, 'number is required'],
-            unique: [true, 'number already exist'],
-            index: true
+        user_id: {// phone number
+            type: Schema.Types.ObjectId,
+            required: [true, 'user_id is required'],
+            ref: 'User'
         },
         session: {
             WABrowserId: String,

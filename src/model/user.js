@@ -4,6 +4,12 @@ const Schema = mongoose.Schema
 
 const UserModel = mongoose.model('User', new Schema(
     {
+        number: {// phone number
+            type: String,
+            required: [true, 'number is required'],
+            unique: [true, 'number already exist'],
+            index: true
+        },
         user: {
             type: String,
             required: [true, 'user is required'],
@@ -12,12 +18,7 @@ const UserModel = mongoose.model('User', new Schema(
             type: String,
             required: [true, 'password is required'],
         },
-        number: {// phone number
-            type: String,
-            required: [true, 'number is required'],
-            unique: [true, 'number already exist'],
-            index: true
-        },
+
         contacts: [
             {
                 c_name: String,

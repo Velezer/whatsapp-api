@@ -23,15 +23,15 @@ class ClientWaweb extends Client {
                     '--disable-gpu'
                 ],
             },
-            session: sessionData ? sessionData.session : null
+            session: sessionData.session
         })
-        this.sessionData = sessionData ? sessionData : null
+        this.sessionData = sessionData
 
-        this.isReady = false
-
-        this.receivers = []
 
         this.initialize();
+        this.isReady = false
+        this.receivers = []
+
     }
 
     /**
@@ -56,12 +56,15 @@ class ClientWaweb extends Client {
             this.emitter.emit('log', 'Whatsapp is authenticated!');
 
             if (this.sessionData == null) {
-                const sessionData = new SessionModel({ session })
-                await sessionData.save()
-                this.emitter.emit('log', `_id: ${sessionData._id}`)
-                this.sessionData = sessionData
+                const res = await SessionModel.updateOne({ user_id: this.sessionData.user_id }, {
+                    $set: { session: session }
+                })
+                this.emitter.emit('log', `user_id: ${this.sessionData.user_id}`)
+                this.emitter.emit('log', `res: ${res}`)
+                console.log(`SessionModel.updateOne res= ${res}`)
             }
-            console.log(`AUTHENTICATED with number=${this.sessionData.number}`)
+            this.sessionData.session = session
+            console.log(`AUTHENTICATED with user_id=${this.sessionData.user_id}`)
         });
 
         this.on('ready', async () => {
@@ -76,11 +79,11 @@ class ClientWaweb extends Client {
         this.on('auth_failure', async function () {
             this.emitter.emit('auth_failure', 'Auth failure, restarting...');
             this.emitter.emit('log', 'Auth failure, restarting...');
-            const res = await SessionModel.deleteOne({ _id: this._id })
-            console.log('delete session:', res)
-            if (res.deletedCount > 0) {
-                this._id = null
-            }
+            // const res = await SessionModel.deleteOne({ _id: this._id })
+            // console.log('delete session:', res)
+            // if (res.deletedCount > 0) {
+            //     this._id = null
+            // }
         });
 
         this.on('disconnected', async (reason) => {
