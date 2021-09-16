@@ -22,7 +22,7 @@ class Helper {
         if (!client.isReady) {
             return { client: client, code: 500, err: `client with user ${user} and number ${number} is not ready. please, wait for a minute` };
         }
-        return { client, err: null }
+        return { client, code: 200, err: null }
     }
 
 }
