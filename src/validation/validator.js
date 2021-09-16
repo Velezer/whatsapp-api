@@ -41,7 +41,7 @@ Validator.sendMedia = [
 ]
 
 Validator.getContacts = [
-    ...Rules._id
+    ...Rules.user,
 ]
 
 Validator.user = {}
