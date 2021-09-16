@@ -1,6 +1,7 @@
 const { Client, MessageMedia } = require('whatsapp-web.js')
 const qrcode = require('qrcode')
 const { SessionModel } = require('../model/session')
+const { UserModel } = require('../model/user')
 const sstring = require('./saved-string')
 
 
@@ -68,7 +69,7 @@ class ClientWaweb extends Client {
         this.on('ready', async () => {
             this.isReady = true
 
-            const res = await SessionModel.findOne({ _id: this.sessionData.user_id })
+            const res = await UserModel.findOne({ _id: this.sessionData.user_id })
             this.user = res.user
             this.password = res.password
             this.emitter.emit('ready', 'Whatsapp is ready!');
