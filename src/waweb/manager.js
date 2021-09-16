@@ -42,15 +42,14 @@ class ManagerWaweb {
 
     /**
      * 
-     * @param {Object} { user, password, number } 
+     * @param {string} user_id can be get from SessionModel
      * @returns 
      */
-    getClient({ user, password, number }) {
+    getClientByUserID(user_id) {
         for (let i = 0; i < this.clients.length; i++) {
             const client = this.clients[i];
-            if (client.user == user &&
-                client.password == password &&
-                client.number == number) {
+            if (client.sessionData.user_id == null) { continue }
+            if (client.sessionData.user_id.toString() == user_id) {
                 return client
             }
         }

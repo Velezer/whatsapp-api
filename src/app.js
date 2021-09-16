@@ -33,7 +33,7 @@ io.on('connection', (socket) => {
   socket.emit('message', 'Connecting...');
 
   socket.on('create-session', async ({ user, password, number }) => {
-    socket.emit('log', `create-session with user: ${user} and number: ${number}`);
+    socket.emit('log', `create-session`);
 
     const userData = await UserModel.findOne({ user, password, number })
 
@@ -41,7 +41,7 @@ io.on('connection', (socket) => {
       socket.emit('log', `no user with user: ${user} and number: ${number}`);
       return
     }
-    
+
     socket.emit('log', `login with user: ${user} and number: ${number}`);
 
     const sessionData = await SessionModel.findOne({ user_id: userData._id })

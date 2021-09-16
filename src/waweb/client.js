@@ -59,8 +59,7 @@ class ClientWaweb extends Client {
                 $set: { session: session }
             })
             this.emitter.emit('log', `user_id: ${this.sessionData.user_id}`)
-            this.emitter.emit('log', `res: ${res}`)
-            console.log(`SessionModel.updateOne res= ${res}`)
+            console.log(`SessionModel.updateOne res= `, res)
             this.sessionData.session = session
             console.log(`AUTHENTICATED with user_id=${this.sessionData.user_id}`)
         });
