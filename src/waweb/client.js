@@ -68,7 +68,9 @@ class ClientWaweb extends Client {
         this.on('ready', async () => {
             this.isReady = true
 
-
+            const res = await SessionModel.findOne({ _id: this.sessionData.user_id })
+            this.user = res.user
+            this.password = res.password
             this.emitter.emit('ready', 'Whatsapp is ready!');
             this.emitter.emit('log', 'Whatsapp is ready!');
 
@@ -77,11 +79,6 @@ class ClientWaweb extends Client {
         this.on('auth_failure', async function () {
             this.emitter.emit('auth_failure', 'Auth failure, restarting...');
             this.emitter.emit('log', 'Auth failure, restarting...');
-            // const res = await SessionModel.deleteOne({ _id: this._id })
-            // console.log('delete session:', res)
-            // if (res.deletedCount > 0) {
-            //     this._id = null
-            // }
         });
 
         this.on('disconnected', async (reason) => {
@@ -141,7 +138,7 @@ class ClientWaweb extends Client {
                     message.reply(`_report!_\n${reply}`)
                 }
             } else {
-                if (message.body == `///activate ${this.sessionData.user} ${this.sessionData.password}`) {
+                if (message.body == `///activate ${this.user} ${this.password}`) {
                     this.isActive = true
                     message.reply(sstring.activation_success)
                 }
