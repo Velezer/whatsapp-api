@@ -52,6 +52,9 @@ Validator.user.pushContact = [
     ...Rules.user,
     ...Rules.contact
 ]
+Validator.user.showContacts = [
+    ...Rules.user,
+]
 
 
 module.exports = { Validator, ImageFileuploadValidationResult }

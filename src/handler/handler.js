@@ -9,6 +9,7 @@ Handler.waweb.getContacts = (req, res) => require('./waweb/get-contacts')(req, r
 Handler.user = {}
 Handler.user.create = (req, res) => require('./user/create')(req, res)
 Handler.user.pushContact = (req, res) => require('./user/push-contact')(req, res)
+Handler.user.showContacts = (req, res) => require('./user/show-contact')(req, res)
 
 
 module.exports = Handler
