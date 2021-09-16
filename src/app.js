@@ -36,12 +36,14 @@ io.on('connection', (socket) => {
     socket.emit('log', `create-session with user: ${user} and number: ${number}`);
 
     const userData = await UserModel.findOne({ user, password, number })
-    socket.emit('log', `login with user: ${user} and number: ${number}`);
 
     if (userData === null) {
       socket.emit('log', `no user with user: ${user} and number: ${number}`);
       return
     }
+    
+    socket.emit('log', `login with user: ${user} and number: ${number}`);
+
     const sessionData = await SessionModel.findOne({ user_id: userData._id })
     const client = manager.createClient(sessionData)
 

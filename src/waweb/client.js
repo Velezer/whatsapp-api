@@ -55,14 +55,12 @@ class ClientWaweb extends Client {
             this.emitter.emit('authenticated', 'Whatsapp is authenticated!');
             this.emitter.emit('log', 'Whatsapp is authenticated!');
 
-            if (this.sessionData == null) {
-                const res = await SessionModel.updateOne({ user_id: this.sessionData.user_id }, {
-                    $set: { session: session }
-                })
-                this.emitter.emit('log', `user_id: ${this.sessionData.user_id}`)
-                this.emitter.emit('log', `res: ${res}`)
-                console.log(`SessionModel.updateOne res= ${res}`)
-            }
+            const res = await SessionModel.updateOne({ user_id: this.sessionData.user_id }, {
+                $set: { session: session }
+            })
+            this.emitter.emit('log', `user_id: ${this.sessionData.user_id}`)
+            this.emitter.emit('log', `res: ${res}`)
+            console.log(`SessionModel.updateOne res= ${res}`)
             this.sessionData.session = session
             console.log(`AUTHENTICATED with user_id=${this.sessionData.user_id}`)
         });

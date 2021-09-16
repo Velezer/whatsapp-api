@@ -32,12 +32,12 @@ class Validator {}
 Validator.sendMessage = [
     ...Rules.numbers,
     ...Rules.message,
-    ...Rules._id
+    ...Rules.user,
 ]
 Validator.sendMedia = [
     ...Rules.numbers,
     ...Rules.caption,
-    ...Rules._id
+    ...Rules.user,
 ]
 
 Validator.getContacts = [
