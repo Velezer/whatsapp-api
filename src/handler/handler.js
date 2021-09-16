@@ -1,7 +1,9 @@
 class Handler { }
-Handler.sendMessage = (req, res) => require('./waweb/send-message')(req, res)
-Handler.sendMedia = (req, res) => require('./waweb/send-media')(req, res)
-Handler.getContacts = (req, res) => require('./waweb/get-contacts')(req, res)
+
+Handler.waweb = {}
+Handler.waweb.sendMessage = (req, res) => require('./waweb/send-message')(req, res)
+Handler.waweb.sendMedia = (req, res) => require('./waweb/send-media')(req, res)
+Handler.waweb.getContacts = (req, res) => require('./waweb/get-contacts')(req, res)
 
 
 Handler.user = {}

@@ -22,7 +22,7 @@ ___
 ///get_contacts
 
 example:
-///send_message
-your message`
+///add_receivers
+628388893****`
 
 module.exports = sstring

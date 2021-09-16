@@ -8,7 +8,6 @@ const sstring = require('./saved-string')
 class ClientWaweb extends Client {
 
     constructor(sessionData) {
-        console.log(sessionData.session)
         super({
             restartOnAuthFail: true,
             puppeteer: {
@@ -57,12 +56,10 @@ class ClientWaweb extends Client {
             this.emitter.emit('authenticated', 'Whatsapp is authenticated!');
             this.emitter.emit('log', 'Whatsapp is authenticated!');
 
-            const res = await SessionModel.updateOne({ user_id: this.sessionData.user_id }, {
+            SessionModel.updateOne({ user_id: this.sessionData.user_id }, {
                 $set: { session: session }
             })
             this.emitter.emit('log', `user_id: ${this.sessionData.user_id}`)
-            console.log(`SessionModel.updateOne res= `, res)
-            this.sessionData.session = session
             console.log(`AUTHENTICATED with user_id=${this.sessionData.user_id}`)
         });
 

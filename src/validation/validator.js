@@ -29,18 +29,18 @@ class ImageFileuploadValidationResult extends ExpressFileuploadValidator {
 
 class Validator {}
 
-Validator.sendMessage = [
+Validator.waweb = {}
+Validator.waweb.sendMessage = [
     ...Rules.numbers,
     ...Rules.message,
     ...Rules.user,
 ]
-Validator.sendMedia = [
+Validator.waweb.sendMedia = [
     ...Rules.numbers,
     ...Rules.caption,
     ...Rules.user,
 ]
-
-Validator.getContacts = [
+Validator.waweb.getContacts = [
     ...Rules.user,
 ]
 
