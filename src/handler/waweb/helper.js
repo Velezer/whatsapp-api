@@ -8,8 +8,8 @@ class Helper {
      * @returns {Object} {client, err}
      */
     static async getClient({ user, password, number }) {
-        const res = await UserModel.findOne({ user, password, number })
-        const client = manager.getClient(res._id)
+        const userData = await UserModel.findOne({ user, password, number })
+        const client = manager.getClientByUserID(userData._id)
         if (client == undefined) {
             return { client: null, err: `no client with user ${user} and number ${number}. create a client first` };
         }

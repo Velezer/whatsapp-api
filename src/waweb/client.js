@@ -7,6 +7,7 @@ const sstring = require('./saved-string')
 class ClientWaweb extends Client {
 
     constructor(sessionData) {
+        console.log(sessionData.session)
         super({
             restartOnAuthFail: true,
             puppeteer: {

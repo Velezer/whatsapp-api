@@ -25,20 +25,20 @@ class ManagerWaweb {
         this.clients.push(clientWaweb)
     }
 
-    /**
-     * @param {string} _id
-     * @todo choose client when send-message
-     * @returns client
-     */
-    getClientById(_id) {
-        for (let i = 0; i < this.clients.length; i++) {
-            const client = this.clients[i];
-            if (client._id == null) { continue }
-            if (client._id.toString() == _id) {
-                return client
-            }
-        }
-    }
+    // /**
+    //  * @param {string} _id
+    //  * @todo choose client when send-message
+    //  * @returns client
+    //  */
+    // getClientById(_id) {
+    //     for (let i = 0; i < this.clients.length; i++) {
+    //         const client = this.clients[i];
+    //         if (client._id == null) { continue }
+    //         if (client._id.toString() == _id) {
+    //             return client
+    //         }
+    //     }
+    // }
 
     /**
      * 
