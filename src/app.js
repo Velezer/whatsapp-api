@@ -36,6 +36,8 @@ io.on('connection', (socket) => {
     socket.emit('log', `create-session number: ${number}`);
 
     const userData = await UserModel.findOne({ user, password, number })
+    socket.emit('log', `login with user: ${user} and number: ${number}`);
+
     if (userData === null) {
       socket.emit('log', `no user with user: ${user} and number: ${number}`);
       return
