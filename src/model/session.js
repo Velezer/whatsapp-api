@@ -20,20 +20,6 @@ const SessionModel = mongoose.model('Session', new Schema(
     },
 ))
 
-/**
- * 
- * @param {string} _id 
- * @returns sessionData
- */
-SessionModel.findSession = async function (_id) {
-    let sessionData = null
-    if (_id) {
-        console.log(`find session`)
-        sessionData = await SessionModel.findOne({ _id })
-    }
-    return sessionData
-}
-
 
 
 module.exports = { SessionModel }

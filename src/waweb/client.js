@@ -1,38 +1,19 @@
-const { Client, MessageMedia } = require('whatsapp-web.js')
 const qrcode = require('qrcode')
 const { SessionModel } = require('../model/session')
 const { UserModel } = require('../model/user')
 const sstring = require('./saved-string')
+const { ModifiedClient } = require('./modified-client')
 
 
-class ClientWaweb extends Client {
+class ClientWaweb extends ModifiedClient {
 
     constructor(sessionData) {
-        super({
-            restartOnAuthFail: true,
-            puppeteer: {
-                // executablePath: `C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe`,
-                headless: true,
-                args: [
-                    '--no-sandbox',
-                    '--disable-setuid-sandbox',
-                    '--disable-dev-shm-usage',
-                    '--disable-accelerated-2d-canvas',
-                    '--no-first-run',
-                    '--no-zygote',
-                    '--single-process', // <- this one doesn't works in Windows
-                    '--disable-gpu'
-                ],
-            },
-            session: sessionData.session
-        })
+        super(sessionData.session)
         this.sessionData = sessionData
-
 
         this.initialize();
         this.isReady = false
         this.receivers = []
-
     }
 
     /**
@@ -40,10 +21,7 @@ class ClientWaweb extends Client {
      */
     setEmitter(socket) {
         this.emitter = socket
-        this._listenAllEvents()
-    }
 
-    _listenAllEvents() {
         this.on('qr', async (qr) => {
             console.log('QR RECEIVED', qr);
             qrcode.toDataURL(qr, (err, url) => {
@@ -144,39 +122,6 @@ class ClientWaweb extends Client {
 
         });
 
-    }
-    /**
-     * @param {string} number 
-     * @param {*} file
-     * @param {string} caption 
-     * @returns Promise<WAWebJS.Message>
-     * @todo send media
-     */
-    async sendMedia(number, file, caption) {
-        const base64Data = file.data.toString('base64')
-        const media = new MessageMedia(file.mimetype, base64Data, file.name)
-        return await super.sendMessage(number, media, { caption: caption })
-    }
-    /**
-     * 
-     * @returns Promise<WAWebJS.Contact[]>
-     */
-    async getContacts() {
-        let contacts = await super.getContacts()
-        contacts.forEach(contact => {
-            const keys = Object.keys(contact)
-            keys.forEach(key => {
-                if (key !== `number` &&
-                    key !== `name` &&
-                    key !== `pushname` &&
-                    key !== `shortName` &&
-                    key !== `verifiedName`) {
-                    delete contact[key] // delete unused property
-                }
-            });
-        })
-        contacts = contacts.filter(contact => contact.number !== null)
-        return contacts
     }
 
 }
