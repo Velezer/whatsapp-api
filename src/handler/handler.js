@@ -10,7 +10,7 @@ Handler.user = {}
 Handler.user.create = (req, res) => require('./user/create')(req, res)
 Handler.user.pushContact = (req, res) => require('./user/push-contact')(req, res)
 Handler.user.deleteContact = (req, res) => require('./user/delete-contact')(req, res)
-Handler.user.showContacts = (req, res) => require('./user/show-contact')(req, res)
+Handler.user.showContacts = (req, res) => require('./user/show-contacts')(req, res)
 
 
 module.exports = Handler

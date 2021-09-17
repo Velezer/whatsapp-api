@@ -16,7 +16,7 @@ module.exports = async (req, res) => {
     const userData = await UserModel.findOne({ user, password, number })
 
     const { c_name, c_number } = req.body
-    const result = await ContactsModel.pushContact(userData._id, { c_name, c_number })
+    const result = await ContactsModel.pushContact(userData.contacts_id, { c_name, c_number })
 
     res.status(200).json({
         user,
