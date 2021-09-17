@@ -42,10 +42,11 @@ io.on('connection', (socket) => {
       return
     }
     console.log(userData)
-
+    
     socket.emit('log', `login with user: ${userData.user} and number: ${userData.number}`);
-
+    
     const sessionData = await SessionModel.findOne({ _id: userData.session_id })
+    console.log(sessionData)
     const client = manager.createClient(sessionData.session, userData)
 
     client.setEmitter(socket)

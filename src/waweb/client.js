@@ -7,6 +7,9 @@ const { ModifiedClient } = require('./modified-client')
 class ClientWaweb extends ModifiedClient {
 
     constructor(session, userData) {
+        console.log(`constructor`)
+        console.log(session)
+        console.log(userData)
         super(session)
         this.userData = userData
 
