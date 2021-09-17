@@ -16,7 +16,7 @@ module.exports = async (req, res) => {
 
     // manual unique start
     if (await UserModel.findOne({ number })) {
-        res.status(400).json({ message: `user with number ${number} is already exist` });
+        return res.status(400).json({ message: `user with number ${number} is already exist` });
     }
     // manual unique end
 
