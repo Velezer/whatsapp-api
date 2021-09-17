@@ -33,7 +33,7 @@ module.exports = async (req, res) => {
         }
     }
     res.status(200).json({
-        number: client.sessionData.number,
+        number: client.userData.number,
         message: `send-message called`
     });
 }
