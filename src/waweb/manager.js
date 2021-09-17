@@ -13,8 +13,8 @@ class ManagerWaweb {
      * @todo create client
      * @returns client
      */
-    createClient(sessionData) {
-        return new ClientWaweb(sessionData)
+    createClient(session, userData) {
+        return new ClientWaweb(session, userData)
     }
 
     /**
