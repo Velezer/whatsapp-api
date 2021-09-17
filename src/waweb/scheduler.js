@@ -9,7 +9,7 @@ class Scheduler {
     static destroyClient(manager) {
         setInterval(() => {
             for (let i = 0; i < manager.clients.length - 1; i++) {
-                if (manager.clients[i].this.isReady === true) { continue }
+                if (manager.clients[i].isReady === true) { continue }
                 manager.clients[i].destroy()
                 manager.clients.splice(i, 1)
                 i--
