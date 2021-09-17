@@ -50,6 +50,17 @@ UserModel.pushContact = async (_id, contact) => {
     // })
 }
 
+/**
+ * 
+ * @param {string} _id 
+ * @param {object} contact 
+ * @returns 
+ */
+UserModel.deleteContact = async (_id, contact) => {
+    return await UserModel.updateOne({ _id }, {
+        $pull: { contacts: contact }
+    })
+}
 
 
 module.exports = { UserModel }

@@ -70,6 +70,7 @@ app.post('/api/waweb/get-contacts', Validator.getContacts, (req, res) => Handler
 
 app.post('/api/user', Validator.user.create, (req, res) => Handler.user.create(req, res))
 app.put('/api/user/contacts', Validator.user.pushContact, (req, res) => Handler.user.pushContact(req, res))
+app.delete('/api/user/contacts', Validator.user.deleteContact, (req, res) => Handler.user.deleteContact(req, res))
 app.get('/api/user/contacts', Validator.user.showContacts, (req, res) => Handler.user.showContacts(req, res))
 
 let port = process.env.PORT || 5555
