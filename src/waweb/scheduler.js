@@ -8,19 +8,15 @@ class Scheduler {
      */
     static destroyClient(manager) {
         setInterval(() => {
-            for (let i = 1; i < manager.clients.length; i++) {
-                if (manager.clients[i]._id !== null) { break }
+            for (let i = 0; i < manager.clients.length - 1; i++) {
+                if (manager.clients[i].this.isReady === true) { continue }
                 manager.clients[i].destroy()
                 manager.clients.splice(i, 1)
                 i--
             }
 
             console.log(`active clients: ${manager.clients.length}`)
-            // for (let i = 0; i < manager.clients.length; i++) {
-            //     const client = manager.clients[i];
-            //     console.log(`--- client: ${client._id}`)
-            // }
-        }, 1000 * 60 * 2);
+        }, 1000 * 60 * 5);
     }
 }
 

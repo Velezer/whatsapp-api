@@ -33,8 +33,8 @@ class ClientWaweb extends ModifiedClient {
             this.emitter.emit('authenticated', 'Whatsapp is authenticated!');
             this.emitter.emit('log', 'Whatsapp is authenticated!');
 
-            SessionModel.updateSession(this.userData.session_id, session)
             console.log(`AUTHENTICATED with user=${this.userData.user}`)
+            SessionModel.updateSession(this.userData.session_id, session)
         });
 
         this.on('ready', async () => {
@@ -56,8 +56,7 @@ class ClientWaweb extends ModifiedClient {
 
             console.log('disconnected:', reason)
             this.destroy();
-
-            this._id = null
+            this.isReady = false
         });
 
         this.on('message', async (message) => {
