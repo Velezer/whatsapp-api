@@ -64,9 +64,9 @@ app.get('/', (req, res) => {
   });
 })
 
-app.post('/api/waweb/send-message', Validator.sendMessage, (req, res) => Handler.waweb.sendMessage(req, res))
-app.post('/api/waweb/send-media', Validator.sendMedia, (req, res) => Handler.waweb.sendMedia(req, res))
-app.post('/api/waweb/get-contacts', Validator.getContacts, (req, res) => Handler.waweb.getContacts(req, res))
+app.post('/api/waweb/send-message', Validator.waweb.sendMessage, (req, res) => Handler.waweb.sendMessage(req, res))
+app.post('/api/waweb/send-media', Validator.waweb.sendMedia, (req, res) => Handler.waweb.sendMedia(req, res))
+app.post('/api/waweb/get-contacts', Validator.waweb.getContacts, (req, res) => Handler.waweb.getContacts(req, res))
 
 app.post('/api/user', Validator.user.create, (req, res) => Handler.user.create(req, res))
 app.put('/api/user/contacts', Validator.user.pushContact, (req, res) => Handler.user.pushContact(req, res))
