@@ -1,4 +1,6 @@
 const mongoose = require('mongoose')
+const { SessionModel } = require('./session')
+const { ContactsModel } = require('./contacts')
 
 const Schema = mongoose.Schema
 
@@ -18,49 +20,34 @@ const UserModel = mongoose.model('User', new Schema(
             type: String,
             required: [true, 'password is required'],
         },
-
-        contacts: [
-            {
-                c_name: String,
-                c_number: {
-                    type: String,
-                    // unique: [true, 'c_number already exist'],
-                },
-                // pushname: String,
-                // shortName: String,
-                // verifiedName: String
-            }
-        ]
+        session_id: {// phone number
+            type: Schema.Types.ObjectId,
+            required: [true, 'session_id is required'],
+            ref: 'Session'
+        },
+        contacts_id: {// phone number
+            type: Schema.Types.ObjectId,
+            required: [true, 'contacts_id is required'],
+            ref: 'Contacts'
+        },
 
     },
 ))
 
 /**
  * 
- * @param {string} _id 
- * @param {object} contact 
+ * @param {String} user 
+ * @param {String} password 
+ * @param {String} number 
  * @returns 
  */
-UserModel.pushContact = async (_id, contact) => {
-    return await UserModel.updateOne({ _id }, {
-        $addToSet: { contacts: contact }
-    })
-    // return await UserModel.findByIdAndUpdate(_id, {
-    //     $addToSet: { contacts: contact }
-    // })
+UserModel.createUser = async ({ user, password, number }) => {
+    const sessionData = new SessionModel({ session: {} })
+    const resS = await sessionData.save()
+    const contactsData = new ContactsModel({ contacts: [] })
+    const resC = await contactsData.save()
+    const userData = new UserModel({ user, password, number, session: resS._id, contacts: resC._id })
+    return await userData.save()
 }
-
-/**
- * 
- * @param {string} _id 
- * @param {object} contact 
- * @returns 
- */
-UserModel.deleteContact = async (_id, contact) => {
-    return await UserModel.updateOne({ _id }, {
-        $pull: { contacts: contact }
-    })
-}
-
 
 module.exports = { UserModel }

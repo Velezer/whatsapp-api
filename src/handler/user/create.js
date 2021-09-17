@@ -1,6 +1,7 @@
 const { validationResult } = require('express-validator');
 const { UserModel } = require('../../model/user')
-const { SessionModel } = require('../../model/session')
+// const { SessionModel } = require('../../model/session')
+// const { ContactsModel } = require('../../model/contacts')
 
 module.exports = async (req, res) => {
     console.log(`user-create`)
@@ -19,40 +20,13 @@ module.exports = async (req, res) => {
     }
     // manual unique end
 
-    const userData = new UserModel({ user, password, number, contacts: [] })
-    let resultUser = null
-    let code = null
 
-    try {
-        resultUser = await userData.save()
-    } catch (err) {
-        console.log(`____________${err}`)
-        if (err.name == 'ValidationError' || err.code == 11000) { code = 400 }//validation error n duplication error
-        else { code = 500 }
-        res.status(code).json({
-            message: err.message,
-        });
-    }
-
-    const sessionData = new SessionModel({ user_id: resultUser._id, session: {} })
-
-    let resultSession = null
-    try {
-        resultSession = await sessionData.save()
-    } catch (err) {
-        console.log(`____________${err}`)
-        if (err.name == 'ValidationError' || err.code == 11000) { code = 400 }//validation error n duplication error
-        else { code = 500 }
-        res.status(code).json({
-            message: err.message,
-        });
-    }
+    const resultUser = await UserModel.createUser({ user, password, number })
 
 
     res.status(201).json({
         message: `successfully created user`,
         user: {
-            user_id: resultSession.user_id,
             user: resultUser.user,
             number: resultUser.number
         }

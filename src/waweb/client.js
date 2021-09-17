@@ -1,15 +1,14 @@
 const qrcode = require('qrcode')
 const { SessionModel } = require('../model/session')
-const { UserModel } = require('../model/user')
 const sstring = require('./saved-string')
 const { ModifiedClient } = require('./modified-client')
 
 
 class ClientWaweb extends ModifiedClient {
 
-    constructor(sessionData) {
-        super(sessionData.session)
-        this.sessionData = sessionData
+    constructor(session, userData) {
+        super(session)
+        this.userData = userData
 
         this.initialize();
         this.isReady = false
@@ -34,19 +33,13 @@ class ClientWaweb extends ModifiedClient {
             this.emitter.emit('authenticated', 'Whatsapp is authenticated!');
             this.emitter.emit('log', 'Whatsapp is authenticated!');
 
-            SessionModel.updateOne({ user_id: this.sessionData.user_id }, {
-                $set: { session: session }
-            })
-            this.emitter.emit('log', `user_id: ${this.sessionData.user_id}`)
-            console.log(`AUTHENTICATED with user_id=${this.sessionData.user_id}`)
+            SessionModel.updateSession(this.userData.session_id, session)
+            console.log(`AUTHENTICATED with user=${this.userData.user}`)
         });
 
         this.on('ready', async () => {
             this.isReady = true
 
-            const res = await UserModel.findOne({ _id: this.sessionData.user_id })
-            this.user = res.user
-            this.password = res.password
             this.emitter.emit('ready', 'Whatsapp is ready!');
             this.emitter.emit('log', 'Whatsapp is ready!');
 
@@ -114,7 +107,7 @@ class ClientWaweb extends ModifiedClient {
                     message.reply(`_report!_\n${reply}`)
                 }
             } else {
-                if (message.body == `///activate ${this.user} ${this.password}`) {
+                if (message.body == `///activate ${this.userData.user} ${this.userData.password}`) {
                     this.isActive = true
                     message.reply(sstring.activation_success)
                 }

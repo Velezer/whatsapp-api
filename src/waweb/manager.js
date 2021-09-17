@@ -27,15 +27,15 @@ class ManagerWaweb {
 
     /**
      * 
-     * @param {string} user_id can be get from SessionModel
+     * @param {string} _id can be get from UserModel
      * @returns 
      */
-    getClientByUserID(user_id) {
+    getClientByUserID(_id) {
         for (let i = 0; i < this.clients.length; i++) {
             const client = this.clients[i];
-            console.log(client.sessionData.user_id)
-            if (client.sessionData.user_id == null) { continue }
-            if (client.sessionData.user_id.toString() == user_id) {
+            console.log(client.userData._id)
+            if (client.userData._id == null) { continue }
+            if (client.userData._id.toString() == _id) {
                 return client
             }
         }

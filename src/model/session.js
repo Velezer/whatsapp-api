@@ -6,11 +6,7 @@ const SessionModel = mongoose.model('Session', new Schema(
     {
         // session: Object
         // session: Schema.Types.Mixed
-        user_id: {// phone number
-            type: Schema.Types.ObjectId,
-            required: [true, 'user_id is required'],
-            ref: 'User'
-        },
+
         session: {
             WABrowserId: String,
             WASecretBundle: String,
@@ -20,6 +16,16 @@ const SessionModel = mongoose.model('Session', new Schema(
     },
 ))
 
-
+/**
+ * 
+ * @param {String} _id 
+ * @param {String} session 
+ * @returns 
+ */
+SessionModel.updateSession = async (_id, session) => {
+    return await SessionModel.updateOne({ _id: _id }, {
+        $set: { session: session }
+    })
+}
 
 module.exports = { SessionModel }

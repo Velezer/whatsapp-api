@@ -1,5 +1,6 @@
 const { validationResult } = require('express-validator');
 const { UserModel } = require('../../model/user')
+const { ContactsModel } = require('../../model/contacts')
 
 module.exports = async (req, res) => {
     console.log(`push-contact`)
@@ -15,7 +16,7 @@ module.exports = async (req, res) => {
     const userData = await UserModel.findOne({ user, password, number })
 
     const { c_name, c_number } = req.body
-    const result = await UserModel.pushContact(userData._id, { c_name, c_number })
+    const result = await ContactsModel.pushContact(userData._id, { c_name, c_number })
 
     res.status(200).json({
         user,
