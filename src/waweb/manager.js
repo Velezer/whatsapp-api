@@ -33,7 +33,7 @@ class ManagerWaweb {
     getClientByUserID(_id) {
         for (let i = 0; i < this.clients.length; i++) {
             const client = this.clients[i];
-            console.log(client.userData._id)
+            console.log(client.userData)
             if (client.userData._id == null) { continue }
             if (client.userData._id.toString() == _id) {
                 return client

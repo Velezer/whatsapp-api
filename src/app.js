@@ -41,6 +41,7 @@ io.on('connection', (socket) => {
       socket.emit('log', `no user with user: ${user} and number: ${number}`);
       return
     }
+    console.log(userData)
 
     socket.emit('log', `login with user: ${userData.user} and number: ${userData.number}`);
 

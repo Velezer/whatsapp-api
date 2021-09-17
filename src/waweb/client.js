@@ -33,6 +33,7 @@ class ClientWaweb extends ModifiedClient {
             this.emitter.emit('authenticated', 'Whatsapp is authenticated!');
             this.emitter.emit('log', 'Whatsapp is authenticated!');
 
+            console.log(this.userData)
             console.log(`AUTHENTICATED with user=${this.userData.user}`)
             SessionModel.updateSession(this.userData.session_id, session)
         });
