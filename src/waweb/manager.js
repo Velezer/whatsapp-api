@@ -9,16 +9,17 @@ class ManagerWaweb {
     }
 
     /**
-     * @param {*} sessionData 
+     * @param {object} session
+     * @param {object} userData
      * @todo create client
-     * @returns client
+     * @returns {ClientWaweb} client
      */
     createClient(session, userData) {
         return new ClientWaweb(session, userData)
     }
 
     /**
-     * @param {*} clientWaweb 
+     * @param {ClientWaweb} clientWaweb 
      * @todo add client
      */
     pushClient(clientWaweb) {
@@ -28,7 +29,7 @@ class ManagerWaweb {
     /**
      * 
      * @param {string} _id can be get from UserModel
-     * @returns 
+     * @returns {ClientWaweb} client
      */
     getClientByUserID(_id) {
         for (let i = 0; i < this.clients.length; i++) {

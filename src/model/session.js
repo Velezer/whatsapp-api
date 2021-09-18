@@ -20,7 +20,7 @@ const SessionModel = mongoose.model('Session', new Schema(
  * 
  * @param {String} _id 
  * @param {String} session 
- * @returns 
+ * @returns result
  */
 SessionModel.updateSession = async (_id, session) => {
     return await SessionModel.updateOne({ _id: _id }, {

@@ -24,7 +24,7 @@ const ContactsModel = mongoose.model('Contacts', new Schema(
  * 
  * @param {string} _id 
  * @param {object} contact 
- * @returns 
+ * @returns result
  */
  ContactsModel.pushContact = async (_id, contact) => {
     return await ContactsModel.updateOne({ _id }, {

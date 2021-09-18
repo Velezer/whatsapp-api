@@ -39,7 +39,7 @@ const UserModel = mongoose.model('User', new Schema(
  * @param {String} user 
  * @param {String} password 
  * @param {String} number 
- * @returns 
+ * @returns result
  */
 UserModel.createUser = async ({ user, password, number }) => {
     const sessionData = new SessionModel({ session: {} })

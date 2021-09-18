@@ -4,8 +4,8 @@ const { UserModel } = require('../../model/user')
 class Helper {
     /**
      * 
-     * @param {Object} { user, password, number } 
-     * @returns {Object} {client, code,err}
+     * @param {object} { user, password, number } 
+     * @returns {object} {client, code,err}
      */
     static async getClient({ user, password, number }) {
         let data = {}
