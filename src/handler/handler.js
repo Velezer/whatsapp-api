@@ -8,6 +8,7 @@ Handler.waweb.getContacts = (req, res) => require('./waweb/get-contacts')(req, r
 
 Handler.user = {}
 Handler.user.create = (req, res) => require('./user/create')(req, res)
+Handler.user.delete = (req, res) => require('./user/delete')(req, res)
 Handler.user.pushContact = (req, res) => require('./user/push-contact')(req, res)
 Handler.user.deleteContact = (req, res) => require('./user/delete-contact')(req, res)
 Handler.user.showContacts = (req, res) => require('./user/show-contacts')(req, res)

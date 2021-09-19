@@ -40,25 +40,17 @@ Validator.waweb.sendMedia = [
     ...Rules.caption,
     ...Rules.user,
 ]
-Validator.waweb.getContacts = [
-    ...Rules.user,
-]
 
 Validator.user = {}
-Validator.user.create = [
+Validator.user.common = [
     ...Rules.user,
 ]
-Validator.user.pushContact = [
-    ...Rules.user,
-    ...Rules.contact
-]
-Validator.user.deleteContact = [
+Validator.user.contact = [
     ...Rules.user,
     ...Rules.contact
 ]
-Validator.user.showContacts = [
-    ...Rules.user,
-]
+
+
 
 
 module.exports = { Validator, ImageFileuploadValidationResult }

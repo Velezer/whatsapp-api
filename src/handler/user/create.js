@@ -1,7 +1,5 @@
 const { validationResult } = require('express-validator');
 const { UserModel } = require('../../model/user')
-// const { SessionModel } = require('../../model/session')
-// const { ContactsModel } = require('../../model/contacts')
 
 module.exports = async (req, res) => {
     console.log(`user-create`)

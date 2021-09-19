@@ -67,12 +67,13 @@ app.get('/', (req, res) => {
 
 app.post('/api/waweb/send-message', Validator.waweb.sendMessage, (req, res) => Handler.waweb.sendMessage(req, res))
 app.post('/api/waweb/send-media', Validator.waweb.sendMedia, (req, res) => Handler.waweb.sendMedia(req, res))
-app.post('/api/waweb/get-contacts', Validator.waweb.getContacts, (req, res) => Handler.waweb.getContacts(req, res))
+app.post('/api/waweb/get-contacts', Validator.user.common, (req, res) => Handler.waweb.getContacts(req, res))
 
-app.post('/api/user', Validator.user.create, (req, res) => Handler.user.create(req, res))
-app.put('/api/user/contacts', Validator.user.pushContact, (req, res) => Handler.user.pushContact(req, res))
-app.delete('/api/user/contacts', Validator.user.deleteContact, (req, res) => Handler.user.deleteContact(req, res))
-app.get('/api/user/contacts', Validator.user.showContacts, (req, res) => Handler.user.showContacts(req, res))
+app.post('/api/user', Validator.user.common, (req, res) => Handler.user.create(req, res))
+app.post('/api/user', Validator.user.common, (req, res) => Handler.user.delete(req, res))
+app.put('/api/user/contacts', Validator.user.contact, (req, res) => Handler.user.pushContact(req, res))
+app.delete('/api/user/contacts', Validator.user.contact, (req, res) => Handler.user.deleteContact(req, res))
+app.get('/api/user/contacts', Validator.user.common, (req, res) => Handler.user.showContacts(req, res))
 
 let port = process.env.PORT || 5555
 server.listen(port, function () {
