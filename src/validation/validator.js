@@ -75,4 +75,4 @@ Validator.user.contact = [
 
 
 
-module.exports = { Validator, ImageFileuploadValidationResult }
+module.exports = { Validator }
