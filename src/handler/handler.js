@@ -1,17 +1,17 @@
 class Handler { }
 
 Handler.waweb = {}
-Handler.waweb.sendMessage = (req, res) => require('./waweb/send-message')(req, res)
-Handler.waweb.sendMedia = (req, res) => require('./waweb/send-media')(req, res)
-Handler.waweb.getContacts = (req, res) => require('./waweb/get-contacts')(req, res)
+Handler.waweb.sendMessage = require('./waweb/send-message')
+Handler.waweb.sendMedia = require('./waweb/send-media')
+Handler.waweb.getContacts = require('./waweb/get-contacts')
 
 
 Handler.user = {}
-Handler.user.create = (req, res) => require('./user/create')(req, res)
-Handler.user.delete = (req, res) => require('./user/delete')(req, res)
-Handler.user.pushContact = (req, res) => require('./user/push-contact')(req, res)
-Handler.user.deleteContact = (req, res) => require('./user/delete-contact')(req, res)
-Handler.user.showContacts = (req, res) => require('./user/show-contacts')(req, res)
+Handler.user.create = require('./user/create')
+Handler.user.delete = require('./user/delete')
+Handler.user.pushContact = require('./user/push-contact')
+Handler.user.deleteContact = require('./user/delete-contact')
+Handler.user.showContacts = require('./user/show-contacts')
 
 
 module.exports = Handler
