@@ -1,22 +1,8 @@
-const { validationResult } = require('express-validator');
 const { Helper } = require('./helper')
-const { ImageFileuploadValidationResult } = require('../../validation/validator')
 
 
 module.exports = async (req, res) => {
     console.log(`sendMedia`)
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
-    }
-
-    const fileErrors = new ImageFileuploadValidationResult(req)
-    if (!fileErrors.isEmpty()) {
-        return res.status(400).json({ errors: fileErrors.array() });
-    }
-
-    // validation end
-
     
     const { user, password, number } = req.body
 
