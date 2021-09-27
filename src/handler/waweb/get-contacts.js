@@ -1,7 +1,7 @@
 const { Helper } = require('./helper')
 
 
-module.exports = async (req, res) => {
+module.exports = async (req, res, next) => {
     console.log(`getContacts`)
 
     const { user, password, number } = req.body
@@ -9,7 +9,7 @@ module.exports = async (req, res) => {
     const data = await Helper.getClient({ user, password, number })
     console.log(`code:`, data.code)
     if (data.err) {
-        return res.status(data.code || 500).json({ message: data.err })
+        next(data.err)
     }
     const client = data.client
     // get client end

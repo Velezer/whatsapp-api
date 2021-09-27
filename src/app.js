@@ -21,7 +21,7 @@ app.get('/', (req, res) => {
 app.use('/api/waweb', require("./routes/waweb"))
 app.use('/api/user', require("./routes/user"))
 
-app.use(require("./middleware/commonError"))
+app.use(require("./middleware/expressError"))
 
 
 

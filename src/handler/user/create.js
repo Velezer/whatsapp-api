@@ -1,13 +1,15 @@
 const { UserModel } = require('../../model/user')
 
-module.exports = async (req, res) => {
+module.exports = async (req, res, next) => {
     console.log(`user-create`)
 
     const { user, password, number } = req.body
 
-    // manual unique start
+    // manual unique
     if (await UserModel.findOne({ number })) {
-        return res.status(400).json({ message: `user with number ${number} is already exist` });
+        const err = new Error(`user with number ${number} is already exist`)
+        err.code = 400
+        next(err)
     }
     // manual unique end
 
@@ -17,7 +19,7 @@ module.exports = async (req, res) => {
 
     res.status(201).json({
         message: `successfully created user`,
-        user: {
+        data: {
             user: resultUser.user,
             number: resultUser.number
         }

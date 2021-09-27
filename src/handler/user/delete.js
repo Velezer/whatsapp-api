@@ -1,13 +1,16 @@
 const { UserModel } = require('../../model/user')
 
-module.exports = async (req, res) => {
+module.exports = async (req, res, next) => {
     console.log(`user-delete`)
 
 
     const { user, password, number } = req.body
 
-    if (!await UserModel.findOne({ number })) {
-        return res.status(404).json({ message: `user with number ${number} not found` });
+    const found = await UserModel.findOne({ number })
+    if (!found) {
+        const err = new Error(`user with number ${number} not found`)
+        err.code = 404
+        next(err)
     }
 
     await UserModel.deleteOne({ user, password, number })
