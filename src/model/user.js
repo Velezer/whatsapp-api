@@ -22,12 +22,12 @@ const UserModel = mongoose.model('User', new Schema(
         },
         session: {// phone number
             type: Schema.Types.ObjectId,
-            required: [true, 'session_id is required'],
+            required: [true, 'session is required'],
             ref: 'Session'
         },
         contacts: {// phone number
             type: Schema.Types.ObjectId,
-            required: [true, 'contacts_id is required'],
+            required: [true, 'contacts is required'],
             ref: 'Contacts'
         },
 
@@ -46,7 +46,7 @@ UserModel.createUser = async ({ user, password, number }) => {
     const resS = await sessionData.save()
     const contactsData = new ContactsModel({ contacts: [] })
     const resC = await contactsData.save()
-    const userData = new UserModel({ user, password, number, session_id: resS._id, contacts_id: resC._id })
+    const userData = new UserModel({ user, password, number, session: resS._id, contacts: resC._id })
     return await userData.save()
 }
 
