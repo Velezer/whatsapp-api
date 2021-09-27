@@ -19,6 +19,7 @@
     "express-fileupload": "^1.2.1",
     "express-fileupload-validator": "^2.0.1",
     "express-validator": "^6.12.1",
+    "jest": "^27.2.2",
     "mongodb": "^4.1.1",
     "mongoose": "^6.0.5",
     "nodemon": "^2.0.12",

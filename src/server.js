@@ -38,7 +38,7 @@ io.on('connection', (socket) => {
 
         socket.emit('log', `login with user: ${userData.user} and number: ${userData.number}`);
 
-        const client = manager.createClient(userData.session, userData)
+        const client = manager.createClient(userData)
 
         client.setEmitter(socket)
         manager.pushClient(client)

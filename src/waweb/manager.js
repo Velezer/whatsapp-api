@@ -9,13 +9,12 @@ class ManagerWaweb {
     }
 
     /**
-     * @param {object} session
      * @param {object} userData
      * @todo create client
      * @returns {ClientWaweb} client
      */
-    createClient(session, userData) {
-        return new ClientWaweb(session, userData)
+    createClient(userData) {
+        return new ClientWaweb(userData)
     }
 
     /**

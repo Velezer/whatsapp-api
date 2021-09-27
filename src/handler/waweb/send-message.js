@@ -1,21 +1,13 @@
-const { Helper } = require('./helper')
 
 
-module.exports = async (req, res, next) => {
+module.exports = async (req, res) => {
     console.log(`sendMessage`)
 
-    const { user, password, number } = req.body
+    const client = req.client
 
-    const data = await Helper.getClient({ user, password, number })
-    console.log(`code:`, data.code)
-    if (data.err) {
-        next(data.err)
-    }
-    const client = data.client
-    console.log(`get client end`)
-    // get client end
     const { message, numbers } = req.body
 
+    
     for (let i = 0; i < numbers.length; i++) {
         const num = `${numbers[i]}@c.us`;
 

@@ -4,6 +4,7 @@ Handler.waweb = {}
 Handler.waweb.sendMessage = require('./waweb/send-message')
 Handler.waweb.sendMedia = require('./waweb/send-media')
 Handler.waweb.getContacts = require('./waweb/get-contacts')
+Handler.waweb.getClientMiddleware = require('./waweb/get-client-middleware')
 
 
 Handler.user = {}

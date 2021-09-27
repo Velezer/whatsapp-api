@@ -8,12 +8,10 @@ const bcrypt = require("bcrypt")
 class ClientWaweb extends ModifiedClient {
     /**
      * 
-     * @param {WAWebJS.ClientSession} session 
      * @param {object} userData 
      */
-    constructor(session, userData) {
-        console.log(session)
-        super(session)
+    constructor(userData) {
+        super(userData.session)
         this.userData = userData
 
         this.initialize();
