@@ -36,8 +36,8 @@ class ClientWaweb extends ModifiedClient {
         });
 
         this.on('authenticated', async (session) => {
-            this.emitter.emit('authenticated', 'Whatsapp is authenticated!')
-            this.emitter.emit('log', 'Whatsapp is authenticated! Please wait it until ready')
+            this.emitter.emit('authenticated', 'Authenticated!')
+            this.emitter.emit('log', 'Authenticated! Please wait it until ready')
 
             console.log(`AUTHENTICATED with user=${this.userData.user}`)
             SessionModel.updateSession(this.userData.session, session)
@@ -47,7 +47,7 @@ class ClientWaweb extends ModifiedClient {
             const myNumber = await this.getContactById(`${this.userData.number}@c.us`)
             if (!myNumber.isMe) {
                 this.emitter.emit('log', 'This is not your number')
-                this.emitter.emit('log', 'Logout')
+                this.emitter.emit('log', 'Logout...')
                 this.destroy()
                 return
             }
@@ -120,7 +120,7 @@ class ClientWaweb extends ModifiedClient {
                 }
             } else {
                 const body = message.body.split(' ')
-                if (`${body[0]} ${body[1]}` == `///activate ${this.userData.user}`) {
+                if (`${body[0]} ${body[1]}` == `///activate ${this.userData.user} `) {
                     if (bcrypt.compareSync(body[2], this.userData.password)) {
                         this.isActive = true
                         message.reply(sstring.activation_success)
