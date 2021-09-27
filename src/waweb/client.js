@@ -7,7 +7,7 @@ const { ModifiedClient } = require('./modified-client')
 class ClientWaweb extends ModifiedClient {
     /**
      * 
-     * @param {object} session 
+     * @param {WAWebJS.ClientSession} session 
      * @param {object} userData 
      */
     constructor(session, userData) {

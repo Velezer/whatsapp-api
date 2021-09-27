@@ -14,7 +14,7 @@ app.use(cors({ credentials: true, origin: '*' }));
 
 app.get('/', (req, res) => {
   res.status(200).json({
-    message: `see?`
+    message: `server up`
   });
 })
 

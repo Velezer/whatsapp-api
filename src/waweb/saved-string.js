@@ -1,4 +1,4 @@
-const sstring={}
+const sstring = {}
 sstring.activation_success = `
 activation success
 ___

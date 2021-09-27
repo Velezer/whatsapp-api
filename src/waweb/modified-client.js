@@ -2,7 +2,10 @@ const { Client, MessageMedia } = require('whatsapp-web.js')
 
 
 class ModifiedClient extends Client {
-
+    /**
+     * 
+     * @param {WAWebJS.ClientSession} session 
+     */
     constructor(session) {
         super({
             restartOnAuthFail: true,
@@ -26,7 +29,7 @@ class ModifiedClient extends Client {
 
     /**
      * @param {string} number 
-     * @param {*} file
+     * @param {object} file
      * @param {string} caption 
      * @returns Promise<WAWebJS.Message>
      * @todo send media
