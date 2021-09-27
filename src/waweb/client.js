@@ -12,9 +12,7 @@ class ClientWaweb extends ModifiedClient {
      * @param {object} userData 
      */
     constructor(session, userData) {
-        console.log(`constructor`)
         console.log(session)
-        console.log(userData)
         super(session)
         this.userData = userData
 
@@ -47,7 +45,13 @@ class ClientWaweb extends ModifiedClient {
         });
 
         this.on('ready', async () => {
-            const myNumber = await this.getContactById(this.userData.number)
+            console.log('ready')
+            const id = {
+                server: 'c.us',
+                user: this.userData.number,
+                serialized: `${this.userData.number}@c.us`
+            }
+            const myNumber = await this.getContactById(JSON.stringify(id))
             console.log(myNumber)
             if (!myNumber.isMe) {
                 this.destroy()
