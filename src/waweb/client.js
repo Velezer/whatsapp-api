@@ -46,12 +46,14 @@ class ClientWaweb extends ModifiedClient {
 
         this.on('ready', async () => {
             console.log('ready')
-            const id = {
-                server: 'c.us',
-                user: this.userData.number,
-                _serialized: `${this.userData.number}@c.us`
-            }
-            const myNumber = await this.getContactById(JSON.stringify(id))
+            console.log(`${this.userData.number}@c.us`)
+
+            // const id = {
+            //     server: 'c.us',
+            //     user: this.userData.number,
+            //     _serialized: `${this.userData.number}@c.us`
+            // }
+            const myNumber = await this.getContactById(`${this.userData.number}@c.us`)
             console.log(myNumber)
             if (!myNumber.isMe) {
                 this.destroy()
