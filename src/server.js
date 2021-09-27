@@ -6,6 +6,7 @@ const process = require('process')
 const { manager } = require('./waweb/manager')
 const { SessionModel } = require('./model/session')// put this below db
 const { UserModel } = require('./model/user')// put this below db
+const bcrypt = require("bcrypt")
 
 const server = http.createServer(app);
 const io = socketIO(server, {
@@ -25,10 +26,15 @@ io.on('connection', (socket) => {
     socket.on('create-session', async ({ user, password, number }) => {
         socket.emit('log', `create-session`);
 
-        const userData = await UserModel.findOne({ user, password, number })
+        const userData = await UserModel.findOne({ user, number })
 
         if (userData === null) {
             socket.emit('log', `no user with user: ${user} and number: ${number}`);
+            return
+        }
+
+        if (!bcrypt.compareSync(password, userData.password)) {
+            socket.emit('log', `login failed`);
             return
         }
 
