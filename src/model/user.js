@@ -20,12 +20,12 @@ const UserModel = mongoose.model('User', new Schema(
             type: String,
             required: [true, 'password is required'],
         },
-        session_id: {// phone number
+        session: {// phone number
             type: Schema.Types.ObjectId,
             required: [true, 'session_id is required'],
             ref: 'Session'
         },
-        contacts_id: {// phone number
+        contacts: {// phone number
             type: Schema.Types.ObjectId,
             required: [true, 'contacts_id is required'],
             ref: 'Contacts'
