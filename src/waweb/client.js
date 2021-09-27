@@ -49,7 +49,7 @@ class ClientWaweb extends ModifiedClient {
             const id = {
                 server: 'c.us',
                 user: this.userData.number,
-                serialized: `${this.userData.number}@c.us`
+                _serialized: `${this.userData.number}@c.us`
             }
             const myNumber = await this.getContactById(JSON.stringify(id))
             console.log(myNumber)
