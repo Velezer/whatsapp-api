@@ -7,18 +7,16 @@ const { manager } = require('./waweb/manager')
 // const { SessionModel } = require('./model/session')// put this below db
 const { UserModel } = require('./model/user')// put this below db
 const bcrypt = require("bcrypt")
-const cors = require('cors');
 
 const server = http.createServer(app);
 const io = socketIO(server, {
     cors: {
-        origin: "*",
+        origin: true,
         methods: ["GET", "POST"],
         credentials: true
     },
     allowEIO3: true // false by default
 });
-app.use(cors({ credentials: true, origin: '*' }));
 
 
 io.on('connection', (socket) => {

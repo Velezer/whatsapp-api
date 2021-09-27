@@ -9,7 +9,7 @@ const app = express()
 
 app.use(express.urlencoded({ extended: true }));
 app.use(fileUpload())
-app.use(cors({ credentials: true, origin: '*' }));
+app.use(cors({ credentials: true, origin: true }));
 
 
 app.get('/', (req, res) => {
