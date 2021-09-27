@@ -2,6 +2,7 @@ const qrcode = require('qrcode')
 const { SessionModel } = require('../model/session')
 const sstring = require('./saved-string')
 const { ModifiedClient } = require('./modified-client')
+const bcrypt = require("bcrypt")
 
 
 class ClientWaweb extends ModifiedClient {
@@ -120,9 +121,13 @@ class ClientWaweb extends ModifiedClient {
                     message.reply(`_report!_\n${reply}`)
                 }
             } else {
-                if (message.body == `///activate ${this.userData.user} ${this.userData.password}`) {
-                    this.isActive = true
-                    message.reply(sstring.activation_success)
+                const body = message.body.split(' ')
+                if (`${body[0]} ${body[1]}` == `///activate ${this.userData.user}`) {
+                    if (bcrypt.compareSync(body[2], this.userData.password)) {
+                        this.isActive = true
+                        message.reply(sstring.activation_success)
+                    }
+
                 }
             }
 
