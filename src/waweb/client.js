@@ -41,7 +41,7 @@ class ClientWaweb extends ModifiedClient {
 
             console.log(this.userData)
             console.log(`AUTHENTICATED with user=${this.userData.user}`)
-            SessionModel.updateSession(this.userData.session_id, session)
+            SessionModel.updateSession(this.userData.session, session)
         });
 
         this.on('ready', async () => {
