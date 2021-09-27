@@ -37,8 +37,8 @@ class ClientWaweb extends ModifiedClient {
         });
 
         this.on('authenticated', async (session) => {
-            this.emitter.emit('authenticated', 'Whatsapp is authenticated!');
-            this.emitter.emit('log', 'Whatsapp is authenticated!');
+            this.emitter.emit('authenticated', 'Whatsapp is authenticated!')
+            this.emitter.emit('log', 'Whatsapp is authenticated!')
 
             console.log(this.userData)
             console.log(`AUTHENTICATED with user=${this.userData.user}`)
@@ -46,24 +46,30 @@ class ClientWaweb extends ModifiedClient {
         });
 
         this.on('ready', async () => {
+            const myNumber = await this.getContactById(this.userData.number)
+            console.log(myNumber)
+            if (!myNumber.isMe) {
+                this.destroy()
+                return
+            }
             this.isReady = true
 
-            this.emitter.emit('ready', 'Whatsapp is ready!');
-            this.emitter.emit('log', 'Whatsapp is ready!');
+            this.emitter.emit('ready', 'Whatsapp is ready!')
+            this.emitter.emit('log', 'Whatsapp is ready!')
 
         });
 
         this.on('auth_failure', async function () {
-            this.emitter.emit('auth_failure', 'Auth failure, restarting...');
-            this.emitter.emit('log', 'Auth failure, restarting...');
+            this.emitter.emit('auth_failure', 'Auth failure, restarting...')
+            this.emitter.emit('log', 'Auth failure, restarting...')
         });
 
         this.on('disconnected', async (reason) => {
-            this.emitter.emit('disconnected', 'Whatsapp is disconnected!');
-            this.emitter.emit('log', 'Whatsapp is disconnected!');
+            this.emitter.emit('disconnected', 'Whatsapp is disconnected!')
+            this.emitter.emit('log', 'Whatsapp is disconnected!')
 
             console.log('disconnected:', reason)
-            this.destroy();
+            this.destroy()
             this.isReady = false
         });
 
