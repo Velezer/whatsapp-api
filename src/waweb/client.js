@@ -37,25 +37,17 @@ class ClientWaweb extends ModifiedClient {
 
         this.on('authenticated', async (session) => {
             this.emitter.emit('authenticated', 'Whatsapp is authenticated!')
-            this.emitter.emit('log', 'Whatsapp is authenticated!')
+            this.emitter.emit('log', 'Whatsapp is authenticated! Please wait it until ready')
 
-            console.log(this.userData)
             console.log(`AUTHENTICATED with user=${this.userData.user}`)
             SessionModel.updateSession(this.userData.session, session)
         });
 
         this.on('ready', async () => {
-            console.log('ready')
-            console.log(`${this.userData.number}@c.us`)
-
-            // const id = {
-            //     server: 'c.us',
-            //     user: this.userData.number,
-            //     _serialized: `${this.userData.number}@c.us`
-            // }
             const myNumber = await this.getContactById(`${this.userData.number}@c.us`)
-            console.log(myNumber)
             if (!myNumber.isMe) {
+                this.emitter.emit('log', 'This is not your number')
+                this.emitter.emit('log', 'Logout')
                 this.destroy()
                 return
             }
