@@ -3,9 +3,9 @@ const http = require('http')
 const socketIO = require('socket.io')
 const process = require('process')
 const bcrypt = require("bcrypt")
+const createApp = require("./app")
 
-
-const app = require("./app")(db, bcrypt)
+const app = createApp(db, bcrypt)
 
 const server = http.createServer(app)
 const io = socketIO(server, {

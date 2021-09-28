@@ -2,13 +2,16 @@
 const request = require("supertest")
 
 
-// const jest = require("jest")
-// const UserModel = jest.fn()
-// const ContactsModel = jest.fn()
+const jest = require("jest")
 
+const db = {
+    UserModel: jest.fn(),
+    ContatctsModel: jest.fn()
+}
 
-const app = require('./app')(db, bcrypt)
+const createApp = require("./app")
 
+const app = createApp(db, bcrypt)
 
 
 

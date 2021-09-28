@@ -5,10 +5,10 @@ const fileUpload = require('express-fileupload');
 
 
 /**
- * 
+ * these values will be injected to handlers
  * @param {*} db { UserModel, ContactsModel }
  * @param {*} bcrypt 
- * @returns 
+ * @returns app
  */
 module.exports = (db, bcrypt) => {
   const app = express()

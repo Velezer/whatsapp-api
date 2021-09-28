@@ -4,9 +4,9 @@ const socketIO = require('socket.io')
 const process = require('process')
 const { manager } = require('./waweb/manager')
 const bcrypt = require("bcrypt")
+const createApp = require("./app")
 
-
-const app = require("./app")(db, bcrypt)
+const app = createApp(db, bcrypt)
 
 const server = http.createServer(app)
 const io = socketIO(server, {
@@ -24,7 +24,7 @@ io.on('connection', (socket, next) => {
 
     socket.on('create-session', async ({ user, password, number }) => {
         socket.emit('log', `create-session`)
-        
+
         const userData = await db.UserModel.findOne({ user, number }).populate('session')
 
         if (userData === null) {
