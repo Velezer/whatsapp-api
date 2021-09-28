@@ -1,8 +1,9 @@
-const UserModel = require("../../model/user")
 const { manager } = require('../../waweb/manager')
 
 module.exports = async (req, res, next) => {
     const { user, password, number } = req.body
+
+    const { UserModel } = req.db
 
     const userData = await UserModel.findOne({ user, number })
     if (userData === null) {

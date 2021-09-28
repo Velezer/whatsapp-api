@@ -1,11 +1,11 @@
-const { UserModel } = require("../../model/user")
-const bcrypt = require("bcrypt")
 
 module.exports = async (req, res, next) => {
     console.log(`user-create`)
+    console.log(req.env)
 
     const { user, password, number } = req.body
 
+    const { UserModel } = req.db
     // manual unique
     if (await UserModel.findOne({ number })) {
         const err = new Error(`user with number ${number} is already exist`)
@@ -14,6 +14,7 @@ module.exports = async (req, res, next) => {
     }
     // manual unique end
 
+    const bcrypt = req.bcrypt
     // eslint-disable-next-line no-undef
     bcrypt.hash(password, Number(process.env.SALT_OR_ROUNDS))
         .then(async (password) => {

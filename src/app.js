@@ -4,29 +4,36 @@ const cors = require('cors');
 const fileUpload = require('express-fileupload');
 
 
-const app = express()
+/**
+ * 
+ * @param {*} db { UserModel, ContactsModel }
+ * @param {*} bcrypt 
+ * @returns 
+ */
+module.exports = (db, bcrypt) => {
+  const app = express()
 
+  app.use(express.urlencoded({ extended: true }));
+  app.use(fileUpload())
+  app.use(cors({ credentials: true, origin: true }));
 
-app.use(express.urlencoded({ extended: true }));
-app.use(fileUpload())
-app.use(cors({ credentials: true, origin: true }));
+  // inject db
+  app.use((req, res, next) => {
+    req.db = db
+    req.bcrypt = bcrypt
+    next()
+  })
 
+  app.get('/', (req, res) => {
+    res.status(200).json({
+      message: `server up`
+    });
+  })
 
-app.get('/', (req, res) => {
-  res.status(200).json({
-    message: `server up`
-  });
-})
+  app.use('/api/waweb', require("./routes/waweb"))
+  app.use('/api/user', require("./routes/user"))
 
-app.use('/api/waweb', require("./routes/waweb"))
-app.use('/api/user', require("./routes/user"))
+  app.use(require("./middleware/expressError"))
 
-app.use(require("./middleware/expressError"))
-
-
-
-
-
-
-
-module.exports = app
+  return app
+}

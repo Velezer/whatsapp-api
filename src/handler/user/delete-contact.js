@@ -1,11 +1,11 @@
-const { UserModel } = require('../../model/user')
-const { ContactsModel } = require('../../model/contacts')
 
 module.exports = async (req, res, next) => {
     console.log(`push-contact`)
 
     const { user, password, number } = req.body
-
+    
+    const { UserModel, ContactsModel } = req.db
+    
     const userData = await UserModel.findOne({ user, password, number })
     if (!userData) {
         const err = new Error(`user not found`)

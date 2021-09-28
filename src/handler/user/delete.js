@@ -1,10 +1,11 @@
-const { UserModel } = require('../../model/user')
 
 module.exports = async (req, res, next) => {
     console.log(`user-delete`)
 
 
     const { user, password, number } = req.body
+
+    const { UserModel } = req.db
 
     const found = await UserModel.findOne({ number })
     if (!found) {

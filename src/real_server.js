@@ -1,8 +1,11 @@
-require('./model/db')
-const app = require("./app")
+const db = require('./model/db')
 const http = require('http')
 const socketIO = require('socket.io')
 const process = require('process')
+const bcrypt = require("bcrypt")
+
+
+const app = require("./app")(db, bcrypt)
 
 const server = http.createServer(app)
 const io = socketIO(server, {
