@@ -40,7 +40,7 @@ class ModifiedClient extends Client {
         return await super.sendMessage(number, media, { caption: caption })
     }
     /**
-     * 
+     * get contacts of your own whatsapp account
      * @returns Promise<WAWebJS.Contact[]>
      */
     async getContacts() {
