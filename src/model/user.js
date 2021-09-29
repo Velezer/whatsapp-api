@@ -50,4 +50,4 @@ UserModel.createUser = async ({ user, password, number }) => {
     return await userData.save()
 }
 
-module.exports = { UserModel }
+module.exports = UserModel

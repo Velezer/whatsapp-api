@@ -10,7 +10,7 @@ mongoose.connect(process.env.DB_URI_CLOUD, { useNewUrlParser: true, useUnifiedTo
     .catch(err => console.error(err))
 
 
-const { UserModel } = require('./user')
-const { ContactsModel } = require('./contacts')
+const UserModel = require('./user')
+const ContactsModel = require('./contacts')
 
 module.exports = { UserModel, ContactsModel }

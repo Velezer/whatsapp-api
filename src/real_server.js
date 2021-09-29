@@ -23,7 +23,7 @@ io.use(require("./middleware/ioCreateClient"))
 
 
 io.on('connection', (socket) => {
-    socket.emit('log', 'Connected to server. Please, create a client')
+    socket.emit('log', 'Connected to server')
 })
 
 

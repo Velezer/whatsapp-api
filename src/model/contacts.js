@@ -26,7 +26,7 @@ const ContactsModel = mongoose.model('Contacts', new Schema(
  * @param {object} contact 
  * @returns result
  */
- ContactsModel.pushContact = async (_id, contact) => {
+ContactsModel.pushContact = async (_id, contact) => {
     return await ContactsModel.updateOne({ _id }, {
         $addToSet: { contacts: contact }
     })
@@ -38,11 +38,11 @@ const ContactsModel = mongoose.model('Contacts', new Schema(
  * @param {object} contact 
  * @returns 
  */
- ContactsModel.deleteContact = async (_id, contact) => {
+ContactsModel.deleteContact = async (_id, contact) => {
     return await ContactsModel.updateOne({ _id }, {
         $pull: { contacts: contact }
     })
 }
 
 
-module.exports = { ContactsModel }
+module.exports = ContactsModel

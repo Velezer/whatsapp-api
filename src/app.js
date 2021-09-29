@@ -6,11 +6,14 @@ const fileUpload = require('express-fileupload');
 
 /**
  * these values will be injected to handlers
- * @param {*} db { UserModel, ContactsModel }
- * @param {*} bcrypt 
+ * @param {object} db { UserModel, ContactsModel }
+ * @param {bcrypt} bcrypt 
  * @returns app
  */
 module.exports = (db, bcrypt) => {
+  if (!db || !bcrypt) {
+    return new Error("provide the dependencies")
+  }
   const app = express()
 
   app.use(express.urlencoded({ extended: true }));
@@ -30,8 +33,8 @@ module.exports = (db, bcrypt) => {
     });
   })
 
-  app.use('/api/waweb', require("./routes/waweb"))
   app.use('/api/user', require("./routes/user"))
+  app.use('/api/waweb', require("./routes/waweb"))
 
   app.use(require("./middleware/expressError"))
 
