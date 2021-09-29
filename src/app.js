@@ -17,6 +17,7 @@ module.exports = (db, bcrypt) => {
   const app = express()
 
   app.use(express.urlencoded({ extended: true }));
+  app.use(express.json());
   app.use(fileUpload())
   app.use(cors({ credentials: true, origin: true }));
 

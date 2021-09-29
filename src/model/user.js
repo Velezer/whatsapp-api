@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
-const { SessionModel } = require('./session')
-const { ContactsModel } = require('./contacts')
+const SessionModel= require('./session')
+const ContactsModel = require('./contacts')
 
 const Schema = mongoose.Schema
 

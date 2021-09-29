@@ -28,4 +28,4 @@ SessionModel.updateSession = async (_id, session) => {
     })
 }
 
-module.exports = { SessionModel }
+module.exports = SessionModel
