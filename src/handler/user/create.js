@@ -1,8 +1,5 @@
 
 module.exports = async (req, res, next) => {
-    console.log(`user-create`)
-    console.log(req.env)
-
     const { user, password, number } = req.body
 
     const { UserModel } = req.db

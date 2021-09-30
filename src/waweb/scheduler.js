@@ -15,7 +15,7 @@ class Scheduler {
                 i--
             }
 
-            console.log(`active clients: ${manager.clients.length}`)
+            // console.log(`active clients: ${manager.clients.length}`)
         }, 1000 * 60 * 5);
     }
 }
