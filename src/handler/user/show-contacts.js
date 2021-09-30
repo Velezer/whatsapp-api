@@ -1,24 +1,19 @@
 
 module.exports = async (req, res, next) => {
-    console.log(`show-contact`)
-
     const { user, password, number } = req.body
 
-    const { UserModel, ContactsModel } = req.db
+    const { UserModel } = req.db
 
-    const userData = await UserModel.findOne({ user, password, number })
-    if (!userData) {
+    const userData = await UserModel.findOne({ user, password, number }).populate('contacts')
+    if (userData === null) {
         const err = new Error(`user not found`)
         err.code = 404
-        next(err)
+        return next(err)
     }
-
-    const ContactsData = await ContactsModel.findOne({ _id: userData.contacts_id })
-
 
     res.status(200).json({
         user,
         message: `success`,
-        data: ContactsData.contacts
+        data: userData.contacts
     });
 }

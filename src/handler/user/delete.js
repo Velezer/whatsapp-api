@@ -1,8 +1,5 @@
 
 module.exports = async (req, res, next) => {
-    console.log(`user-delete`)
-
-
     const { user, password, number } = req.body
 
     const { UserModel } = req.db
@@ -11,7 +8,7 @@ module.exports = async (req, res, next) => {
     if (!found) {
         const err = new Error(`user with number ${number} not found`)
         err.code = 404
-        next(err)
+        return next(err)
     }
 
     await UserModel.deleteOne({ user, password, number })

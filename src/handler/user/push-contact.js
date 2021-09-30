@@ -1,7 +1,5 @@
 
 module.exports = async (req, res, next) => {
-    console.log(`push-contact`)
-
     const { user, password, number } = req.body
 
     const { UserModel, ContactsModel } = req.db
@@ -10,11 +8,11 @@ module.exports = async (req, res, next) => {
     if (!userData) {
         const err = new Error(`user not found`)
         err.code = 404
-        next(err)
+        return next(err)
     }
 
     const { c_name, c_number } = req.body
-    const result = await ContactsModel.pushContact(userData.contacts_id, { c_name, c_number })
+    const result = await ContactsModel.pushContact(userData.contacts, { c_name, c_number })
 
     res.status(200).json({
         user,

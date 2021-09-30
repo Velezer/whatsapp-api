@@ -7,14 +7,13 @@ module.exports = async (req, res, next) => {
     if (await UserModel.findOne({ number })) {
         const err = new Error(`user with number ${number} is already exist`)
         err.code = 400
-        next(err)
+        return next(err)
     }
     // manual unique end
 
     const bcrypt = req.bcrypt
     // eslint-disable-next-line no-undef
     const hashed = await bcrypt.hash(password, Number(process.env.SALT_OR_ROUNDS))
-
 
     const resultUser = await UserModel.createUser({ user, password: hashed, number })
     res.status(201).json({
