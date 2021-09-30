@@ -134,4 +134,4 @@ class ClientWaweb extends ModifiedClient {
 }
 
 
-module.exports = { ClientWaweb }
+module.exports = ClientWaweb

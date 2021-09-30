@@ -1,5 +1,4 @@
 const express = require('express')
-
 const cors = require('cors');
 const fileUpload = require('express-fileupload');
 
@@ -10,10 +9,7 @@ const fileUpload = require('express-fileupload');
  * @param {bcrypt} bcrypt 
  * @returns app
  */
-module.exports = (db, bcrypt) => {
-  if (!db || !bcrypt) {
-    return new Error("provide the dependencies")
-  }
+module.exports = (db, bcrypt, manager) => {
   const app = express()
 
   app.use(express.urlencoded({ extended: true }));
@@ -25,6 +21,7 @@ module.exports = (db, bcrypt) => {
   app.use((req, res, next) => {
     req.db = db
     req.bcrypt = bcrypt
+    req.manager = manager
     next()
   })
 

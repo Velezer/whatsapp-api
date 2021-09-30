@@ -2,10 +2,11 @@ const db = require('./model/db')
 const http = require('http')
 const socketIO = require('socket.io')
 const process = require('process')
+const manager = require('./waweb/manager')
 const bcrypt = require("bcrypt")
 const createApp = require("./app")
 
-const app = createApp(db, bcrypt)
+const app = createApp(db, bcrypt, manager)
 
 const server = http.createServer(app)
 const io = socketIO(server, {

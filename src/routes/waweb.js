@@ -7,5 +7,4 @@ router.post('/send-message', Validator.waweb.sendMessage, Handler.getClientMiddl
 router.post('/send-media', Validator.waweb.sendMedia, Handler.getClientMiddleware, Handler.sendMedia)
 router.post('/get-contacts', Validator.user.common, Handler.getClientMiddleware, Handler.getContacts)
 
-
 module.exports = router

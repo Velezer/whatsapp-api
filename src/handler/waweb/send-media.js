@@ -17,7 +17,6 @@ module.exports = async (req, res) => {
         }
     }
     res.status(200).json({
-        number: client.userData.number,
         message: `send-media called`
     });
 }

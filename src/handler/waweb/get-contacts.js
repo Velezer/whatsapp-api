@@ -8,7 +8,6 @@ module.exports = async (req, res) => {
     const contacts = await client.getContacts()
 
     res.status(200).json({
-        number: client.userData.number,
         found: contacts.length,
         message: `get-contacts called`,
         contacts: contacts,

@@ -1,4 +1,3 @@
-const { manager } = require('../../waweb/manager')
 
 module.exports = async (req, res, next) => {
     const { user, password, number } = req.body
@@ -16,7 +15,8 @@ module.exports = async (req, res, next) => {
         err.code = 401
         next(err)
     }
-    
+
+    const manager = req.manager
     const client = manager.getClientByUserID(userData._id.toString())
 
     if (client === undefined) {

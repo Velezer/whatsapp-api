@@ -1,4 +1,4 @@
-const { ClientWaweb } = require('./client')
+const ClientWaweb = require('./client')
 const Scheduler = require('./scheduler')
 
 class ManagerWaweb {
@@ -47,4 +47,4 @@ class ManagerWaweb {
 }
 
 const manager = new ManagerWaweb()
-module.exports = { manager }
+module.exports = manager

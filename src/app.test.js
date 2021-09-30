@@ -10,6 +10,11 @@ jest.mock('./model/contacts') // this happens automatically with automocking
 const bcrypt = require('bcrypt')
 jest.mock('bcrypt') // this happens automatically with automocking
 
+const manager = require('./waweb/manager')
+jest.mock('./waweb/manager') // this happens automatically with automocking
+
+const ClientWaweb = require('./waweb/client')
+jest.mock('./waweb/client') // this happens automatically with automocking
 
 const db = {
     UserModel,
@@ -19,7 +24,7 @@ const db = {
 
 const createApp = require("./app")
 
-const app = createApp(db, bcrypt)
+const app = createApp(db, bcrypt, manager)
 
 
 describe('handler /', () => {
@@ -149,3 +154,30 @@ describe('handler user /api/user/contacts', () => {
     })
 })
 
+describe('handler waweb /api/waweb', () => {
+    const userData = {
+        _id: 'dj18dj1jdi0dw1',
+        user: 'user',
+        password: 'password',
+        number: '628173190130'
+    }
+
+    const sendData = {
+        message: 'mess',
+        numbers: '3891723912'
+    }
+
+    const client = new ClientWaweb(userData)
+    client.isReady = true
+
+    it('POST /send-message --> 200 message sent', async () => {
+        UserModel.findOne.mockResolvedValue(userData)
+        manager.getClientByUserID.mockReturnValue(client)
+        await request(app).post('/api/waweb/send-message')
+            .send({ ...sendData, ...userData })
+            .expect('Content-Type', /json/)
+            .expect(200)
+    })
+
+
+})
