@@ -92,6 +92,14 @@ describe('handler user /api/user', () => {
                 message: `successfully deleted user`,
             })
     })
+    it('DELETE / --> 404 user not found', async () => {
+        UserModel.findOne.mockResolvedValue(null)
+
+        await request(app).delete('/api/user')
+            .send(userData)
+            .expect('Content-Type', /json/)
+            .expect(404)
+    })
 
 })
 
@@ -125,6 +133,14 @@ describe('handler user contacts /api/user', () => {
                 data: contactData
             })
     })
+    it('PUT /contacts --> 404 user not found', async () => {
+        UserModel.findOne.mockResolvedValue(null)
+
+        await request(app).put('/api/user/contacts')
+            .send(inputData)
+            .expect('Content-Type', /json/)
+            .expect(404)
+    })
     it('DELETE /contacts --> 200 delete contact', async () => {
         UserModel.findOne.mockResolvedValue(userData)
         ContactsModel.deleteContact.mockResolvedValue(contactData)
@@ -137,6 +153,13 @@ describe('handler user contacts /api/user', () => {
                 message: `successfully deleted contact ${inputData.c_name} ${inputData.c_number}`,
                 data: contactData
             })
+    })
+    it('DELETE /contacts --> 404 user not foud', async () => {
+        UserModel.findOne.mockResolvedValue(null)
+        await request(app).delete('/api/user/contacts')
+            .send(inputData)
+            .expect('Content-Type', /json/)
+            .expect(404)
     })
     it('GET /contacts --> 200 get contact', async () => {
         userData.contacts = contactData
@@ -231,6 +254,14 @@ describe('handler waweb /api/waweb', () => {
             .send({ ...userData })
             .expect('Content-Type', /json/)
             .expect(200)
+    })
+    it('POST /get-contacts --> 404 user is not registered', async () => {
+        UserModel.findOne.mockResolvedValue(null)
+
+        await request(app).post('/api/waweb/get-contacts')
+            .send({ ...userData })
+            .expect('Content-Type', /json/)
+            .expect(404)
     })
 
 })
