@@ -12,11 +12,12 @@ module.exports = async (req, res, next) => {
     }
 
     const { c_name, c_number } = req.body
-    const result = await ContactsModel.pushContact(userData.contacts, { c_name, c_number })
+    await ContactsModel.pushContact(userData.contacts, { c_name, c_number })
+        .then(result => res.status(200).json({
+            user,
+            message: `successfully added contact ${c_name} ${c_number}`,
+            data: result
+        }))
+        .catch(err => next(err))
 
-    res.status(200).json({
-        user,
-        message: `successfully added contact ${c_name} ${c_number}`,
-        data: result
-    });
 }

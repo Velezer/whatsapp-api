@@ -15,12 +15,14 @@ module.exports = async (req, res, next) => {
     // eslint-disable-next-line no-undef
     const hashed = await bcrypt.hash(password, Number(process.env.SALT_OR_ROUNDS))
 
-    const resultUser = await UserModel.createUser({ user, password: hashed, number })
-    res.status(201).json({
-        message: `successfully created user`,
-        data: {
-            user: resultUser.user,
-            number: resultUser.number
-        }
-    });
+    await UserModel.createUser({ user, password: hashed, number })
+        .then(resultUser => res.status(201).json({
+            message: `successfully created user`,
+            data: {
+                user: resultUser.user,
+                number: resultUser.number
+            }
+        }))
+        .catch(err => next(err))
+
 }

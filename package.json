@@ -4,7 +4,7 @@
   "description": "whatsapp api",
   "main": "app.js",
   "scripts": {
-    "test": "jest --watchAll",
+    "test": "jest",
     "start": "nodemon ./src/server.js"
   },
   "keywords": [

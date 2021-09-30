@@ -12,9 +12,9 @@ module.exports = async (req, res, next) => {
     }
 
     await UserModel.deleteOne({ user, password, number })
+        .then(() => res.status(200).json({
+            message: `successfully deleted user`,
+        }))
+        .catch(err => next(err))
 
-
-    res.status(200).json({
-        message: `successfully deleted user`,
-    });
 }

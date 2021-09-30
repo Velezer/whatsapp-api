@@ -71,6 +71,16 @@ describe('handler user /api/user', () => {
                 }
             })
     })
+    it('POST / --> 500 create user fail', async () => {
+        UserModel.findOne.mockResolvedValue(null)
+        bcrypt.hash.mockResolvedValue('hashed')
+        UserModel.createUser.mockRejectedValue(new Error('db error'))
+
+        await request(app).post('/api/user')
+            .send(userData)
+            .expect('Content-Type', /json/)
+            .expect(500)
+    })
     it('DELETE / --> 200 user deleted', async () => {
         UserModel.findOne.mockResolvedValue(userData)
         UserModel.deleteOne.mockResolvedValue(true)
@@ -86,7 +96,7 @@ describe('handler user /api/user', () => {
 })
 
 
-describe('handler user /api/user/contacts', () => {
+describe('handler user contacts /api/user', () => {
     const inputData = {
         user: 'user',
         password: 'password',
@@ -166,26 +176,44 @@ describe('handler waweb /api/waweb', () => {
         message: 'mess',
         numbers: '3891723912'
     }
-    
+
     const sendDataMedia = {
         caption: 'caption',
         numbers: '3891723912'
     }
 
     const client = new ClientWaweb(userData)
-    client.isReady = true
     client.getContacts = () => [{}, {}, {}] // mock
 
     it('POST /send-message --> 200 message sent', async () => {
+        client.isReady = true
         UserModel.findOne.mockResolvedValue(userData)
         manager.getClientByUserID.mockReturnValue(client)
         await request(app).post('/api/waweb/send-message')
-            .send({ ...userData, ...sendData  })
+            .send({ ...userData, ...sendData })
             .expect('Content-Type', /json/)
             .expect(200)
     })
-    
+    it('POST /send-message --> 500 client is not ready', async () => {
+        client.isReady = false
+        UserModel.findOne.mockResolvedValue(userData)
+        manager.getClientByUserID.mockReturnValue(client)
+        await request(app).post('/api/waweb/send-message')
+            .send({ ...userData, ...sendData })
+            .expect('Content-Type', /json/)
+            .expect(500)
+    })
+    it('POST /send-message --> 500 no client', async () => {
+        UserModel.findOne.mockResolvedValue(userData)
+        manager.getClientByUserID.mockReturnValue(undefined)
+        await request(app).post('/api/waweb/send-message')
+            .send({ ...userData, ...sendData })
+            .expect('Content-Type', /json/)
+            .expect(500)
+    })
+
     it('POST /send-media --> 200 media sent', async () => {
+        client.isReady = true
         UserModel.findOne.mockResolvedValue(userData)
         manager.getClientByUserID.mockReturnValue(client)
         await request(app).post('/api/waweb/send-media')
@@ -195,9 +223,10 @@ describe('handler waweb /api/waweb', () => {
             .expect(200)
     })
     it('POST /get-contacts --> 200 get waweb contacts', async () => {
+        client.isReady = true
         UserModel.findOne.mockResolvedValue(userData)
         manager.getClientByUserID.mockReturnValue(client)
- 
+
         await request(app).post('/api/waweb/get-contacts')
             .send({ ...userData })
             .expect('Content-Type', /json/)
