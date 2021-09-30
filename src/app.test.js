@@ -166,18 +166,42 @@ describe('handler waweb /api/waweb', () => {
         message: 'mess',
         numbers: '3891723912'
     }
+    
+    const sendDataMedia = {
+        caption: 'caption',
+        numbers: '3891723912'
+    }
 
     const client = new ClientWaweb(userData)
     client.isReady = true
+    client.getContacts = () => [{}, {}, {}] // mock
 
     it('POST /send-message --> 200 message sent', async () => {
         UserModel.findOne.mockResolvedValue(userData)
         manager.getClientByUserID.mockReturnValue(client)
         await request(app).post('/api/waweb/send-message')
-            .send({ ...sendData, ...userData })
+            .send({ ...userData, ...sendData  })
             .expect('Content-Type', /json/)
             .expect(200)
     })
-
+    
+    it('POST /send-media --> 200 media sent', async () => {
+        UserModel.findOne.mockResolvedValue(userData)
+        manager.getClientByUserID.mockReturnValue(client)
+        await request(app).post('/api/waweb/send-media')
+            .field({ ...sendDataMedia, ...userData })
+            .attach('file', './src/test/im.png')
+            .expect('Content-Type', /json/)
+            .expect(200)
+    })
+    it('POST /get-contacts --> 200 get waweb contacts', async () => {
+        UserModel.findOne.mockResolvedValue(userData)
+        manager.getClientByUserID.mockReturnValue(client)
+ 
+        await request(app).post('/api/waweb/get-contacts')
+            .send({ ...userData })
+            .expect('Content-Type', /json/)
+            .expect(200)
+    })
 
 })

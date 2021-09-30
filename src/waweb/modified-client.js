@@ -64,4 +64,4 @@ class ModifiedClient extends Client {
 }
 
 
-module.exports = { ModifiedClient }
+module.exports = ModifiedClient 

@@ -1,7 +1,7 @@
 const qrcode = require('qrcode')
 const SessionModel = require('../model/session')
 const sstring = require('./saved-string')
-const { ModifiedClient } = require('./modified-client')
+const ModifiedClient = require('./modified-client')
 const bcrypt = require("bcrypt")
 
 
@@ -130,7 +130,6 @@ class ClientWaweb extends ModifiedClient {
         });
 
     }
-
 }
 
 

@@ -1,8 +1,6 @@
 
 
 module.exports = async (req, res) => {
-    console.log(`getContacts`)
-    
     const client = req.client
 
     const contacts = await client.getContacts()
