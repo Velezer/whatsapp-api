@@ -1,8 +1,6 @@
 
 
 module.exports = async (req, res) => {
-    console.log(`sendMedia`)
-
     const client = req.client
 
     const { caption, numbers } = req.body

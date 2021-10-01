@@ -1,6 +1,6 @@
 const express = require('express')
-const cors = require('cors');
-const fileUpload = require('express-fileupload');
+const cors = require('cors')
+const fileUpload = require('express-fileupload')
 
 
 /**
@@ -13,10 +13,10 @@ const fileUpload = require('express-fileupload');
 module.exports = (db, bcrypt, manager) => {
   const app = express()
 
-  app.use(express.urlencoded({ extended: true }));
-  app.use(express.json());
+  app.use(express.urlencoded({ extended: true }))
+  app.use(express.json())
   app.use(fileUpload())
-  app.use(cors({ credentials: true, origin: true }));
+  app.use(cors({ credentials: true, origin: true }))
 
   // inject db
   app.use((req, res, next) => {
@@ -29,7 +29,7 @@ module.exports = (db, bcrypt, manager) => {
   app.get('/', (req, res) => {
     res.status(200).json({
       message: `server up`
-    });
+    })
   })
 
   app.use('/api/user', require("./routes/user"))
