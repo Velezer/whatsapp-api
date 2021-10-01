@@ -29,7 +29,26 @@ let port = 5555
 server.listen(port)
 
 
-describe('ioApp happy', () => {
+describe('ioApp no auth', () => {
+    let clientSocket
+
+    afterEach(() => {
+        clientSocket.close()
+    })
+
+    it('validation failed', (done) => {
+        clientSocket = new Client(`http://localhost:${port}`)
+        clientSocket.on('connect_error', (err) => {
+            expect(err.message).toBe(`validation failed on user, password, and number`)
+            expect(err.data.code).toBe(400)
+            done()
+        })
+    })
+
+
+})
+
+describe('ioApp with auth', () => {
     let clientSocket
 
     const userData = {
@@ -39,26 +58,45 @@ describe('ioApp happy', () => {
     }
     const client = new ClientWaweb(userData)
 
-    beforeAll((done) => {
+    beforeEach((done) => {
+        clientSocket = new Client(`http://localhost:${port}`, { auth: userData })
+        done()
+    })
+
+    afterEach(() => {
+        clientSocket.close()
+    })
+
+    it('user not found', (done) => {
+        UserModel.findOne.mockReturnThis()
+        UserModel.populate.mockResolvedValue(null)
+        clientSocket.on('connect_error', (err) => {
+            expect(err.message).toBe('user not found')
+            expect(err.data.code).toBe(404)
+            done()
+        })
+    })
+    it('password wrong', (done) => {
+        UserModel.findOne.mockReturnThis()
+        UserModel.populate.mockResolvedValue(userData)
+        bcrypt.compareSync.mockReturnValue(false)
+        clientSocket.on('connect_error', (err) => {
+            expect(err.message).toBe('password wrong')
+            expect(err.data.code).toBe(401)
+            done()
+        })
+    })
+    it('pass ioApp middlewares and connected', (done) => {
         UserModel.findOne.mockReturnThis()
         UserModel.populate.mockResolvedValue(userData)
         manager.createClient.mockReturnValue(client)
         bcrypt.compareSync.mockReturnValue(true)
 
-        clientSocket = new Client(`http://localhost:${port}`, { auth: userData })
-        done()
-    })
-
-    afterAll(() => {
-        clientSocket.close()
-    })
-
-    it('pass ioApp middleware and connected', (done) => {
-        clientSocket.on('ioAuth', (arg) => {
-            expect(arg).toBe(`login success`)
+        clientSocket.on('ioAuth', (arg) => { // passed ioAuth middleware
+            expect(arg).toBe(`ioAuth`)
         })
-        clientSocket.on('ioCreateClient', (arg) => {
-            expect(arg).toBe(`creating client...`)
+        clientSocket.on('ioCreateClient', (arg) => { // passed ioCreateClient middleware
+            expect(arg).toBe(`ioCreateClient`)
         })
         clientSocket.on('connected', (arg) => {
             expect(arg).toBe(`connected`)
