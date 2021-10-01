@@ -2,19 +2,20 @@
 const request = require("supertest")
 
 const UserModel = require('../model/user')
-jest.mock('../model/user') // this happens automatically with automocking
+jest.mock('../model/user')
 
 const ContactsModel = require('../model/contacts')
-jest.mock('../model/contacts') // this happens automatically with automocking
+jest.mock('../model/contacts')
 
 const bcrypt = require('bcrypt')
-jest.mock('bcrypt') // this happens automatically with automocking
+jest.mock('bcrypt')
 
-const manager = require('../waweb/manager')
-jest.mock('../waweb/manager') // this happens automatically with automocking
+const ManagerWaweb = require('../waweb/manager')
+const manager = new ManagerWaweb()
+jest.mock('../waweb/manager')
 
 const ClientWaweb = require('../waweb/client')
-jest.mock('../waweb/client') // this happens automatically with automocking
+jest.mock('../waweb/client')
 
 const db = {
     UserModel,
@@ -217,6 +218,17 @@ describe('handler waweb /api/waweb', () => {
             .expect('Content-Type', /json/)
             .expect(200)
     })
+    it('POST /send-message --> 401 password wrong', async () => {
+        client.isReady = true
+
+        UserModel.findOne.mockResolvedValue({ ...userData, ...{ password: '21nn21j21' } })
+
+        manager.getClientByUserID.mockReturnValue(client)
+        await request(app).post('/api/waweb/send-message')
+            .send({ ...userData, ...sendData })
+            .expect('Content-Type', /json/)
+            .expect(401)
+    })
     it('POST /send-message --> 500 client is not ready', async () => {
         client.isReady = false
         UserModel.findOne.mockResolvedValue(userData)
@@ -244,6 +256,15 @@ describe('handler waweb /api/waweb', () => {
             .attach('file', './src/test/im.png')
             .expect('Content-Type', /json/)
             .expect(200)
+    })
+    it('POST /send-media --> 400 no file', async () => {
+        client.isReady = true
+        UserModel.findOne.mockResolvedValue(userData)
+        manager.getClientByUserID.mockReturnValue(client)
+        await request(app).post('/api/waweb/send-media')
+            .field({ ...sendDataMedia, ...userData })
+            .expect('Content-Type', /json/)
+            .expect(400)
     })
     it('POST /get-contacts --> 200 get waweb contacts', async () => {
         client.isReady = true

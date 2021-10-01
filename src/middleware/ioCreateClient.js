@@ -9,6 +9,7 @@ module.exports = async (socket, next) => {
 
     client.setEmitter(socket)
     manager.pushClient(client)
+
     socket.emit('log', `creating client...`)
     socket.emit('ioCreateClient', `ioCreateClient`)
 

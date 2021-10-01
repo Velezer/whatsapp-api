@@ -1,9 +1,10 @@
 const db = require('./model/db')
 const bcrypt = require("bcrypt")
-const manager = require('./waweb/manager')
-
+const ManagerWaweb = require('./waweb/manager')
 const createServer = require("./ioServer")
 
+
+const manager = new ManagerWaweb()
 const server = createServer(db, bcrypt, manager)
 
 // eslint-disable-next-line no-undef

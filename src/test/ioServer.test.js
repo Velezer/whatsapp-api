@@ -1,18 +1,19 @@
 /* eslint-disable no-undef */
 const UserModel = require('../model/user')
-jest.mock('../model/user') // this happens automatically with automocking
+jest.mock('../model/user')
 
 const ContactsModel = require('../model/contacts')
-jest.mock('../model/contacts') // this happens automatically with automocking
+jest.mock('../model/contacts')
 
 const bcrypt = require('bcrypt')
-jest.mock('bcrypt') // this happens automatically with automocking
+jest.mock('bcrypt')
 
-const manager = require('../waweb/manager')
-jest.mock('../waweb/manager') // this happens automatically with automocking
+const ManagerWaweb = require('../waweb/manager')
+const manager = new ManagerWaweb()
+manager.createClient = jest.fn()
 
 const ClientWaweb = require('../waweb/client')
-jest.mock('../waweb/client') // this happens automatically with automocking
+jest.mock('../waweb/client')
 
 jest.setTimeout(15000)
 
@@ -97,7 +98,9 @@ describe('ioApp with auth', () => {
         })
         clientSocket.on('ioCreateClient', (arg) => { // passed ioCreateClient middleware
             expect(arg).toBe(`ioCreateClient`)
+            expect(manager.clients.length).toBe(1)
         })
+
         clientSocket.on('connected', (arg) => {
             expect(arg).toBe(`connected`)
             done()

@@ -1,15 +1,38 @@
 const ClientWaweb = require('./client')
-const Scheduler = require('./scheduler')
 
 class ManagerWaweb {
 
     constructor() {
         this.clients = []
-        Scheduler.destroyClient(this)
+        this._destroyClients()
     }
 
     /**
-     * @param {object} userData
+     * @todo destroy unused clients
+     */
+    _destroyClients() {
+        setInterval(() => {
+            for (let i = 0; i < this.clients.length - 1; i++) {
+                if (this.clients[i].isReady === true) { continue }
+                this.clients[i].destroy()
+                this.clients.splice(i, 1)
+                i--
+            }
+
+            setTimeout(() => {
+                const last = this.clients.length - 1 // last index
+                if (last >= 0 && this.clients[last].isReady === false) {
+                    this.clients[last].destroy()
+                    this.clients.splice(last, 1)
+                }
+            }, 1000 * 60 * 2);
+
+            // console.log(`active clients: ${this.clients.length}`)
+        }, 1000 * 60 * 5);
+    }
+
+    /**
+     * @param {object} userData must contain session
      * @todo create client
      * @returns {ClientWaweb} client
      */
@@ -33,7 +56,6 @@ class ManagerWaweb {
     getClientByUserID(_id) {
         for (let i = 0; i < this.clients.length; i++) {
             const client = this.clients[i];
-            console.log(client.userData)
             if (client.userData._id == null) { continue }
             if (client.userData._id.toString() == _id) {
                 return client
@@ -46,5 +68,4 @@ class ManagerWaweb {
 
 }
 
-const manager = new ManagerWaweb()
-module.exports = manager
+module.exports = ManagerWaweb

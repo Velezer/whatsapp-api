@@ -8,7 +8,7 @@ const bcrypt = require("bcrypt")
 class ClientWaweb extends ModifiedClient {
     /**
      * 
-     * @param {object} userData 
+     * @param {object} userData must contain session
      */
     constructor(userData) {
         super(userData.session)
@@ -20,7 +20,7 @@ class ClientWaweb extends ModifiedClient {
     }
 
     /**
-     * @param {*} socket 
+     * @param {*} socket event emitter
      */
     setEmitter(socket) {
         this.emitter = socket
