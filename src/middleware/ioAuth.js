@@ -1,10 +1,8 @@
-const UserModel = require('./model/user')
-const bcrypt = require("bcrypt")
-
 
 module.exports = async (socket, next) => {
     const { user, password, number } = socket.request
 
+    const { UserModel } = socket.db
     const userData = await UserModel.findOne({ user, number }).populate('session')
 
     if (userData === null) {
@@ -16,6 +14,7 @@ module.exports = async (socket, next) => {
         // return
     }
 
+    const { bcrypt } = socket
     if (!bcrypt.compareSync(password, userData.password)) {
         socket.emit('log', `login failed`)
 

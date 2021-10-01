@@ -154,7 +154,7 @@ describe('handler user contacts /api/user', () => {
                 data: contactData
             })
     })
-    it('DELETE /contacts --> 404 user not foud', async () => {
+    it('DELETE /contacts --> 404 user not found', async () => {
         UserModel.findOne.mockResolvedValue(null)
         await request(app).delete('/api/user/contacts')
             .send(inputData)

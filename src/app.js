@@ -7,6 +7,7 @@ const fileUpload = require('express-fileupload');
  * these values will be injected to handlers
  * @param {object} db { UserModel, ContactsModel }
  * @param {bcrypt} bcrypt 
+ * @param {ManagerWaweb} manager 
  * @returns app
  */
 module.exports = (db, bcrypt, manager) => {

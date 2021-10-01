@@ -1,9 +1,10 @@
-const { manager } = require('./waweb/manager')
 
 
 module.exports = async (socket, next) => {
 
     const userData = socket.request.userData
+
+    const { manager } = socket
     const client = manager.createClient(userData)
 
     client.setEmitter(socket)
