@@ -11,38 +11,89 @@ jest.mock('bcrypt') // this happens automatically with automocking
 const manager = require('./waweb/manager')
 jest.mock('./waweb/manager') // this happens automatically with automocking
 
-// const ClientWaweb = require('./waweb/client')
-// jest.mock('./waweb/client') // this happens automatically with automocking
+const ClientWaweb = require('./waweb/client')
+jest.mock('./waweb/client') // this happens automatically with automocking
+
+jest.setTimeout(15000)
 
 const db = {
     UserModel,
     ContactsModel
 }
 
-const Client = require("socket.io-client");
+const Client = require("socket.io-client")
 const createServer = require("./ioServer")
 
+const server = createServer(db, bcrypt, manager)
+let port = 5555
+server.listen(port)
 
-describe("my awesome project", () => {
-    let io, clientSocket;
+// describe('auth fail', () => {
+//     let clientSocket
+//     const userData = {
+//         user: 'user',
+//         password: 'password',
+//         number: '628173190130'
+//     }
+//     beforeAll((done) => {
+//         UserModel.findOne.mockReturnThis()
+//         UserModel.populate.mockResolvedValue(null)
+
+//         clientSocket = new Client(`http://localhost:${port}`, userData)
+//         clientSocket.on('connect', done)
+//         done()
+//     })
+
+//     afterAll(() => {
+//         clientSocket.close()
+//     })
+
+//     it('pass ioApp middleware', (done) => {
+//         clientSocket.on('log', (arg) => {
+//             expect(arg).toBe(`no user withr: ${user} and number: ${number}`)
+
+//         })
+//         done()
+//     })
+
+
+// })
+
+describe('ioApp', () => {
+    let clientSocket
+
+    const userData = {
+        user: 'user',
+        password: 'password',
+        number: '628173190130'
+    }
+    const client = new ClientWaweb(userData)
 
     beforeAll((done) => {
-        const server = createServer(db, bcrypt, manager)
-        server.listen(() => {
-            const port = server.address().port;
-            clientSocket = new Client(`http://localhost:${port}`);
-            clientSocket.on("connect", done);
-        });
-    });
+        UserModel.findOne.mockReturnThis()
+        UserModel.populate.mockResolvedValue(userData)
+        manager.createClient.mockReturnValue(client)
+        bcrypt.compareSync.mockReturnValue(true)
+
+        clientSocket = new Client(`http://localhost:${port}`, userData)
+        done()
+    })
 
     afterAll(() => {
-        io.close();
-        clientSocket.close();
-    });
+        clientSocket.close()
+    })
 
-    test("should work", (done) => {
-        clientSocket.on("hello", (arg) => {
-            expect(arg).toBe("world");
-            done();
-        });
-    });
+    it('pass ioApp middleware and connected', (done) => {
+        clientSocket.on('ioAuth', (arg) => {
+            expect(arg).toBe(`login success`)
+        })
+        clientSocket.on('ioCreateClient', (arg) => {
+            expect(arg).toBe(`creating client...`)
+        })
+        clientSocket.on('connected', (arg) => {
+            expect(arg).toBe(`connected`)
+            done()
+        })
+    })
+
+})

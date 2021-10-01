@@ -1,6 +1,12 @@
 
 module.exports = async (socket, next) => {
+    console.log(socket.request)
     const { user, password, number } = socket.request
+    if (!user || !password || !number) {
+        const err = new Error(`validation failed on user, password, and number`)
+        err.code = 400
+        return next(err)
+    }
 
     const { UserModel } = socket.db
     const userData = await UserModel.findOne({ user, number }).populate('session')
@@ -10,8 +16,7 @@ module.exports = async (socket, next) => {
 
         const err = new Error('user not found')
         err.data = { detail: `no user with user: ${user} and number: ${number}` } // additional details
-        next(err)
-        // return
+        return next(err)
     }
 
     const { bcrypt } = socket
@@ -20,12 +25,12 @@ module.exports = async (socket, next) => {
 
         const err = new Error('password wrong')
         err.data = { detail: `login failed` } // additional details
-        next(err)
-        // return
+        return next(err)
     }
 
     socket.emit('log', `login with user: ${userData.user} and number: ${userData.number}`)
+    socket.emit('ioAuth', `login success`)
 
-    socket.request.userData // send userData to next middleware
+    socket.request.userData = userData// send userData to next middleware
     next()
 }

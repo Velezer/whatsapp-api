@@ -37,6 +37,7 @@ module.exports = (db, bcrypt, manager) => {
 
     io.on('connection', (socket) => {
         socket.emit('log', 'Connected to server')
+        socket.emit('connected', 'connected')
     })
 
     return server
