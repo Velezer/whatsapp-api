@@ -1,7 +1,6 @@
 
 module.exports = async (socket, next) => {
-    console.log(socket.request)
-    const { user, password, number } = socket.request
+    const { user, password, number } = socket.handshake.auth
     if (!user || !password || !number) {
         const err = new Error(`validation failed on user, password, and number`)
         err.code = 400

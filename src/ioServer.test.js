@@ -28,38 +28,8 @@ const server = createServer(db, bcrypt, manager)
 let port = 5555
 server.listen(port)
 
-// describe('auth fail', () => {
-//     let clientSocket
-//     const userData = {
-//         user: 'user',
-//         password: 'password',
-//         number: '628173190130'
-//     }
-//     beforeAll((done) => {
-//         UserModel.findOne.mockReturnThis()
-//         UserModel.populate.mockResolvedValue(null)
 
-//         clientSocket = new Client(`http://localhost:${port}`, userData)
-//         clientSocket.on('connect', done)
-//         done()
-//     })
-
-//     afterAll(() => {
-//         clientSocket.close()
-//     })
-
-//     it('pass ioApp middleware', (done) => {
-//         clientSocket.on('log', (arg) => {
-//             expect(arg).toBe(`no user withr: ${user} and number: ${number}`)
-
-//         })
-//         done()
-//     })
-
-
-// })
-
-describe('ioApp', () => {
+describe('ioApp happy', () => {
     let clientSocket
 
     const userData = {
@@ -75,7 +45,7 @@ describe('ioApp', () => {
         manager.createClient.mockReturnValue(client)
         bcrypt.compareSync.mockReturnValue(true)
 
-        clientSocket = new Client(`http://localhost:${port}`, userData)
+        clientSocket = new Client(`http://localhost:${port}`, { auth: userData })
         done()
     })
 
