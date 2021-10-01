@@ -1,18 +1,18 @@
 /* eslint-disable no-undef */
-const UserModel = require('./model/user')
-jest.mock('./model/user') // this happens automatically with automocking
+const UserModel = require('../model/user')
+jest.mock('../model/user') // this happens automatically with automocking
 
-const ContactsModel = require('./model/contacts')
-jest.mock('./model/contacts') // this happens automatically with automocking
+const ContactsModel = require('../model/contacts')
+jest.mock('../model/contacts') // this happens automatically with automocking
 
 const bcrypt = require('bcrypt')
 jest.mock('bcrypt') // this happens automatically with automocking
 
-const manager = require('./waweb/manager')
-jest.mock('./waweb/manager') // this happens automatically with automocking
+const manager = require('../waweb/manager')
+jest.mock('../waweb/manager') // this happens automatically with automocking
 
-const ClientWaweb = require('./waweb/client')
-jest.mock('./waweb/client') // this happens automatically with automocking
+const ClientWaweb = require('../waweb/client')
+jest.mock('../waweb/client') // this happens automatically with automocking
 
 jest.setTimeout(15000)
 
@@ -22,7 +22,7 @@ const db = {
 }
 
 const Client = require("socket.io-client")
-const createServer = require("./ioServer")
+const createServer = require("../ioServer")
 
 const server = createServer(db, bcrypt, manager)
 let port = 5555
