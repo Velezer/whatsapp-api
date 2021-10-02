@@ -37,7 +37,7 @@ describe('client waweb test', () => {
             body: `///activate ${userData.user} password`,
             reply: jest.fn()
         }
-        await client._CLILogic()
+        await client._CLILogic(wawebMessage)
         expect(client.isActive).toBe(true)
         expect(wawebMessage.reply).toHaveBeenCalledTimes(1)
     })
