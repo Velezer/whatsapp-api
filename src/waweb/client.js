@@ -35,7 +35,7 @@ class ClientWaweb extends ModifiedClient {
 
         this.on('authenticated', async (session) => {
             this.emitter.emit('authenticated', 'Authenticated!')
-            this.emitter.emit('log', 'Authenticated! Please wait it until ready')
+            this.emitter.emit('log', 'Authenticated! Please wait until  it is ready')
 
             console.log(`AUTHENTICATED with user=${this.userData.user}`)
             SessionModel.updateSession(this.userData.session, session)
@@ -70,64 +70,70 @@ class ClientWaweb extends ModifiedClient {
             this.isReady = false
         });
 
-        this.on('message', async (message) => {
-            if (this.isActive) {
-                if (message.body.startsWith('///activate')) {
-                    message.reply('already activated')
-                }
-                if (message.body == '///deactivate') {
-                    this.isActive = false
-                    message.reply('deactivation success')
-                }
-                if (message.body.startsWith('///send_media\n') && message.hasMedia) {
-                    const cap = message.body.split('///send_media\n')[1]
-                    const attachmentData = await message.downloadMedia()
-                    for (const i in this.receivers) {
-                        const receiver = this.receivers[i];
-                        this.sendMessage(receiver, attachmentData, { caption: cap })
-                    }
-                    message.reply('_report!_\nmedia sent')
-                }
-                if (message.body.startsWith('///send_message\n')) {
-                    const mess = message.body.split('///send_message\n')[1]
-                    for (const i in this.receivers) {
-                        const receiver = this.receivers[i];
-                        this.sendMessage(receiver, mess)
-                    }
-                    message.reply('_report!_\nmessage sent')
-                }
-                if (message.body == '///empty_receivers') {
-                    this.receivers = []
-                    message.reply(`_report!_\nreceivers: ${this.receivers.length}`)
-                }
-                if (message.body.startsWith('///add_receivers\n')) {
-                    const numbers = message.body.split('\n')
-                    for (let i = 1; i < numbers.length; i++) {// i=1 to get number
-                        const number = numbers[i] + '@c.us';
-                        this.receivers.push(number)
-                    }
-                    message.reply(`_report!_\nreceivers: ${this.receivers.length}`)
-                }
-                if (message.body == '///get_contacts') {
-                    const contacts = await this.getContacts()
-                    let reply = ''
-                    contacts.forEach(contact => {
-                        reply += contact.number + '\n'
-                    })
-                    message.reply(`_report!_\n${reply}`)
-                }
-            } else {
-                const body = message.body.split(' ')
-                if (`${body[0]} ${body[1]}` == `///activate ${this.userData.user} `) {
-                    if (bcrypt.compareSync(body[2], this.userData.password)) {
-                        this.isActive = true
-                        message.reply(sstring.activation_success)
-                    }
+        this.on('message', this._CLILogic)
 
-                }
+    }
+
+    /**
+     * 
+     * @param {WAWebJS.Message} message 
+     */
+    async _CLILogic(message) {
+        if (this.isActive) {
+            if (message.body.startsWith('///activate')) {
+                message.reply('already activated')
             }
+            if (message.body == '///deactivate') {
+                this.isActive = false
+                message.reply('deactivation success')
+            }
+            if (message.body.startsWith('///send_media\n') && message.hasMedia) {
+                const cap = message.body.split('///send_media\n')[1]
+                const attachmentData = await message.downloadMedia()
+                for (const i in this.receivers) {
+                    const receiver = this.receivers[i];
+                    this.sendMessage(receiver, attachmentData, { caption: cap })
+                }
+                message.reply('_report!_\nmedia sent')
+            }
+            if (message.body.startsWith('///send_message\n')) {
+                const mess = message.body.split('///send_message\n')[1]
+                for (const i in this.receivers) {
+                    const receiver = this.receivers[i]
+                    this.sendMessage(receiver, mess)
+                }
+                message.reply('_report!_\nmessage sent')
+            }
+            if (message.body == '///empty_receivers') {
+                this.receivers = []
+                message.reply(`_report!_\nreceivers: ${this.receivers.length}`)
+            }
+            if (message.body.startsWith('///add_receivers\n')) {
+                const numbers = message.body.split('\n')
+                for (let i = 1; i < numbers.length; i++) {// i=1 to get number
+                    const number = numbers[i] + '@c.us'
+                    this.receivers.push(number)
+                }
+                message.reply(`_report!_\nreceivers: ${this.receivers.length}`)
+            }
+            if (message.body == '///get_contacts') {
+                const contacts = await this.getContacts()
+                let reply = ''
+                contacts.forEach(contact => {
+                    reply += contact.number + '\n'
+                })
+                message.reply(`_report!_\n${reply}`)
+            }
+        } else {
+            const body = message.body.split(' ')
+            if (`${body[0]} ${body[1]} ` == `///activate ${this.userData.user} `) {
+                if (bcrypt.compareSync(body[2], this.userData.password)) {
+                    this.isActive = true
+                    message.reply(sstring.activation_success)
+                }
 
-        });
+            }
+        }
 
     }
 }

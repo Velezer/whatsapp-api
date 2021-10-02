@@ -1,8 +1,8 @@
 /* eslint-disable no-undef */
-const ClientWaweb = require('../waweb/client')
-jest.mock('../waweb/client')
+const ClientWaweb = require("../waweb/client")
+jest.mock("../waweb/client")
 
-const ManagerWaweb = require('../waweb/manager')
+const ManagerWaweb = require("../waweb/manager")
 const manager = new ManagerWaweb()
 
 describe('manager', () => {
