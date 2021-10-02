@@ -1,7 +1,8 @@
 /* eslint-disable no-undef */
-const ClientWaweb = require("./client")
-const ModifiedClient = require("./modified-client")
-jest.mock("./modified-client")
+const ClientWaweb = require("../waweb/client")
+const ModifiedClient = require("../waweb/modified-client")
+jest.mock("../waweb/modified-client")
+
 const bcrypt = require("bcrypt")
 
 const userData = {
@@ -122,7 +123,7 @@ describe('client waweb cli active', () => {
         expect(client.isActive).toBe(true)
         expect(wawebMessage.reply).toHaveBeenCalledTimes(1)
     })
-    
+
     it('deactivate', async () => {
         const wawebMessage = {
             body: `///deactivate`,
