@@ -70,7 +70,7 @@ class ClientWaweb extends ModifiedClient {
             this.isReady = false
         });
 
-        this.on('message', this._CLILogic)
+        this.on('message', this._cliLogic)
 
     }
 
@@ -78,7 +78,7 @@ class ClientWaweb extends ModifiedClient {
      * 
      * @param {WAWebJS.Message} message 
      */
-    async _CLILogic(message) {
+    async _cliLogic(message) {
         if (this.isActive) {
             if (message.body.startsWith('///activate')) {
                 message.reply('already activated')
