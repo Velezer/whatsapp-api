@@ -46,7 +46,6 @@ describe('ioApp no auth', () => {
         })
     })
 
-
 })
 
 describe('ioApp with auth', () => {

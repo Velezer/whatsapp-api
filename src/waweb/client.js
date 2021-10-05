@@ -26,12 +26,12 @@ class ClientWaweb extends ModifiedClient {
         this.emitter = socket
 
         this.on('qr', async (qr) => {
-            console.log('QR RECEIVED', qr);
+            console.log('QR RECEIVED', qr)
             qrcode.toDataURL(qr, (err, url) => {
-                this.emitter.emit('qr', url);
-                this.emitter.emit('log', 'QR received');
-            });
-        });
+                this.emitter.emit('qr', url)
+                this.emitter.emit('log', 'QR received')
+            })
+        })
 
         this.on('authenticated', async (session) => {
             this.emitter.emit('authenticated', 'Authenticated!')
@@ -39,7 +39,7 @@ class ClientWaweb extends ModifiedClient {
 
             console.log(`AUTHENTICATED with user=${this.userData.user}`)
             SessionModel.updateSession(this.userData.session, session)
-        });
+        })
 
         this.on('ready', async () => {
             const myNumber = await this.getContactById(`${this.userData.number}@c.us`)
@@ -54,12 +54,12 @@ class ClientWaweb extends ModifiedClient {
             this.emitter.emit('ready', 'Whatsapp is ready!')
             this.emitter.emit('log', 'Whatsapp is ready!')
 
-        });
+        })
 
         this.on('auth_failure', async function () {
             this.emitter.emit('auth_failure', 'Auth failure, restarting...')
             this.emitter.emit('log', 'Auth failure, restarting...')
-        });
+        })
 
         this.on('disconnected', async (reason) => {
             this.emitter.emit('disconnected', 'Whatsapp is disconnected!')
@@ -68,7 +68,7 @@ class ClientWaweb extends ModifiedClient {
             console.log('disconnected:', reason)
             this.destroy()
             this.isReady = false
-        });
+        })
 
         this.on('message', this._cliLogic)
 

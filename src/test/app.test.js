@@ -121,7 +121,7 @@ describe('handler user contacts /api/user', () => {
         c_number: inputData.c_number,
     }
 
-    it('PUT /contacts --> 200 added contact', async () => {
+    it('PUT /contacts --> 200 add contact', async () => {
         UserModel.findOne.mockResolvedValue(userData)
         ContactsModel.pushContact.mockResolvedValue(contactData)
 
@@ -198,7 +198,7 @@ describe('handler waweb /api/waweb', () => {
 
     const sendData = {
         message: 'mess',
-        numbers: '3891723912'
+        numbers: '628389723912'
     }
 
     const sendDataMedia = {
@@ -213,10 +213,12 @@ describe('handler waweb /api/waweb', () => {
         client.isReady = true
         UserModel.findOne.mockResolvedValue(userData)
         manager.getClientByUserID.mockReturnValue(client)
+        client.isRegisteredUser.mockResolvedValue(true)
         await request(app).post('/api/waweb/send-message')
             .send({ ...userData, ...sendData })
             .expect('Content-Type', /json/)
             .expect(200)
+        expect(client.sendMessage).toHaveBeenCalledTimes(1)
     })
     it('POST /send-message --> 401 password wrong', async () => {
         client.isReady = true
@@ -251,11 +253,13 @@ describe('handler waweb /api/waweb', () => {
         client.isReady = true
         UserModel.findOne.mockResolvedValue(userData)
         manager.getClientByUserID.mockReturnValue(client)
+        client.isRegisteredUser.mockResolvedValue(true)
         await request(app).post('/api/waweb/send-media')
             .field({ ...sendDataMedia, ...userData })
             .attach('file', './src/test/im.png')
             .expect('Content-Type', /json/)
             .expect(200)
+        expect(client.sendMedia).toHaveBeenCalledTimes(1)
     })
     it('POST /send-media --> 400 no file', async () => {
         client.isReady = true
