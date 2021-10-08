@@ -5,6 +5,8 @@
   "main": "app.js",
   "scripts": {
     "test": "jest --coverage",
+    "test:int": "jest int --coverage",
+    "tdd": "jest --watch",
     "start": "nodemon ./src/server.js"
   },
   "keywords": [

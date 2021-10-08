@@ -3,6 +3,7 @@ const bcrypt = require("bcrypt")
 const ManagerWaweb = require('./waweb/manager')
 const createServer = require("./ioServer")
 
+db.dbConnect()
 
 const manager = new ManagerWaweb()
 const server = createServer(db, bcrypt, manager)

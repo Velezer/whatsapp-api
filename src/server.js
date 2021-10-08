@@ -6,6 +6,8 @@ const ManagerWaweb = require('./waweb/manager')
 const bcrypt = require("bcrypt")
 const createApp = require("./app")
 
+db.dbConnect()
+
 const manager = new ManagerWaweb()
 const app = createApp(db, bcrypt, manager)
 

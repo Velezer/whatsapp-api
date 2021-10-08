@@ -85,6 +85,7 @@ describe('handler user /api/user', () => {
     it('DELETE / --> 200 user deleted', async () => {
         UserModel.findOne.mockResolvedValue(userData)
         UserModel.deleteOne.mockResolvedValue(true)
+        bcrypt.compare.mockResolvedValue(true)
 
         await request(app).delete('/api/user')
             .send(userData)
@@ -92,6 +93,16 @@ describe('handler user /api/user', () => {
             .expect(200, {
                 message: `successfully deleted user`,
             })
+    })
+    it('DELETE / --> 400 password wrong', async () => {
+        UserModel.findOne.mockResolvedValue(userData)
+        UserModel.deleteOne.mockResolvedValue(true)
+        bcrypt.compare.mockResolvedValue(false)
+
+        await request(app).delete('/api/user')
+            .send(userData)
+            .expect('Content-Type', /json/)
+            .expect(400)
     })
     it('DELETE / --> 404 user not found', async () => {
         UserModel.findOne.mockResolvedValue(null)
@@ -124,15 +135,20 @@ describe('handler user contacts /api/user', () => {
     it('PUT /contacts --> 200 add contact', async () => {
         UserModel.findOne.mockResolvedValue(userData)
         ContactsModel.pushContact.mockResolvedValue(contactData)
-
+        bcrypt.compare.mockResolvedValue(true)
         await request(app).put('/api/user/contacts')
             .send(inputData)
             .expect('Content-Type', /json/)
-            .expect(200, {
-                user: inputData.user,
-                message: `successfully added contact ${inputData.c_name} ${inputData.c_number}`,
-                data: contactData
-            })
+            .expect(200)
+    })
+    it('PUT /contacts --> 400 password wrong', async () => {
+        UserModel.findOne.mockResolvedValue(userData)
+        ContactsModel.pushContact.mockResolvedValue(contactData)
+        bcrypt.compare.mockResolvedValue(false)
+        await request(app).put('/api/user/contacts')
+            .send(inputData)
+            .expect('Content-Type', /json/)
+            .expect(400)
     })
     it('PUT /contacts --> 404 user not found', async () => {
         UserModel.findOne.mockResolvedValue(null)
@@ -145,15 +161,25 @@ describe('handler user contacts /api/user', () => {
     it('DELETE /contacts --> 200 delete contact', async () => {
         UserModel.findOne.mockResolvedValue(userData)
         ContactsModel.deleteContact.mockResolvedValue(contactData)
+        bcrypt.compare.mockResolvedValue(true)
 
         await request(app).delete('/api/user/contacts')
             .send(inputData)
             .expect('Content-Type', /json/)
             .expect(200, {
-                user: inputData.user,
                 message: `successfully deleted contact ${inputData.c_name} ${inputData.c_number}`,
                 data: contactData
             })
+    })
+    it('DELETE /contacts --> 400 password wrong', async () => {
+        UserModel.findOne.mockResolvedValue(userData)
+        ContactsModel.deleteContact.mockResolvedValue(contactData)
+        bcrypt.compare.mockResolvedValue(false)
+
+        await request(app).delete('/api/user/contacts')
+            .send(inputData)
+            .expect('Content-Type', /json/)
+            .expect(400)
     })
     it('DELETE /contacts --> 404 user not found', async () => {
         UserModel.findOne.mockResolvedValue(null)
@@ -166,6 +192,7 @@ describe('handler user contacts /api/user', () => {
         userData.contacts = contactData
         UserModel.findOne.mockReturnThis()
         UserModel.populate.mockResolvedValue(userData)
+        bcrypt.compare.mockResolvedValue(true)
 
         await request(app).get('/api/user/contacts')
             .send(inputData)
@@ -175,6 +202,17 @@ describe('handler user contacts /api/user', () => {
                 message: `success`,
                 data: contactData
             })
+    })
+    it('GET /contacts --> 400 password wrong', async () => {
+        userData.contacts = contactData
+        UserModel.findOne.mockReturnThis()
+        UserModel.populate.mockResolvedValue(userData)
+        bcrypt.compare.mockResolvedValue(false)
+
+        await request(app).get('/api/user/contacts')
+            .send(inputData)
+            .expect('Content-Type', /json/)
+            .expect(400)
     })
     it('GET /contacts --> 404 user not found', async () => {
         userData.contacts = contactData

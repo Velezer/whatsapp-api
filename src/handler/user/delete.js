@@ -11,7 +11,15 @@ module.exports = async (req, res, next) => {
         return next(err)
     }
 
-    await UserModel.deleteOne({ user, password, number })
+    const bcrypt = req.bcrypt
+    const match = await bcrypt.compare(password, found.password)
+    if (!match) {
+        const err = new Error(`password doesn't match`)
+        err.code = 400
+        return next(err)
+    }
+    
+    await UserModel.deleteOne({ user, number })
         .then(() => res.status(200).json({
             message: `successfully deleted user`,
         }))

@@ -25,10 +25,10 @@ class ManagerWaweb {
                     this.clients[last].destroy()
                     this.clients.splice(last, 1)
                 }
-            }, 1000 * 60 * 2);
+            }, 1000 * 60 * 2)
 
             // console.log(`active clients: ${this.clients.length}`)
-        }, 1000 * 60 * 5);
+        }, 1000 * 60 * 5)
     }
 
     /**
