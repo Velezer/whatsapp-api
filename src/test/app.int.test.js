@@ -7,7 +7,7 @@ const manager = new ManagerWaweb()
 jest.mock('../waweb/manager')
 
 
-jest.setTimeout(11000)
+jest.setTimeout(20000)
 
 const createApp = require("../app")
 
